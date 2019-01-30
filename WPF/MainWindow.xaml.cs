@@ -26,7 +26,7 @@ namespace WPF
 
       var cv = CollectionViewSource.GetDefaultView(_vm.People);
       //cv.Filter = MyFilter;
-      cv.GroupDescriptions.Add(new PropertyGroupDescription("FirstName"));
+      //cv.GroupDescriptions.Add(new PropertyGroupDescription("FirstName"));
     }
     private bool MyFilter(object item)
     {

@@ -15,6 +15,18 @@ namespace WPF.Model
     public Uri WebSite { get; set; }
     public PersonalityType Personality { get; set; }
 
+    public Person Copy()
+    {
+      return new Person()
+      {
+        ID = ID,
+        FirstName = FirstName,
+        LastName = LastName,
+        IsHungry = IsHungry,
+        WebSite = WebSite,
+        Personality = Personality
+      };
+    }
     public static IEnumerable<Person> GetPeople()
     {
       return new Person[]
