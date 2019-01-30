@@ -11,6 +11,13 @@
         Title="MainWindow" Height="450" Width="800">
   <Grid Hyperlink.RequestNavigate="Grid_RequestNavigate">
     <DataGrid ItemsSource="{Binding People}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" AutoGenerateColumns="False" >
+      <DataGrid.ItemBindingGroup>
+        <BindingGroup>
+          <BindingGroup.ValidationRules>
+            <DataErrorValidationRule/>
+          </BindingGroup.ValidationRules>
+        </BindingGroup>
+      </DataGrid.ItemBindingGroup>
       <!--<DataGrid.RowDetailsTemplate>
         <DataTemplate>
           <TextBlock
@@ -20,8 +27,8 @@
             />
         </DataTemplate>
       </DataGrid.RowDetailsTemplate>-->
-      
-      
+
+
       <DataGrid.GroupStyle>
         <GroupStyle>
           <GroupStyle.ContainerStyle>
@@ -86,7 +93,7 @@
                                 SelectedValuePath="Type"
                                 SelectedValueBinding="{Binding Path=Personality}"
                                 />
-        
+
         <DataGridCheckBoxColumn Header="Hungry" Binding="{Binding Path=IsHungry}"/>
         <DataGridHyperlinkColumn Header="Web Site" Binding="{Binding Path=WebSite}"/>
       </DataGrid.Columns>

@@ -89,7 +89,7 @@ namespace WPF.ViewModel
     {
       get
       {
-        switch(columnName)
+        switch (columnName)
         {
           case "FirstName":
             if (string.IsNullOrWhiteSpace(FirstName))
@@ -104,7 +104,8 @@ namespace WPF.ViewModel
     public void BeginEdit()
     {
       Debug.WriteLine("BeginEdit " + FirstName + " " + LastName);
-      _oldValue = _model.Copy();
+      if (_oldValue == null)
+        _oldValue = _model.Copy();
     }
     public void CancelEdit()
     {
