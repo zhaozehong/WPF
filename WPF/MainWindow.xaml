@@ -12,15 +12,37 @@
   <Grid Hyperlink.RequestNavigate="Grid_RequestNavigate">
     <DataGrid ItemsSource="{Binding People}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" AutoGenerateColumns="False" >
       <DataGrid.Columns>
-        <DataGridTextColumn Binding="{Binding Path=FirstName}">
-          <DataGridTextColumn.Header>
-            <Grid>
-              <Ellipse Fill="red"/>
-              <TextBlock>First <Bold>Name</Bold></TextBlock>
-            </Grid>
-          </DataGridTextColumn.Header>
-        </DataGridTextColumn>
-        <DataGridTextColumn Header="Last Name" Binding="{Binding Path=LastName}"/>
+        <DataGridTemplateColumn Header="Name">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=FirstName}"/>
+                <TextBlock Text=" "/>
+                <TextBlock Text="{Binding Path=LastName}"/>
+              </StackPanel>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+          <DataGridTemplateColumn.CellEditingTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition/>
+                  <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto"/>
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="First Name: "/>
+                <TextBlock Grid.Row="1" Text="Last Name: "/>
+
+                <TextBox Grid.Column="1" Text="{Binding Path=FirstName}"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=LastName}"/>
+              </Grid>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellEditingTemplate>
+        </DataGridTemplateColumn>
         <DataGridComboBoxColumn Header="Personality"
                                 ItemsSource="{Binding Source={x:Static vm:PersonalityTypeViewModel.Types}}"
                                 DisplayMemberPath="DisplayText"
