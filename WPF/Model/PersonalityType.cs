@@ -9,7 +9,7 @@ namespace WPF.Model
   public enum PersonalityType
   {
     GlassHalfFull,
-    ItsYourRoundMate,
-    GlassHalfEmpty
+    GlassHalfEmpty,
+    ItsYourRoundMate
   }
 }

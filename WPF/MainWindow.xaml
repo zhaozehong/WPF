@@ -12,18 +12,22 @@
   <Grid Hyperlink.RequestNavigate="Grid_RequestNavigate">
     <DataGrid ItemsSource="{Binding People}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" AutoGenerateColumns="False" >
       <DataGrid.Columns>
-        <DataGridTextColumn Header="First Name" Binding="{Binding Path=FirstName}"/>
+        <DataGridTextColumn Binding="{Binding Path=FirstName}">
+          <DataGridTextColumn.Header>
+            <Grid>
+              <Ellipse Fill="red"/>
+              <TextBlock>First <Bold>Name</Bold></TextBlock>
+            </Grid>
+          </DataGridTextColumn.Header>
+        </DataGridTextColumn>
         <DataGridTextColumn Header="Last Name" Binding="{Binding Path=LastName}"/>
         <DataGridComboBoxColumn Header="Personality"
-                                SelectedItemBinding="{Binding Path=Personality}">
-          <DataGridComboBoxColumn.ItemsSource>
-            <x:Array Type="{x:Type m:PersonalityType}">
-              <x:Static Member="m:PersonalityType.GlassHalfFull"/>
-              <x:Static Member="m:PersonalityType.ItsYourRoundMate"/>
-              <x:Static Member="m:PersonalityType.GlassHalfEmpty"/>
-            </x:Array>
-          </DataGridComboBoxColumn.ItemsSource>
-        </DataGridComboBoxColumn>
+                                ItemsSource="{Binding Source={x:Static vm:PersonalityTypeViewModel.Types}}"
+                                DisplayMemberPath="DisplayText"
+                                SelectedValuePath="Type"
+                                SelectedValueBinding="{Binding Path=Personality}"
+                                />
+        
         <DataGridCheckBoxColumn Header="Hungry" Binding="{Binding Path=IsHungry}"/>
         <DataGridHyperlinkColumn Header="Web Site" Binding="{Binding Path=WebSite}"/>
       </DataGrid.Columns>
