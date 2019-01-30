@@ -32,5 +32,19 @@ namespace WPF
     {
       MessageBox.Show(e.Uri.ToString(), "Navigate");
     }
+
+    private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+    {
+      switch(e.PropertyName)
+      {
+        case "FirstName":
+          e.Column.Header = "First Name"; // change column header
+          e.Column.DisplayIndex = 1; // not recommended, it will easily cause OutOfRange exception
+          break;
+        case "Model":
+          e.Cancel = true; // prevent from generating column
+          break;
+      };
+    }
   }
 }

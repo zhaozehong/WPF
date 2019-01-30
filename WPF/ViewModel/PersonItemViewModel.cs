@@ -15,6 +15,7 @@ namespace WPF.ViewModel
       _model = model;
     }
 
+    public Person Model { get { return _model; } }
     public string FirstName
     {
       get { return _model.FirstName; }

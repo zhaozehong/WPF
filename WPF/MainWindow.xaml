@@ -9,6 +9,6 @@
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         Title="MainWindow" Height="450" Width="800">
   <Grid Hyperlink.RequestNavigate="Grid_RequestNavigate">
-        <DataGrid ItemsSource="{Binding People}" />
+        <DataGrid ItemsSource="{Binding People}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" />
     </Grid>
 </Window>
