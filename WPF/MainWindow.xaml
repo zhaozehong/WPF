@@ -5,10 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
+        xmlns:m="clr-namespace:WPF.Model"
         xmlns:vm="clr-namespace:WPF.ViewModel"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         Title="MainWindow" Height="450" Width="800">
   <Grid Hyperlink.RequestNavigate="Grid_RequestNavigate">
-        <DataGrid ItemsSource="{Binding People}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" />
-    </Grid>
+    <DataGrid ItemsSource="{Binding People}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" AutoGenerateColumns="False" >
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="First Name" Binding="{Binding Path=FirstName}"/>
+        <DataGridTextColumn Header="Last Name" Binding="{Binding Path=LastName}"/>
+        <DataGridComboBoxColumn Header="Personality"
+                                SelectedItemBinding="{Binding Path=Personality}">
+          <DataGridComboBoxColumn.ItemsSource>
+            <x:Array Type="{x:Type m:PersonalityType}">
+              <x:Static Member="m:PersonalityType.GlassHalfFull"/>
+              <x:Static Member="m:PersonalityType.ItsYourRoundMate"/>
+              <x:Static Member="m:PersonalityType.GlassHalfEmpty"/>
+            </x:Array>
+          </DataGridComboBoxColumn.ItemsSource>
+        </DataGridComboBoxColumn>
+        <DataGridCheckBoxColumn Header="Hungry" Binding="{Binding Path=IsHungry}"/>
+        <DataGridHyperlinkColumn Header="Web Site" Binding="{Binding Path=WebSite}"/>
+      </DataGrid.Columns>
+    </DataGrid>
+  </Grid>
 </Window>
