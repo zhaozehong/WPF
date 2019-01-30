@@ -23,6 +23,15 @@ namespace WPF
 
       _vm = new MainWindowViewModel();
       this.DataContext = _vm;
+
+      var cv = CollectionViewSource.GetDefaultView(_vm.People);
+      //cv.Filter = MyFilter;
+      cv.GroupDescriptions.Add(new PropertyGroupDescription("FirstName"));
+    }
+    private bool MyFilter(object item)
+    {
+      var src = item as PersonItemViewModel;
+      return src.FirstName != "Ian";
     }
 
 
@@ -35,7 +44,7 @@ namespace WPF
 
     private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
     {
-      switch(e.PropertyName)
+      switch (e.PropertyName)
       {
         case "FirstName":
           e.Column.Header = "First Name"; // change column header
