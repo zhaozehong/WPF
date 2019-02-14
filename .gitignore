@@ -17,6 +17,8 @@ obj*
 *.exe
 *.o
 *.so
+*.xbap
+.deploy
 
 # Packages #
 ############

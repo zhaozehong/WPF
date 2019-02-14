@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="XbapDemo.exe" version="1.0.0.0" publicKeyToken="5ef4880dc4b34e70" language="neutral" processorArchitecture="msil" type="win32" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="XbapDemo" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="XbapDemo.exe" parameters="" />
+    <hostInBrowser xmlns="urn:schemas-microsoft-com:asm.v3" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet version="1" class="System.Security.NamedPermissionSet" Name="Internet" Description="Default rights given to Internet applications" Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="XbapDemo.exe" size="12232">
+      <assemblyIdentity name="XbapDemo" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>gIfWqcsXWX7vjgGwF90xvPu5ECgGmM/1Ud3X86OBDMI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="XbapHost.html" size="720">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>OLkDWGJZrpoR5ItNPw3K0QalUBaESIs8UdWZLtlM96M=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=HM-AM\zehong.zhao" issuerKeyHash="88072b11553d7c723b64615b9b9e9e01ff31d9e8" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>kTe0aBhDkFXTTnSt7L+coGX+Y1nlWQjluvMkyVCgKC4=</DigestValue></Reference></SignedInfo><SignatureValue>ZiY4sjaFByaU/8Au49Vbnz+FIHtShVZuv84GEDwQG3VWSrb7c1Icbvj8n9vnlVyJaoVSRRR81v3Z/Kg9nDP/stqM+upAWgInOfeiXoQifotD2YxoJl1byvDPcX0k9Ef4BvjkNEpMazwZSZN7UNj1te3eDsJX9oJM4r5J8aEUUW4=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>xx93jsaeCZPiC/Vgn4j9yhCloJCYPKUrWLduS6cbuFfhHYiq0B+IEzd9aOmOLE4QGBaAP3y81GGSphpH0MB6v4dTUU2uvaRl1msFcnjxUjx6oA6aMdvzoCFx4UzyPuqWf2pJ5PFsHT5VUnJlr92EMIbcl7hmpnARycv6ma2KUm0=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="2e28a050c924f3bae50859e55963fe65a09cbfecad744ed35590431868b43791" Description="" Url=""><as:assemblyIdentity name="XbapDemo.exe" version="1.0.0.0" publicKeyToken="5ef4880dc4b34e70" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=HM-AM\zehong.zhao</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>9RZx/2qKq9Ou4RQYp16VRgvNIK1Zs+LgW14V75VMxYw=</DigestValue></Reference></SignedInfo><SignatureValue>WLeOiLDcffgDSsQAISK5O11LQXhuPnI14+S5/amJVlzg85uiqr180Lzm4KtS9wV3TFsPprCmcDI0Qv+e0fYzQqAAYvcV7eb+0H2dSz2rKvN37x7iypuMWWSCvaocJEN3uiXxTOv3tRnK5GtPuxCYJQUV2FufUIUEjZVEOgfqYIU=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>xx93jsaeCZPiC/Vgn4j9yhCloJCYPKUrWLduS6cbuFfhHYiq0B+IEzd9aOmOLE4QGBaAP3y81GGSphpH0MB6v4dTUU2uvaRl1msFcnjxUjx6oA6aMdvzoCFx4UzyPuqWf2pJ5PFsHT5VUnJlr92EMIbcl7hmpnARycv6ma2KUm0=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB3TCCAUagAwIBAgIQGnZSaHVyCYZPq2p302SGUzANBgkqhkiG9w0BAQsFADAtMSswKQYDVQQDHiIASABNAC0AQQBNAFwAegBlAGgAbwBuAGcALgB6AGgAYQBvMB4XDTE5MDIxMzAyMzQxOVoXDTIwMDIxMzA4MzQxOVowLTErMCkGA1UEAx4iAEgATQAtAEEATQBcAHoAZQBoAG8AbgBnAC4AegBoAGEAbzCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAxx93jsaeCZPiC/Vgn4j9yhCloJCYPKUrWLduS6cbuFfhHYiq0B+IEzd9aOmOLE4QGBaAP3y81GGSphpH0MB6v4dTUU2uvaRl1msFcnjxUjx6oA6aMdvzoCFx4UzyPuqWf2pJ5PFsHT5VUnJlr92EMIbcl7hmpnARycv6ma2KUm0CAwEAATANBgkqhkiG9w0BAQsFAAOBgQBtyY8Z1DRGuV6hT8NsYmRi16b4VHRcjD41yf1Ug+qvJ/YSMKeSgaDZrYWHQ6NMQi/eO3qtso+/rBJ1spbSzUWBe3VnHHqYU2ConQPtai4a1doSJIBksbXAjNtGG9bwkWb8dspZIjv2DGn78bMfzhukXPsSFAjZw2Za/Sa8fiST0g==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

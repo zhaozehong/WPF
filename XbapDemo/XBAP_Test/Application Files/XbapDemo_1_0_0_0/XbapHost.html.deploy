@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+  <style type="text/css">
+    .xbapFrame {
+      width: 400px;
+      height: 300px;
+    }
+  </style>
+  <script>
+    function TestMethod(arg) {
+      let outputDiv = document.getElementById("outputDiv");
+      outputDiv.innerHTML = "WPF String: " + arg.Name + ", " + arg.Age;
+    }
+    function ReturnJsObject() {
+      return { Foo: "Text", Bar: 42 };
+    }
+  </script>
+</head>
+<body>
+  <div>Some HTML content.</div>
+  <div id="outputDiv"></div>
+  <iframe src="bin\Debug\XbapDemo.xbap" class="xbapFrame"></iframe>
+  <div>Some more HTML content.</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+  <style type="text/css">
+    .xbapFrame {
+      width: 400px;
+      height: 300px;
+    }
+  </style>
+  <script type="text/javascript">
+    function TestMethod(arg) {
+      var outputDiv = document.getElementById("outputDiv");
+      outputDiv.innerHTML = "Name: " + arg.Name + ", age: " + arg.Age;
+    }
+    var myObj = { Foo: "Text", Bar: 42, Operation: TestMethod };
+    function ReturnJsObject() {
+      return myObj;
+    }
+    function ShowObj() {
+      var outputDiv = document.getElementById("outputDiv");
+      outputDiv.innerHTML = "Foo: " + myObj.Foo + ", Bar: " + myObj.Bar;
+    }
+  </script>
+</head>
+<body>
+  <div>Some HTML content.</div>
+  <div id="outputDiv"></div>
+  <iframe src="XbapDemo.xbap" class="xbapFrame"></iframe>
+  <div>Some more HTML content.</div>
+</body>
+</html>
