@@ -1,0 +1,44 @@
+﻿<Window x:Class="WPF.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:customControls="clr-namespace:WPF.CustomControls"
+        mc:Ignorable="d"
+        Title="Window1" Height="450" Width="800">
+  <Grid Background="Black">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="4*"/>
+    </Grid.ColumnDefinitions>
+    <StackPanel Margin="0,10,0,0" HorizontalAlignment="Stretch">
+      <customControls:FanucButton IsEnabled="True" Foreground="White" FunctionName="Calibration" Margin="5" Height="60" FontSize="18"
+                                  Click="FanucButton_Click"
+                                  ImageSource="/WPF;component/Resources/Images/Calibration_ON.png"
+                                  ImageSourceOff="/WPF;component/Resources/Images/Calibration_OFF.png"
+                                  Content="{Binding RelativeSource={RelativeSource Self}, Path=FunctionName}"/>
+      <customControls:FanucButton IsEnabled="True" Foreground="White" FunctionName="SetOffset" Height="60" Margin="5" Click="FanucButton_Click"
+                                  ImageSource="/WPF;component/Resources/Images/SetOffset_ON.png"
+                                  ImageSourceOff="/WPF;component/Resources/Images/SetOffset_OFF.png"
+                                  Content="{Binding RelativeSource={RelativeSource Self}, Path=FunctionName}"/>
+      <customControls:FanucButton IsEnabled="True" Foreground="White" FunctionName="Measurement" Height="60" Margin="5" Click="FanucButton_Click"
+                                  ImageSource="/WPF;component/Resources/Images/Measurement_ON.png"
+                                  ImageSourceOff="/WPF;component/Resources/Images/Measurement_OFF.png"
+                                  Content="{Binding RelativeSource={RelativeSource Self}, Path=FunctionName}"/>
+      <customControls:FanucButton IsEnabled="False" Foreground="White" FunctionName="Reports" Height="60" Margin="5" Click="FanucButton_Click"
+                                  ImageSource="/WPF;component/Resources/Images/Reports_ON.png"
+                                  ImageSourceOff="/WPF;component/Resources/Images/Reports_OFF.png"
+                                  Content="{Binding RelativeSource={RelativeSource Self}, Path=FunctionName}"/>
+      <customControls:FanucButton IsEnabled="True" Foreground="White" FunctionName="Statistics" Height="60" Margin="5" Click="FanucButton_Click" x:Name="statisticsButton"
+                                  ImageSource="/WPF;component/Resources/Images/Statistics_ON.png"
+                                  ImageSourceOff="/WPF;component/Resources/Images/Statistics_OFF.png"
+                                  Content="{Binding RelativeSource={RelativeSource Self}, Path=FunctionName}"/>
+    </StackPanel>
+
+  </Grid>
+</Window>
