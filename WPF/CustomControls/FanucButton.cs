@@ -17,15 +17,40 @@ using System.Windows.Shapes;
 
 namespace WPF.CustomControls
 {
+  [TemplatePart(Name = PART_RootGrid, Type = typeof(UIElement))]
   [TemplatePart(Name = Part_BorderPath, Type = typeof(Path))]
   [TemplatePart(Name = PART_Image, Type = typeof(Image))]
-  public class FanucButton : Button
+  public class FanucButton : ContentControl
   {
+    const String PART_RootGrid = "PART_RootGrid";
     const String Part_BorderPath = "PART_BorderPath";
     const String PART_Image = "PART_Image";
     static FanucButton()
     {
       DefaultStyleKeyProperty.OverrideMetadata(typeof(FanucButton), new FrameworkPropertyMetadata(typeof(FanucButton)));
+    }
+
+    public override void OnApplyTemplate()
+    {
+      base.OnApplyTemplate();
+
+      var uiElement = this.GetTemplateChild(PART_RootGrid) as UIElement;
+      if (uiElement != null)
+      {
+        uiElement.MouseLeftButtonDown += UiElement_MouseLeftButtonDown;
+        uiElement.MouseLeftButtonUp += UiElement_MouseLeftButtonUp;
+      }
+    }
+
+    private void UiElement_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      this.IsPressed = true;
+    }
+    private void UiElement_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+      this.IsPressed = false;
+      var args = new RoutedEventArgs(ClickEvent);
+      this.RaiseEvent(args);
     }
 
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -77,6 +102,17 @@ namespace WPF.CustomControls
       image.Height = image.ActualHeight + diffHeight;
     }
 
+    #region Events
+    private static readonly RoutedEvent ClickEvent =
+      EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FanucButton));
+    public event RoutedEventHandler Click
+    {
+      add { AddHandler(ClickEvent, value); }
+      remove { RemoveHandler(ClickEvent, value); }
+    }
+
+    #endregion
+
     #region .Net/CLR Properties
     public LicenseModes LicenseMode
     {
@@ -108,6 +144,11 @@ namespace WPF.CustomControls
       get { return (ImageSource)this.GetValue(ImageSourceOffProperty); }
       set { this.SetValue(ImageSourceOffProperty, value); }
     }
+    public bool IsPressed
+    {
+      get { return (bool)GetValue(IsPressedProperty); }
+      set { SetValue(IsPressedProperty, value); }
+    }
 
     public static readonly DependencyProperty FunctionNameProperty =
       DependencyProperty.Register("FunctionName", typeof(NCFunctionNames), typeof(FanucButton), new PropertyMetadata(NCFunctionNames.None, OnFunctionNameChanged));
@@ -115,6 +156,9 @@ namespace WPF.CustomControls
       DependencyProperty.Register("ImageSource", typeof(ImageSource), typeof(FanucButton));
     public static readonly DependencyProperty ImageSourceOffProperty =
       DependencyProperty.Register("ImageSourceOff", typeof(ImageSource), typeof(FanucButton));
+    private static readonly DependencyProperty IsPressedProperty =
+        DependencyProperty.Register("IsPressed", typeof(bool), typeof(FanucButton), new PropertyMetadata(false));
+
     private static void OnFunctionNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       try
@@ -148,21 +192,21 @@ namespace WPF.CustomControls
   {
     public LicenseModes GetLicenseMode()
     {
-      return LicenseModes.Enabled;
+      return LicenseModes.License;
     }
   }
   public class SetOffsetFunction : INCFunction
   {
     public LicenseModes GetLicenseMode()
     {
-      return LicenseModes.Enabled;
+      return LicenseModes.License;
     }
   }
   public class MeasurementFunction : INCFunction
   {
     public LicenseModes GetLicenseMode()
     {
-      return LicenseModes.Enabled;
+      return LicenseModes.License;
     }
   }
   public class ReportsFunction : INCFunction

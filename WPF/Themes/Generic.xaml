@@ -3,16 +3,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:WPF.CustomControls">
 
-  <Style TargetType="{x:Type local:FanucButton}" BasedOn="{StaticResource {x:Type Button}}">
+  <Style TargetType="{x:Type local:FanucButton}">
     <Style.Resources>
-      <SolidColorBrush x:Key="fanucBrush" Color="#FF5901"/>
+      <SolidColorBrush x:Key="FanucBrush" Color="#FF5901"/>
+      <SolidColorBrush x:Key="TransparentBrush" Color="#01000000"/>
     </Style.Resources>
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:FanucButton}">
-          <Grid Margin="{TemplateBinding Margin}">
-            <Path x:Name="PART_BorderPath" Stroke="{StaticResource fanucBrush}" StrokeThickness="2"/>
-            <Path x:Name="PART_TrianglePath" Fill="{StaticResource fanucBrush}"/>
+          <Grid x:Name="PART_RootGrid" Margin="{TemplateBinding Margin}" Background="{StaticResource TransparentBrush}">
+            <Path x:Name="PART_BorderPath" Stroke="{StaticResource FanucBrush}" StrokeThickness="2"/>
+            <Path x:Name="PART_TrianglePath" Fill="{StaticResource FanucBrush}"/>
             <Grid Margin="{TemplateBinding Padding}">
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

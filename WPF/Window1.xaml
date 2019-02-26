@@ -34,11 +34,10 @@
                                   ImageSource="/WPF;component/Resources/Images/Reports_ON.png"
                                   ImageSourceOff="/WPF;component/Resources/Images/Reports_OFF.png"
                                   Content="{Binding RelativeSource={RelativeSource Self}, Path=FunctionName}"/>
-      <customControls:FanucButton IsEnabled="True" Foreground="White" FunctionName="Statistics" Height="60" Margin="5" Click="FanucButton_Click" x:Name="statisticsButton"
+      <customControls:FanucButton IsEnabled="False" Foreground="White" FunctionName="Statistics" Height="60" Margin="5" Click="FanucButton_Click" x:Name="statisticsButton"
                                   ImageSource="/WPF;component/Resources/Images/Statistics_ON.png"
                                   ImageSourceOff="/WPF;component/Resources/Images/Statistics_OFF.png"
                                   Content="{Binding RelativeSource={RelativeSource Self}, Path=FunctionName}"/>
     </StackPanel>
-
   </Grid>
 </Window>
