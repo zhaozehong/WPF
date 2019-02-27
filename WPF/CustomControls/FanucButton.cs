@@ -17,89 +17,119 @@ using System.Windows.Shapes;
 
 namespace WPF.CustomControls
 {
-  [TemplatePart(Name = PART_RootGrid, Type = typeof(UIElement))]
   [TemplatePart(Name = Part_BorderPath, Type = typeof(Path))]
+  [TemplatePart(Name = PART_TrianglePath, Type = typeof(Path))]
   [TemplatePart(Name = PART_Image, Type = typeof(Image))]
-  public class FanucButton : ContentControl
+  public class FanucButton : ContentControl, ICommandSource
   {
-    const String PART_RootGrid = "PART_RootGrid";
-    const String Part_BorderPath = "PART_BorderPath";
-    const String PART_Image = "PART_Image";
-    static FanucButton()
+    private void RaiseCommand()
     {
-      DefaultStyleKeyProperty.OverrideMetadata(typeof(FanucButton), new FrameworkPropertyMetadata(typeof(FanucButton)));
-    }
-
-    public override void OnApplyTemplate()
-    {
-      base.OnApplyTemplate();
-
-      var uiElement = this.GetTemplateChild(PART_RootGrid) as UIElement;
-      if (uiElement != null)
+      if (Command != null)
       {
-        uiElement.MouseLeftButtonDown += UiElement_MouseLeftButtonDown;
-        uiElement.MouseLeftButtonUp += UiElement_MouseLeftButtonUp;
+        RoutedCommand rc = Command as RoutedCommand;
+        if (rc != null)
+          rc.Execute(CommandParameter, CommandTarget);
+        else
+          Command.Execute(CommandParameter);
       }
     }
+    protected virtual void OnCommandChanged(ICommand oldCommand, ICommand newCommand)
+    {
+      // Unhook old command
+      if (oldCommand != null)
+        oldCommand.CanExecuteChanged -= CanExecuteChangedHandler;
 
-    private void UiElement_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-      this.IsPressed = true;
+      // Hookup new command
+      _canExecuteChangedHandler = new EventHandler(CanExecuteChangedHandler);
+      if (newCommand != null)
+        newCommand.CanExecuteChanged += _canExecuteChangedHandler;
+
+      CanExecuteChangedHandler(null, null);
     }
-    private void UiElement_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    private void CanExecuteChangedHandler(object sender, EventArgs e)
     {
-      this.IsPressed = false;
-      var args = new RoutedEventArgs(ClickEvent);
-      this.RaiseEvent(args);
+      if (this.Command == null)
+        return;
+
+      var rc = Command as RoutedCommand;
+      if (rc != null)
+        IsEnabled = rc.CanExecute(CommandParameter, CommandTarget);
+      else
+        IsEnabled = Command.CanExecute(CommandParameter);
     }
 
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
-      if (sizeInfo != null)
-        base.OnRenderSizeChanged(sizeInfo);
-
-      var path = this.GetTemplateChild(Part_BorderPath) as Path;
-      var pathTriangle = this.GetTemplateChild("PART_TrianglePath") as Path;
-      if (path == null || pathTriangle == null)
-        return;
-
-      int height = (int)Math.Max(this.ActualHeight - this.Margin.Left - this.Margin.Right, 0);
-      int width = (int)Math.Max(this.ActualWidth - this.Margin.Top - this.Margin.Bottom, 0);
-      int alpha = Math.Max(height / 10, 5);
-      var figureString = String.Format("M {0},0 H {1} V {3} L {4},{2} H 0 V {0} Z", alpha, width, height, height - alpha, width - alpha);
-      path.Data = PathGeometry.Parse(figureString); // draw border
-      if (this.LicenseMode == LicenseModes.License)
+      try
       {
-        // draw lower-right triangle
-        var thickness = 5;
-        var triangleFigures = String.Format("M {0},{5} v {1} l {4},{2} h {3} Z", width, thickness, alpha, -thickness, -alpha, height - alpha - thickness);
-        pathTriangle.Data = PathGeometry.Parse(triangleFigures);
+        if (sizeInfo != null)
+          base.OnRenderSizeChanged(sizeInfo);
+
+        var path = this.GetTemplateChild(Part_BorderPath) as Path;
+        var pathTriangle = this.GetTemplateChild(PART_TrianglePath) as Path;
+        if (path == null || pathTriangle == null)
+          return;
+
+        int height = (int)Math.Max(this.ActualHeight - this.Margin.Left - this.Margin.Right, 0);
+        int width = (int)Math.Max(this.ActualWidth - this.Margin.Top - this.Margin.Bottom, 0);
+        int alpha = Math.Max(height / 10, 5);
+        var figureString = String.Format("M {0},0 H {1} V {3} L {4},{2} H 0 V {0} Z", alpha, width, height, height - alpha, width - alpha);
+        path.Data = PathGeometry.Parse(figureString); // draw border
+        if (this.LicenseMode == LicenseModes.License)
+        {
+          // draw lower-right triangle
+          var thickness = 5;
+          var triangleFigures = String.Format("M {0},{5} v {1} l {4},{2} h {3} Z", width, thickness, alpha, -thickness, -alpha, height - alpha - thickness);
+          pathTriangle.Data = PathGeometry.Parse(triangleFigures);
+        }
+        else
+        {
+          // clear lower-right triangle
+          if (pathTriangle.Data != null)
+            pathTriangle.Data = PathGeometry.Parse("M 0,0");
+
+          // draw dotted style line
+          if (this.LicenseMode == LicenseModes.Disabled)
+            path.StrokeDashArray = DoubleCollection.Parse("2");
+        }
+
+        var image = this.GetTemplateChild(PART_Image) as Image;
+        if (image == null)
+          return;
+
+        var newMargin = alpha * 2;
+        var diffWidth = image.Margin.Left + image.Margin.Right - newMargin;
+        var diffHeight = image.Margin.Top + image.Margin.Bottom - newMargin;
+        if (diffWidth < 0.000001 && diffHeight < 0.000001)
+          return;
+
+        // set image Margin, Width & Height
+        image.Margin = new Thickness(alpha);
+        image.Width = image.ActualWidth + diffWidth;
+        image.Height = image.ActualHeight + diffHeight;
       }
-      else
+      catch (Exception) { }
+    }
+    protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+    {
+      base.OnMouseLeftButtonDown(e);
+
+      this.IsPressed = true;
+    }
+    protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+    {
+      try
       {
-        // clear lower-right triangle
-        if (pathTriangle.Data != null)
-          pathTriangle.Data = PathGeometry.Parse("M 0,0");
+        base.OnMouseLeftButtonUp(e);
 
-        // draw dotted style line
-        if (this.LicenseMode == LicenseModes.Disabled)
-          path.StrokeDashArray = DoubleCollection.Parse("2");
+        this.RaiseEvent(new RoutedEventArgs(ClickEvent));
+        this.RaiseCommand();
       }
-
-      var image = this.GetTemplateChild(PART_Image) as Image;
-      if (image == null)
-        return;
-
-      var newMargin = alpha * 2;
-      var diffWidth = image.Margin.Left + image.Margin.Right - newMargin;
-      var diffHeight = image.Margin.Top + image.Margin.Bottom - newMargin;
-      if (diffWidth < 0.000001 && diffHeight < 0.000001)
-        return;
-
-      // set image Margin, Width & Height
-      image.Margin = new Thickness(alpha);
-      image.Width = image.ActualWidth + diffWidth;
-      image.Height = image.ActualHeight + diffHeight;
+      catch (Exception) { }
+      finally
+      {
+        this.IsPressed = false;
+      }
     }
 
     #region Events
@@ -129,20 +159,37 @@ namespace WPF.CustomControls
     #endregion
 
     #region Dependency Properties
+    //[TypeConverterAttribute(typeof(CommandConverter))]
+    [TypeConverter(typeof(CommandConverter))]
+    public ICommand Command
+    {
+      get { return (ICommand)GetValue(CommandProperty); }
+      set { SetValue(CommandProperty, value); }
+    }
+    public object CommandParameter
+    {
+      get { return (object)GetValue(CommandParameterProperty); }
+      set { SetValue(CommandParameterProperty, value); }
+    }
+    public IInputElement CommandTarget
+    {
+      get { return (IInputElement)GetValue(CommandTargetProperty); }
+      set { SetValue(CommandTargetProperty, value); }
+    }
     public NCFunctionNames FunctionName
     {
       get { return (NCFunctionNames)this.GetValue(FunctionNameProperty); }
       set { this.SetValue(FunctionNameProperty, value); }
     }
-    public ImageSource ImageSource
+    public ImageSource EnabledImage
     {
-      get { return (ImageSource)this.GetValue(ImageSourceProperty); }
-      set { this.SetValue(ImageSourceProperty, value); }
+      get { return (ImageSource)this.GetValue(EnabledImageProperty); }
+      set { this.SetValue(EnabledImageProperty, value); }
     }
-    public ImageSource ImageSourceOff
+    public ImageSource DisabledImage
     {
-      get { return (ImageSource)this.GetValue(ImageSourceOffProperty); }
-      set { this.SetValue(ImageSourceOffProperty, value); }
+      get { return (ImageSource)this.GetValue(DisabledImageProperty); }
+      set { this.SetValue(DisabledImageProperty, value); }
     }
     public bool IsPressed
     {
@@ -150,15 +197,23 @@ namespace WPF.CustomControls
       set { SetValue(IsPressedProperty, value); }
     }
 
-    public static readonly DependencyProperty FunctionNameProperty =
-      DependencyProperty.Register("FunctionName", typeof(NCFunctionNames), typeof(FanucButton), new PropertyMetadata(NCFunctionNames.None, OnFunctionNameChanged));
-    public static readonly DependencyProperty ImageSourceProperty =
-      DependencyProperty.Register("ImageSource", typeof(ImageSource), typeof(FanucButton));
-    public static readonly DependencyProperty ImageSourceOffProperty =
-      DependencyProperty.Register("ImageSourceOff", typeof(ImageSource), typeof(FanucButton));
-    private static readonly DependencyProperty IsPressedProperty =
-        DependencyProperty.Register("IsPressed", typeof(bool), typeof(FanucButton), new PropertyMetadata(false));
+    public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(FanucButton),
+      new PropertyMetadata((ICommand)null, new PropertyChangedCallback(OnCommandChanged)));
+    public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(FanucButton), new PropertyMetadata(null));
+    public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(FanucButton), new PropertyMetadata(null));
 
+    public static readonly DependencyProperty FunctionNameProperty = DependencyProperty.Register("FunctionName", typeof(NCFunctionNames), typeof(FanucButton),
+      new PropertyMetadata(NCFunctionNames.None, OnFunctionNameChanged));
+    public static readonly DependencyProperty EnabledImageProperty = DependencyProperty.Register("EnabledImage", typeof(ImageSource), typeof(FanucButton));
+    public static readonly DependencyProperty DisabledImageProperty = DependencyProperty.Register("DisabledImage", typeof(ImageSource), typeof(FanucButton));
+    private static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register("IsPressed", typeof(bool), typeof(FanucButton));
+
+    private static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      var control = d as FanucButton;
+      if (control != null)
+        control.OnCommandChanged((ICommand)e.OldValue, (ICommand)e.NewValue);
+    }
     private static void OnFunctionNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       try
@@ -181,6 +236,18 @@ namespace WPF.CustomControls
 
     #region Variables
     private LicenseModes _licenseMode = LicenseModes.License;
+    // keeps a copy of the CanExecuteChanged handler so it doesn't get garbage collected
+    private EventHandler _canExecuteChangedHandler;
+    #endregion
+
+    #region const & static
+    const String Part_BorderPath = "PART_BorderPath";
+    const String PART_TrianglePath = "PART_TrianglePath";
+    const String PART_Image = "PART_Image";
+    static FanucButton()
+    {
+      DefaultStyleKeyProperty.OverrideMetadata(typeof(FanucButton), new FrameworkPropertyMetadata(typeof(FanucButton)));
+    }
     #endregion
   }
 

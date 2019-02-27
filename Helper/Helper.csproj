@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="EventMapping.cs" />
     <Compile Include="MvvmBehaviors.cs" />
+    <Compile Include="NotifyPropertyChanged.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="ShowNotificationMessageBehavior.cs" />
     <Compile Include="ViewModelLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

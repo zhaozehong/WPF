@@ -145,5 +145,11 @@
     <Resource Include="Resources\Images\Statistics_OFF.png" />
     <Resource Include="Resources\Images\Statistics_ON.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Helper\Helper.csproj">
+      <Project>{e6eca7e7-d529-4717-84a4-d579f7a96a8f}</Project>
+      <Name>Helper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

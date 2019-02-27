@@ -11,7 +11,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:FanucButton}">
-          <Grid x:Name="PART_RootGrid" Margin="{TemplateBinding Margin}" Background="{StaticResource TransparentBrush}">
+          <Grid Margin="{TemplateBinding Margin}" Background="{StaticResource TransparentBrush}">
             <Path x:Name="PART_BorderPath" Stroke="{StaticResource FanucBrush}" StrokeThickness="2"/>
             <Path x:Name="PART_TrianglePath" Fill="{StaticResource FanucBrush}"/>
             <Grid Margin="{TemplateBinding Padding}">
@@ -25,10 +25,10 @@
                   <Style>
                     <Style.Triggers>
                       <Trigger Property="Image.IsEnabled" Value="True">
-                        <Setter Property="Image.Source" Value="{Binding ImageSource, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <Setter Property="Image.Source" Value="{Binding EnabledImage, RelativeSource={RelativeSource TemplatedParent}}"/>
                       </Trigger>
                       <Trigger Property="Image.IsEnabled" Value="False">
-                        <Setter Property="Image.Source" Value="{Binding ImageSourceOff, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <Setter Property="Image.Source" Value="{Binding DisabledImage, RelativeSource={RelativeSource TemplatedParent}}"/>
                         <!--<Setter Property="Image.OpacityMask">
                           <Setter.Value>
                             <SolidColorBrush Color="#88000000"/>
@@ -58,6 +58,7 @@
               <Setter Property="Opacity" Value="0.8"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
+              <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
               <Setter Property="RenderTransform">
                 <Setter.Value>
                   <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
