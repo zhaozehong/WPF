@@ -75,18 +75,18 @@ namespace WPF.CustomControls
         int alpha = Math.Max(height / 10, 5);
         var figureString = String.Format("M {0},0 H {1} V {3} L {4},{2} H 0 V {0} Z", alpha, width, height, height - alpha, width - alpha);
         path.Data = PathGeometry.Parse(figureString); // draw border
+        path.StrokeDashArray = null;
         if (this.LicenseMode == LicenseModes.License)
         {
           // draw lower-right triangle
-          var thickness = 5;
-          var triangleFigures = String.Format("M {0},{5} v {1} l {4},{2} h {3} Z", width, thickness, alpha, -thickness, -alpha, height - alpha - thickness);
+          var triangleFigures = String.Format("M {0},{5} v {1} l {4},{2} h {3} Z", width, LicenseThickness, alpha, -LicenseThickness, -alpha, height - alpha - LicenseThickness);
           pathTriangle.Data = PathGeometry.Parse(triangleFigures);
         }
         else
         {
           // clear lower-right triangle
           if (pathTriangle.Data != null)
-            pathTriangle.Data = PathGeometry.Parse("M 0,0");
+            pathTriangle.Data = null;
 
           // draw dotted style line
           if (this.LicenseMode == LicenseModes.Disabled)
@@ -147,7 +147,7 @@ namespace WPF.CustomControls
     public LicenseModes LicenseMode
     {
       get { return _licenseMode; }
-      private set
+      set
       {
         if (_licenseMode != value)
         {
@@ -196,17 +196,24 @@ namespace WPF.CustomControls
       get { return (bool)GetValue(IsPressedProperty); }
       set { SetValue(IsPressedProperty, value); }
     }
+    public double LicenseThickness
+    {
+      get { return (double)GetValue(LicenseThicknessProperty); }
+      set { SetValue(LicenseThicknessProperty, value); }
+    }
 
-    public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(FanucButton),
+    private static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(FanucButton),
       new PropertyMetadata((ICommand)null, new PropertyChangedCallback(OnCommandChanged)));
-    public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(FanucButton), new PropertyMetadata(null));
-    public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(FanucButton), new PropertyMetadata(null));
+    private static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(FanucButton), new PropertyMetadata(null));
+    private static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(FanucButton), new PropertyMetadata(null));
 
-    public static readonly DependencyProperty FunctionNameProperty = DependencyProperty.Register("FunctionName", typeof(NCFunctionNames), typeof(FanucButton),
+    private static readonly DependencyProperty FunctionNameProperty = DependencyProperty.Register("FunctionName", typeof(NCFunctionNames), typeof(FanucButton),
       new PropertyMetadata(NCFunctionNames.None, OnFunctionNameChanged));
-    public static readonly DependencyProperty EnabledImageProperty = DependencyProperty.Register("EnabledImage", typeof(ImageSource), typeof(FanucButton));
-    public static readonly DependencyProperty DisabledImageProperty = DependencyProperty.Register("DisabledImage", typeof(ImageSource), typeof(FanucButton));
+    private static readonly DependencyProperty EnabledImageProperty = DependencyProperty.Register("EnabledImage", typeof(ImageSource), typeof(FanucButton));
+    private static readonly DependencyProperty DisabledImageProperty = DependencyProperty.Register("DisabledImage", typeof(ImageSource), typeof(FanucButton));
     private static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register("IsPressed", typeof(bool), typeof(FanucButton));
+    private static readonly DependencyProperty LicenseThicknessProperty = DependencyProperty.Register("LicenseThickness", typeof(double), typeof(FanucButton),
+      new PropertyMetadata(6.0, OnLicenseThicknessChanged));
 
     private static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -228,6 +235,16 @@ namespace WPF.CustomControls
         var function = Activator.CreateInstance(funtionType) as INCFunction;
         if (function != null)
           button.LicenseMode = function.GetLicenseMode();
+      }
+      catch (Exception) { }
+    }
+    private static void OnLicenseThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      try
+      {
+        var button = d as FanucButton;
+        if (button != null)
+          button.OnRenderSizeChanged(null);
       }
       catch (Exception) { }
     }
@@ -300,5 +317,21 @@ namespace WPF.CustomControls
     Measurement = 3,
     Reports = 4,
     Statistics = 5
+  }
+
+  public sealed class ThicknessToDoubleConverter : IValueConverter
+  {
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      if (!(value is Thickness))
+        return 0;
+      return ((Thickness)value).Left;
+    }
+    object IValueConverter.ConvertBack(object value, Type type, object parameter, CultureInfo culture)
+    {
+      var doubleValue = 0.0;
+      Double.TryParse((value ?? "0").ToString(), out doubleValue);
+      return new Thickness(doubleValue);
+    }
   }
 }

@@ -29,7 +29,15 @@ namespace WPF
       var button = sender as FanucButton;
       if (button != null)
       {
-        //statisticsButton.LicenseMode = statisticsButton.LicenseMode == LicenseModes.License ? LicenseModes.Disabled : LicenseModes.License;
+        var mode = statisticsButton.LicenseMode;
+        if (mode == LicenseModes.License)
+          mode = LicenseModes.Enabled;
+        else if (mode == LicenseModes.Enabled)
+          mode = LicenseModes.Disabled;
+        else
+          mode = LicenseModes.License;
+
+        statisticsButton.LicenseMode = mode;
         statisticsButton.IsEnabled = !statisticsButton.IsEnabled;
       }
       //MessageBox.Show(String.Format("{0} is clicked.", button.FunctionName));
@@ -66,7 +74,7 @@ namespace WPF
 
     private DataObject _model = null;
   }
-  public class DataObject: NotifyPropertyChanged
+  public class DataObject : NotifyPropertyChanged
   {
     private String _name;
     public System.String Name
