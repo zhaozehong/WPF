@@ -3,76 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:WPF.CustomControls">
 
-  <Style TargetType="{x:Type local:FanucButton}">
-    <Style.Resources>
-      <SolidColorBrush x:Key="FanucBrush" Color="#FF5901"/>
-      <SolidColorBrush x:Key="TransparentBrush" Color="#01000000"/>
-      <local:ThicknessToDoubleConverter x:Key="ThicknessToDouble"/>
-    </Style.Resources>
-    <Setter Property="Margin" Value="5"/>
-    <Setter Property="Height" Value="60"/>
-    <Setter Property="BorderThickness" Value="2"/>
-    <Setter Property="Foreground" Value="White"/>
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="{x:Type local:FanucButton}">
-          <Grid Margin="{TemplateBinding Margin}" Background="{StaticResource TransparentBrush}">
-            <Path x:Name="PART_BorderPath" Stroke="{StaticResource FanucBrush}" StrokeThickness="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToDouble}}"/>
-            <Path x:Name="PART_TrianglePath" Fill="{StaticResource FanucBrush}"/>
-            <Grid Margin="{TemplateBinding Padding}">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-              </Grid.ColumnDefinitions>
-
-              <Image x:Name="PART_Image" Grid.Column="0" Margin="5">
-                <Image.Style>
-                  <Style>
-                    <Style.Triggers>
-                      <Trigger Property="Image.IsEnabled" Value="True">
-                        <Setter Property="Image.Source" Value="{Binding EnabledImage, RelativeSource={RelativeSource TemplatedParent}}"/>
-                      </Trigger>
-                      <Trigger Property="Image.IsEnabled" Value="False">
-                        <Setter Property="Image.Source" Value="{Binding DisabledImage, RelativeSource={RelativeSource TemplatedParent}}"/>
-                        <!--<Setter Property="Image.OpacityMask">
-                          <Setter.Value>
-                            <SolidColorBrush Color="#88000000"/>
-                          </Setter.Value>
-                        </Setter>-->
-                      </Trigger>
-                    </Style.Triggers>
-                  </Style>
-                </Image.Style>
-              </Image>
-              <ContentPresenter Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
-                <ContentPresenter.Style>
-                  <Style>
-                    <Style.Triggers>
-                      <Trigger Property="ContentPresenter.IsEnabled" Value="False">
-                        <Setter Property="TextElement.Foreground" Value="#6D6D6F"/>
-                      </Trigger>
-                    </Style.Triggers>
-                  </Style>
-                </ContentPresenter.Style>
-              </ContentPresenter>
-            </Grid>
-          </Grid>
-          
-          <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-              <Setter Property="Opacity" Value="0.8"/>
-            </Trigger>
-            <Trigger Property="IsPressed" Value="True">
-              <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-              <Setter Property="RenderTransform">
-                <Setter.Value>
-                  <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
-                </Setter.Value>
-              </Setter>
-            </Trigger>
-          </ControlTemplate.Triggers>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="/WPF;component/Themes/Generic/CommonBrushes.xaml"/>
+    <ResourceDictionary Source="/WPF;component/Themes/Generic/Controls.xaml"/>
+  </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

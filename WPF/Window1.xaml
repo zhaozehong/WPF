@@ -40,5 +40,6 @@
                                   Command="{Binding UpdateCommand}"
                                   Content="{Binding RelativeSource={RelativeSource Self}, Path=FunctionName}"/>
     </StackPanel>
+    <customControls:FanucButton Content="FanucButton" Grid.Column="1"/>
   </Grid>
 </Window>
