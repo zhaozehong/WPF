@@ -15,9 +15,9 @@ using System.Windows.Shapes;
 
 namespace JM.Software.WPF.CAD
 {
-  public partial class MainWindow : Window
+  public partial class CadView : Window
   {
-    public MainWindow()
+    public CadView()
     {
       InitializeComponent();
     }
