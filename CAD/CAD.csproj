@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{775C4C51-CF31-4499-9A49-31883FE23511}</ProjectGuid>
+    <ProjectGuid>{F8585FCC-1DD8-4F7F-AF61-A307416CEAD3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>JM.Software.WPF</RootNamespace>
-    <AssemblyName>WPF</AssemblyName>
+    <RootNamespace>JM.Software.WPF.CAD</RootNamespace>
+    <AssemblyName>CAD</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -55,21 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CustomControls\FanucButton.cs" />
-    <Compile Include="Model\Person.cs" />
-    <Compile Include="Model\PersonalityType.cs" />
-    <Compile Include="PersonalityTypeResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PersonalityTypeResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\NotifyPropertyChanged.cs" />
-    <Compile Include="ViewModel\PersonalityTypeViewModel.cs" />
-    <Compile Include="ViewModel\PersonItemViewModel.cs" />
-    <Compile Include="Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
-    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -82,26 +67,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Themes\Aero\CommonBrushes.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Generic\CommonBrushes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic\Controls.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Window1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -117,10 +82,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="PersonalityTypeResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>PersonalityTypeResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -129,43 +90,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Page Include="Themes\Aero2.NormalColor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\SetOffset_ON.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\SetOffset_OFF.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\Calibration_ON.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\Calibration_OFF.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\Reports_OFF.png" />
-    <Resource Include="Resources\Images\Reports_ON.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\Measurement_OFF.png" />
-    <Resource Include="Resources\Images\Measurement_ON.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\Statistics_OFF.png" />
-    <Resource Include="Resources\Images\Statistics_ON.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Helper\Helper.csproj">
-      <Project>{e6eca7e7-d529-4717-84a4-d579f7a96a8f}</Project>
-      <Name>Helper</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

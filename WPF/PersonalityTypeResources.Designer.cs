@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WPF {
+namespace JM.Software.WPF {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace WPF {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WPF.PersonalityTypeResources", typeof(PersonalityTypeResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JM.Software.WPF.PersonalityTypeResources", typeof(PersonalityTypeResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
