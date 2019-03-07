@@ -58,6 +58,50 @@ namespace WPF.CustomControls
         IsEnabled = Command.CanExecute(CommandParameter);
     }
 
+    private Boolean DrawContent(int width, int height, int alpha)
+    {
+      try
+      {
+        var path = this.GetTemplateChild(Part_BorderPath) as Path;
+        var pathTriangle = this.GetTemplateChild(PART_TrianglePath) as Path;
+        if (path == null || pathTriangle == null)
+          return false;
+
+        var figureString = String.Format("M {0},0 H {1} V {3} L {4},{2} H 0 V {0} Z", alpha, width, height, height - alpha, width - alpha);
+
+        // Zehong: the following line doesn't support Transform
+        //path.Data = PathGeometry.Parse(figureString);
+        path.Data = new PathGeometry() { Figures = PathFigureCollection.Parse(figureString) }; // draw border
+        path.Data.Transform = this._shapeTransform;
+        // draw lower-right triangle
+        var triangleFigures = String.Format("M {0},{5} v {1} l {4},{2} h {3} Z", width, LicenseThickness, alpha, -LicenseThickness, -alpha, height - alpha - LicenseThickness);
+        pathTriangle.Data = new PathGeometry() { Figures = PathFigureCollection.Parse(triangleFigures) };
+        pathTriangle.Data.Transform = this._shapeTransform;
+        return true;
+      }
+      catch (Exception)
+      {
+        return false;
+      }
+    }
+    private void UpdateImageSize(Double alpha)
+    {
+      var image = this.GetTemplateChild(PART_Image) as Image;
+      if (image == null)
+        return;
+
+      var newMargin = alpha * 2;
+      var diffWidth = image.Margin.Left + image.Margin.Right - newMargin;
+      var diffHeight = image.Margin.Top + image.Margin.Bottom - newMargin;
+      if (diffWidth < 0.000001 && diffHeight < 0.000001)
+        return;
+
+      // set image Margin, Width & Height
+      image.Margin = new Thickness(alpha);
+      image.Width = image.ActualWidth + diffWidth;
+      image.Height = image.ActualHeight + diffHeight;
+    }
+    
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
       try
@@ -65,48 +109,21 @@ namespace WPF.CustomControls
         if (sizeInfo != null)
           base.OnRenderSizeChanged(sizeInfo);
 
-        var path = this.GetTemplateChild(Part_BorderPath) as Path;
-        var pathTriangle = this.GetTemplateChild(PART_TrianglePath) as Path;
-        if (path == null || pathTriangle == null)
-          return;
-
-        int height = (int)Math.Max(this.ActualHeight - this.Margin.Left - this.Margin.Right, 0);
         int width = (int)Math.Max(this.ActualWidth - this.Margin.Top - this.Margin.Bottom, 0);
+        int height = (int)Math.Max(this.ActualHeight - this.Margin.Left - this.Margin.Right, 0);
         int alpha = Math.Max(height / 10, 5);
-        var figureString = String.Format("M {0},0 H {1} V {3} L {4},{2} H 0 V {0} Z", alpha, width, height, height - alpha, width - alpha);
-        path.Data = PathGeometry.Parse(figureString); // draw border
-        path.StrokeDashArray = null;
-        if (this.LicenseMode == LicenseModes.License)
+        this.UpdateImageSize(alpha);
+        if (_drawingSize == null)
         {
-          // draw lower-right triangle
-          var triangleFigures = String.Format("M {0},{5} v {1} l {4},{2} h {3} Z", width, LicenseThickness, alpha, -LicenseThickness, -alpha, height - alpha - LicenseThickness);
-          pathTriangle.Data = PathGeometry.Parse(triangleFigures);
+          if (DrawContent(width, height, alpha))
+            _drawingSize = new Size(width, height);
         }
         else
         {
-          // clear lower-right triangle
-          if (pathTriangle.Data != null)
-            pathTriangle.Data = null;
-
-          // draw dotted style line
-          if (this.LicenseMode == LicenseModes.Disabled)
-            path.StrokeDashArray = DoubleCollection.Parse("2");
+          Matrix shapeMatrix = Matrix.Identity;
+          shapeMatrix.Scale(width / _drawingSize.Value.Width, height / _drawingSize.Value.Height);
+          this._shapeTransform.Matrix = shapeMatrix;
         }
-
-        var image = this.GetTemplateChild(PART_Image) as Image;
-        if (image == null)
-          return;
-
-        var newMargin = alpha * 2;
-        var diffWidth = image.Margin.Left + image.Margin.Right - newMargin;
-        var diffHeight = image.Margin.Top + image.Margin.Bottom - newMargin;
-        if (diffWidth < 0.000001 && diffHeight < 0.000001)
-          return;
-
-        // set image Margin, Width & Height
-        image.Margin = new Thickness(alpha);
-        image.Width = image.ActualWidth + diffWidth;
-        image.Height = image.ActualHeight + diffHeight;
       }
       catch (Exception) { }
     }
@@ -141,21 +158,6 @@ namespace WPF.CustomControls
       remove { RemoveHandler(ClickEvent, value); }
     }
 
-    #endregion
-
-    #region .Net/CLR Properties
-    public LicenseModes LicenseMode
-    {
-      get { return _licenseMode; }
-      set
-      {
-        if (_licenseMode != value)
-        {
-          _licenseMode = value;
-          this.OnRenderSizeChanged(null);
-        }
-      }
-    }
     #endregion
 
     #region Dependency Properties
@@ -201,6 +203,11 @@ namespace WPF.CustomControls
       get { return (double)GetValue(LicenseThicknessProperty); }
       set { SetValue(LicenseThicknessProperty, value); }
     }
+    public LicenseModes LicenseMode
+    {
+      get { return (LicenseModes)GetValue(LicenseModeProperty); }
+      set { SetValue(LicenseModeProperty, value); }
+    }
 
     private static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(FanucButton),
       new PropertyMetadata((ICommand)null, new PropertyChangedCallback(OnCommandChanged)));
@@ -214,6 +221,8 @@ namespace WPF.CustomControls
     private static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register("IsPressed", typeof(bool), typeof(FanucButton));
     private static readonly DependencyProperty LicenseThicknessProperty = DependencyProperty.Register("LicenseThickness", typeof(double), typeof(FanucButton),
       new PropertyMetadata(6.0, OnLicenseThicknessChanged));
+    public static readonly DependencyProperty LicenseModeProperty = DependencyProperty.Register("LicenseMode", typeof(LicenseModes), typeof(FanucButton), new PropertyMetadata(LicenseModes.License));
+
 
     private static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -252,9 +261,9 @@ namespace WPF.CustomControls
     #endregion
 
     #region Variables
-    private LicenseModes _licenseMode = LicenseModes.License;
-    // keeps a copy of the CanExecuteChanged handler so it doesn't get garbage collected
-    private EventHandler _canExecuteChangedHandler;
+    private EventHandler _canExecuteChangedHandler; // keeps a copy of the CanExecuteChanged handler so it doesn't get garbage collected
+    private Size? _drawingSize = null;
+    private MatrixTransform _shapeTransform = new MatrixTransform();
     #endregion
 
     #region const & static
@@ -332,6 +341,55 @@ namespace WPF.CustomControls
       var doubleValue = 0.0;
       Double.TryParse((value ?? "0").ToString(), out doubleValue);
       return new Thickness(doubleValue);
+    }
+  }
+  public sealed class EnumToVisibilityConverter : IValueConverter
+  {
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      if (value == null || parameter == null)
+        return Visibility.Visible;
+      if (object.ReferenceEquals(value, parameter) || object.Equals(value, parameter))
+        return Visibility.Visible;
+
+      if (!value.GetType().IsEnum)
+        throw new NotSupportedException();
+
+      if (!Enum.IsDefined(value.GetType(), parameter.ToString()))
+        return Visibility.Collapsed;
+
+      return (value.ToString() == Enum.Parse(value.GetType(), parameter.ToString()).ToString()) ? Visibility.Visible : Visibility.Collapsed;
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      throw new NotSupportedException();
+    }
+  }
+  public sealed class DisabledToDoubleCollectionConverter : IValueConverter
+  {
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      if (value == null)
+        return null;
+
+      var mode = LicenseModes.License;
+      if(Enum.TryParse(value.ToString(), out mode) && mode == LicenseModes.Disabled)
+      {
+        try
+        {
+          return DoubleCollection.Parse(parameter.ToString());
+        }
+        catch (Exception)
+        {
+          return DoubleCollection.Parse("2");
+        }
+      }
+      else
+        return null;
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      throw new NotSupportedException();
     }
   }
 }

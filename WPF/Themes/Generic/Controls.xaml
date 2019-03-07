@@ -5,6 +5,8 @@
     <Style.Resources>
       <SolidColorBrush x:Key="TransparentBrush" Color="#01000000"/>
       <local:ThicknessToDoubleConverter x:Key="ThicknessToDouble"/>
+      <local:EnumToVisibilityConverter x:Key="EnumToVisibility"/>
+      <local:DisabledToDoubleCollectionConverter x:Key="DisabledToDoubleCollection"/>
     </Style.Resources>
     <Setter Property="Margin" Value="5"/>
     <Setter Property="Height" Value="60"/>
@@ -15,8 +17,11 @@
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:FanucButton}">
           <Grid Margin="{TemplateBinding Margin}" Background="{StaticResource TransparentBrush}">
-            <Path x:Name="PART_BorderPath" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToDouble}}"/>
-            <Path x:Name="PART_TrianglePath" Fill="{TemplateBinding BorderBrush}"/>
+            <Path x:Name="PART_BorderPath"
+                  Stroke="{TemplateBinding BorderBrush}"
+                  StrokeThickness="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToDouble}}"
+                  StrokeDashArray="{TemplateBinding LicenseMode, Converter={StaticResource DisabledToDoubleCollection}}"/>
+            <Path x:Name="PART_TrianglePath" Fill="{TemplateBinding BorderBrush}" Visibility="{TemplateBinding LicenseMode, ConverterParameter=License, Converter={StaticResource EnumToVisibility}}"/>
             <Grid Margin="{TemplateBinding Padding}">
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
