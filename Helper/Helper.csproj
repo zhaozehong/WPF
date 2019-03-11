@@ -51,6 +51,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CursorManager.cs" />
     <Compile Include="EventMapping.cs" />
     <Compile Include="MvvmBehaviors.cs" />
     <Compile Include="NotifyPropertyChanged.cs" />

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,23 @@ namespace Helper
 {
   public abstract class NotifyPropertyChanged : INotifyPropertyChanged
   {
-    public event PropertyChangedEventHandler PropertyChanged;
+    protected virtual void SetProperty<T>(ref T member, T val, [CallerMemberName] string propertyName = null)
+    {
+      if (object.Equals(member, val))
+        return;
+
+      member = val;
+      RaisePropertyChanged(propertyName);
+    }
+    protected void RaisePropertyChanged<TProperty>(Expression<Func<TProperty>> propertyExpresssion)
+    {
+      try
+      {
+        var memberExpression = (MemberExpression)propertyExpresssion.Body;
+        RaisePropertyChanged(memberExpression.Member.Name);
+      }
+      catch (Exception) { }
+    }
     protected virtual void RaisePropertyChanged(String propertyName)
     {
       this.VerifyPropertyName(propertyName);
@@ -24,15 +41,18 @@ namespace Helper
       if (handler != null)
         handler(this, new PropertyChangedEventArgs(propertyName));
     }
-    protected void RaisePropertyChanged<TProperty>(Expression<Func<TProperty>> propertyExpresssion)
+
+    public string GetPropertyName<TProperty>(Expression<Func<TProperty>> propertyExpresssion)
     {
-      var memberExpression = (MemberExpression)propertyExpresssion.Body;
-      RaisePropertyChanged(memberExpression.Member.Name);
-    }
-    public string GetPropertyName<TProperty>(Expression<Func<TProperty>> projection)
-    {
-      var memberExpression = (MemberExpression)projection.Body;
-      return (memberExpression.Member.Name);
+      try
+      {
+        var memberExpression = (MemberExpression)propertyExpresssion.Body;
+        return memberExpression.Member.Name;
+      }
+      catch (Exception)
+      {
+        return null;
+      }
     }
     [Conditional("DEBUG")]
     [DebuggerStepThrough]
@@ -43,5 +63,9 @@ namespace Helper
         Debug.Fail("Invalid property name: " + propertyName);
       }
     }
+
+
+    //public event PropertyChangedEventHandler PropertyChanged = delegate { };
+    public event PropertyChangedEventHandler PropertyChanged;
   }
 }
