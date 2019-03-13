@@ -1,0 +1,18 @@
+﻿<Window x:Class="KeyboardHooker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KeyboardHooker"
+        mc:Ignorable="d" SizeToContent="WidthAndHeight"
+        Title="MainWindow">
+  <Grid>
+    <StackPanel Margin="10">
+      <TextBlock Text="1. Ctrl+S, Show Window"/>
+      <TextBlock Text="2. Ctrl+H, Hide Window"/>
+      <TextBlock Text="3. Ctrl+C, Close Window"/>
+      <TextBlock Text="4. Ctrl+Alt+A, try to see what's happened when QQ is opened"/>
+      <TextBox Margin="0,20" Name="tbText"/>
+    </StackPanel>
+  </Grid>
+</Window>
