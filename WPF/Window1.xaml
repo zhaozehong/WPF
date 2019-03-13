@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:customControls="clr-namespace:WPF.CustomControls"
-        mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800">
-  <Grid Background="Black" DataContext="{Binding ElementName=Self, Path=ViewModel}">
+        xmlns:userControls="clr-namespace:WPF.UserControls;assembly=UserControls"
+        mc:Ignorable="d" SizeToContent="WidthAndHeight"
+        Title="Window1">
+  <Grid Background="Black" Margin="10" DataContext="{Binding ElementName=Self, Path=ViewModel}">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
@@ -16,8 +17,9 @@
       <ColumnDefinition Width="*"/>
       <ColumnDefinition Width="4*"/>
     </Grid.ColumnDefinitions>
-    <TextBlock Grid.Column="1" Grid.Row="1" Foreground="White" FontSize="20" Text="{Binding Model.Name}"/>
-    <StackPanel Margin="0,10,0,0" HorizontalAlignment="Stretch">
+    
+    <TextBlock Grid.Row="1" Grid.Column="1" Foreground="White" FontSize="20" Text="{Binding Model.Name}"/>
+    <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,10,0,0" HorizontalAlignment="Stretch">
       <customControls:FanucButton FunctionName="Calibration" Click="FanucButton_Click"
                                   EnabledImage="/WPF;component/Resources/Images/Calibration_ON.png"
                                   DisabledImage="/WPF;component/Resources/Images/Calibration_OFF.png"
@@ -40,6 +42,7 @@
                                   Command="{Binding UpdateCommand}"
                                   Content="{Binding RelativeSource={RelativeSource Self}, Path=FunctionName}"/>
     </StackPanel>
-    <customControls:FanucButton Content="FanucButton" Grid.Column="1"/>
+    <customControls:FanucButton Grid.Row="0" Grid.Column="1" Content="FanucButton"/>
+    <userControls:NumberKeyboardControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
   </Grid>
 </Window>

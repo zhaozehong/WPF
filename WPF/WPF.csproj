@@ -166,6 +166,10 @@
       <Project>{e6eca7e7-d529-4717-84a4-d579f7a96a8f}</Project>
       <Name>Helper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UserControls\UserControls.csproj">
+      <Project>{c3566f71-80d9-487a-a487-7126eafb22c5}</Project>
+      <Name>UserControls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
