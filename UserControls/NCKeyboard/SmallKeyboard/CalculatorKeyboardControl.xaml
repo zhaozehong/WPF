@@ -1,0 +1,93 @@
+﻿<local:KeyboardControl x:Class="WPF.UserControls.CalculatorKeyboardControl" x:Name="CalculatorKeyboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WPF.UserControls">
+  <local:KeyboardControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/UserControls;component/NCKeyboard/Resources/Styles/KeyboardStyle.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+
+      <Style TargetType="{x:Type local:KeyboardButton}" BasedOn="{StaticResource KeyboardButtonStyle}">
+        <Setter Property="Width" Value="{Binding ElementName=CalculatorKeyboard, Path=ButtonSize}"/>
+        <Setter Property="Height" Value="{Binding ElementName=CalculatorKeyboard, Path=ButtonSize}"/>
+      </Style>
+      <Style x:Key="KeyboardDisplayScreenStyle" TargetType="TextBox" BasedOn="{StaticResource DisplayScreenStyle}">
+        <Setter Property="Width" Value="{Binding ElementName=CalculatorKeyboard, Path=DisplayScreenWidth, Mode=TwoWay}"/>
+      </Style>
+    </ResourceDictionary>
+  </local:KeyboardControl.Resources>
+  <!--<UserControl.DataContext>
+    <local:CalculatorKeyboardControlViewModel/>
+  </UserControl.DataContext>-->
+
+  <Grid Background="Transparent" Margin="5">
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+
+    <local:KeyboardButton Grid.Row="0" Grid.Column="8" Key="Close" Content="X" Command="{x:Null}" Click="btnClose_Click"/>
+    <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="9" Style="{DynamicResource KeyboardDisplayScreenStyle}"/>
+    <local:KeyboardButton Grid.Row="2" Grid.Column="0" Key="SWITCH" Content="Num" Command="{x:Null}" Click="btnSwitch_Click"/>
+
+    <local:KeyboardButton Grid.Row="2" Grid.Column="2" Key="AC" Content="AC"/>
+    <local:KeyboardButton Grid.Row="2" Grid.Column="3" Key="C" Content="C"/>
+    <local:KeyboardButton Grid.Row="2" Grid.Column="4" Key="D_D7" Content="7"/>
+    <local:KeyboardButton Grid.Row="2" Grid.Column="5" Key="D_D8" Content="8"/>
+    <local:KeyboardButton Grid.Row="2" Grid.Column="6" Key="D_D9" Content="9"/>
+    <local:KeyboardButton Grid.Row="2" Grid.Column="7" Key="O_Divide" Content="/"/>
+    <local:KeyboardButton Grid.Row="2" Grid.Column="8" Key="Backspace">
+      <Image Source="/UserControls;component/NCKeyboard/Resources/Backspace.png"/>
+    </local:KeyboardButton>
+
+    <local:KeyboardButton Grid.Row="3" Grid.Column="0" Key="LeftBracket" Content="("/>
+    <local:KeyboardButton Grid.Row="3" Grid.Column="1" Key="RightBracket" Content=")"/>
+    <local:KeyboardButton Grid.Row="3" Grid.Column="2" Key="PI" Content="PI"/>
+    <local:KeyboardButton Grid.Row="3" Grid.Column="3" Key="F_Abs" Content="Abs"/>
+    <local:KeyboardButton Grid.Row="3" Grid.Column="4" Key="D_D4" Content="4"/>
+    <local:KeyboardButton Grid.Row="3" Grid.Column="5" Key="D_D5" Content="5"/>
+    <local:KeyboardButton Grid.Row="3" Grid.Column="6" Key="D_D6" Content="6"/>
+    <local:KeyboardButton Grid.Row="3" Grid.Column="7" Key="O_Multiply" Content="*"/>
+    <local:KeyboardButton Grid.Row="3" Grid.Column="8" Key="Pin">
+      <Image Source="/UserControls;component/NCKeyboard/Resources/Pin.png"/>
+    </local:KeyboardButton>
+
+    <local:KeyboardButton Grid.Row="4" Grid.Column="0" Key="F_Sin" Content="sin"/>
+    <local:KeyboardButton Grid.Row="4" Grid.Column="1" Key="F_Cos" Content="cos"/>
+    <local:KeyboardButton Grid.Row="4" Grid.Column="2" Key="F_Tan" Content="tan"/>
+    <local:KeyboardButton Grid.Row="4" Grid.Column="3" Key="F_In" Content="In"/>
+    <local:KeyboardButton Grid.Row="4" Grid.Column="4" Key="D_D1" Content="1"/>
+    <local:KeyboardButton Grid.Row="4" Grid.Column="5" Key="D_D2" Content="2"/>
+    <local:KeyboardButton Grid.Row="4" Grid.Column="6" Key="D_D3" Content="3"/>
+    <local:KeyboardButton Grid.Row="4" Grid.Column="7" Key="O_Substract" Content="-"/>
+    <local:KeyboardButton Grid.Row="4" Grid.Column="8" Key="CLR" Content="CLR"/>
+
+    <local:KeyboardButton Grid.Row="5" Grid.Column="0" Key="Inv" Content="Inv"/>
+    <local:KeyboardButton Grid.Row="5" Grid.Column="1" Key="F_Sqrt" Content="√"/>
+    <local:KeyboardButton Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Key="M2I" Content="mm->inch"
+                          Width="Auto"/>
+    <local:KeyboardButton Grid.Row="5" Grid.Column="4" Key="D_D0" Content="0"/>
+    <local:KeyboardButton Grid.Row="5" Grid.Column="5" Key="Point" Content="."/>
+    <local:KeyboardButton Grid.Row="5" Grid.Column="6" Key="Equal" Content="="/>
+    <local:KeyboardButton Grid.Row="5" Grid.Column="7" Key="O_Add" Content="+"/>
+    <local:KeyboardButton Grid.Row="5" Grid.Column="8" Key="Enter">
+      <Image Source="/UserControls;component/NCKeyboard/Resources/Enter.png"/>
+    </local:KeyboardButton>
+  </Grid>
+</local:KeyboardControl>

@@ -43,6 +43,5 @@
                                   Content="{Binding RelativeSource={RelativeSource Self}, Path=FunctionName}"/>
     </StackPanel>
     <customControls:FanucButton Grid.Row="0" Grid.Column="1" Content="FanucButton"/>
-    <userControls:NumberKeyboardControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
   </Grid>
 </Window>

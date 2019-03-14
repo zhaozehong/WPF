@@ -10,14 +10,13 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WPF.UserControls
+namespace JM.Software.WPF
 {
-  public partial class NumberKeyboardControl : UserControl
+  public partial class Window2 : Window
   {
-    public NumberKeyboardControl()
+    public Window2()
     {
       InitializeComponent();
     }
