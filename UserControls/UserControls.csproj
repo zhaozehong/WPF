@@ -50,28 +50,21 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NCKeyboard\SmallKeyboard\CalculatorKeyboardControl.xaml.cs">
-      <DependentUpon>CalculatorKeyboardControl.xaml</DependentUpon>
+    <Compile Include="KeyboardControl\CalculatorKeyboard.xaml.cs">
+      <DependentUpon>CalculatorKeyboard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NCKeyboard\Helper\EnumDefinition.cs" />
-    <Compile Include="NCKeyboard\Helper\Helper.cs" />
-    <Compile Include="NCKeyboard\Helper\NotifyPropertyChanged.cs" />
-    <Compile Include="NCKeyboard\Helper\RelayCommand.cs" />
-    <Compile Include="NCKeyboard\KeyboardButton.cs" />
-    <Compile Include="NCKeyboard\KeyboardSettings.cs" />
-    <Page Include="NCKeyboard\Resources\Styles\KeyboardStyle.xaml">
+    <Compile Include="KeyboardControl\Helper\Converters.cs" />
+    <Compile Include="KeyboardControl\Helper\EnumDefinition.cs" />
+    <Compile Include="KeyboardControl\Helper\Helper.cs" />
+    <Compile Include="KeyboardControl\Helper\NotifyPropertyChanged.cs" />
+    <Compile Include="KeyboardControl\Helper\RelayCommand.cs" />
+    <Compile Include="KeyboardControl\KeyboardButton.cs" />
+    <Compile Include="KeyboardControl\KeyboardSettings.cs" />
+    <Page Include="KeyboardControl\CalculatorKeyboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NCKeyboard\SmallKeyboard\CalculatorKeyboardControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="NCKeyboard\SmallKeyboard\NumberKeyboardControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="NCKeyboard\SmallKeyboard\SmallKeyboardControl.xaml">
+    <Page Include="KeyboardControl\Resources\Styles\KeyboardStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -81,14 +74,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NCKeyboard\SmallKeyboard\KeyboardControl.cs" />
-    <Compile Include="NCKeyboard\SmallKeyboard\NumberKeyboardControl.xaml.cs">
-      <DependentUpon>NumberKeyboardControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="NCKeyboard\SmallKeyboard\SmallKeyboardControl.xaml.cs">
-      <DependentUpon>SmallKeyboardControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="NCKeyboard\SmallKeyboard\KeyboardViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -111,17 +96,15 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="NCKeyboard\FullKeyboard\" />
+    <Resource Include="KeyboardControl\Resources\Backspace.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="NCKeyboard\Resources\Backspace.png" />
+    <Resource Include="KeyboardControl\Resources\Pin.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="NCKeyboard\Resources\Pin.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="NCKeyboard\Resources\Enter.png" />
+    <Resource Include="KeyboardControl\Resources\Enter.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

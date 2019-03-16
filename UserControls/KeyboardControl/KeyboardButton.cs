@@ -131,33 +131,26 @@ namespace WPF.UserControls
         case KeyboardKeys.D_D8:
         case KeyboardKeys.D_D9:
           value = this.Key.ToString().Last().ToString();
-          //sourceList.Add(this.Key.ToString().Last().ToString());
           break;
         case KeyboardKeys.Point:
           value = ".";
-          //sourceList.Add(".");
           break;
 
         case KeyboardKeys.O_Add:
           value = "+";
-          //sourceList.Add("+");
           break;
         case KeyboardKeys.O_Substract:
           value = "-";
-          //sourceList.Add("-");
           break;
         case KeyboardKeys.O_Multiply:
           value = "*";
-          //sourceList.Add("*");
           break;
         case KeyboardKeys.O_Divide:
           value = "/";
-          //sourceList.Add("/");
           break;
 
         case KeyboardKeys.PI:
-          value = Math.PI.ToString();
-          //sourceList.Add(Math.PI.ToString());
+          value = String.Format("{0:F4}", Math.PI);
           break;
 
         // functions
@@ -168,15 +161,12 @@ namespace WPF.UserControls
         case KeyboardKeys.F_In:
         case KeyboardKeys.F_Sqrt:
           value = String.Format("{0}(", Key.ToString().Substring(2));
-          //sourceList.Add(String.Format("{0}{1}(", NeedAddMultiply(sourceList.Last()) ? "*" : "", Key.ToString().Substring(2)));
           break;
         case KeyboardKeys.LeftBracket:
           value = "(";
-          //sourceList.Add(String.Format("{0}(", NeedAddMultiply(sourceList.Last()) ? "*" : ""));
           break;
         case KeyboardKeys.RightBracket:
           value = ")";
-          //sourceList.Add(")");
           break;
 
         case KeyboardKeys.Backspace:
@@ -189,13 +179,12 @@ namespace WPF.UserControls
 
         case KeyboardKeys.Equal:
         case KeyboardKeys.Enter:
-          var text = Helpers.ListToValue(recordList.Select(p=>p.Value).ToList());
+          var text = Helpers.ListToValue(recordList.Select(p => p.Value).ToList());
           var count = text.Split('(').Length - text.Split(')').Length;
           if (count < 0)
             return false;
           if (count > 0)
             value = new string(')', count);
-          //sourceList.Add(new string(')', count));
           break;
 
         case KeyboardKeys.SWITCH:

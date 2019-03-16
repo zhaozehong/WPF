@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JM.Software.WPF"
         xmlns:userControls="clr-namespace:WPF.UserControls;assembly=UserControls"
-        mc:Ignorable="d" SizeToContent="WidthAndHeight"
+        mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Width="30" Height="30"
         Title="Window2">
   <Grid Background="Black">
-    <userControls:SmallKeyboardControl ButtonSize="70"/>
+    <!--<userControls:SmallKeyboardControl ButtonSize="70"/>-->
+    <userControls:CalculatorKeyboard  ButtonSize="80"/>
   </Grid>
 </Window>

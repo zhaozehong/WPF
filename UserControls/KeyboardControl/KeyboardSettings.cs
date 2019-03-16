@@ -39,8 +39,6 @@ namespace WPF.UserControls
     }
 
 
-
-
     private static String LockObj = String.Empty;
     private static KeyboardSettings _current;
     public static KeyboardSettings Current

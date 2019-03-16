@@ -5,12 +5,14 @@ using WPF.Helper;
 
 namespace WPF.UserControls
 {
-    public class KeyboardViewModelBase : NotifyPropertyChanged
+  public enum KeyboardModes { Number, Calculator }
+  public class CalculatorKeyboardViewModel : NotifyPropertyChanged
   {
-    public KeyboardViewModelBase()
+    public CalculatorKeyboardViewModel()
     {
       this.ButtonCommand = new RelayCommand(UpdateValue);
     }
+
     protected void UpdateValue(object parameter)
     {
       var button = parameter as KeyboardButton;
@@ -22,18 +24,16 @@ namespace WPF.UserControls
         switch (button.Key)
         {
           case KeyboardKeys.SWITCH:
-            //if (KeyboardSwitched != null)
-            //  KeyboardSwitched(this, null);
+            KeyboardMode = KeyboardMode == KeyboardModes.Number ? KeyboardModes.Calculator : KeyboardModes.Number;
+            break;
+          case KeyboardKeys.Inv:
+            this.IsInverse = !IsInverse;
             break;
           case KeyboardKeys.Close:
-            //if (Closed != null)
-            //  Closed(this, null);
             break;
           case KeyboardKeys.Pin:
             break;
           case KeyboardKeys.CLR:
-            break;
-          case KeyboardKeys.Inv:
             break;
           case KeyboardKeys.M2I:
             // update InputValue
@@ -42,6 +42,8 @@ namespace WPF.UserControls
             // update InputValue
             break;
           case KeyboardKeys.Equal:
+          // update InputValue
+            break;
           case KeyboardKeys.Enter:
           default:
             try
@@ -58,6 +60,7 @@ namespace WPF.UserControls
       catch (Exception) { }
     }
 
+    #region Properties
     public RelayCommand ButtonCommand { get; private set; }
     public String InputValue
     {
@@ -71,10 +74,38 @@ namespace WPF.UserControls
         }
       }
     }
+    public KeyboardModes KeyboardMode
+    {
+      get { return _keyboardMode; }
+      set
+      {
+        if (_keyboardMode != value)
+        {
+          _keyboardMode = value;
+          this.RaisePropertyChanged(nameof(KeyboardMode));
+        }
+      }
+    }
+    public Boolean IsInverse
+    {
+      get { return _isInverse; }
+      set
+      {
+        if (_isInverse != value)
+        {
+          _isInverse = value;
+          this.RaisePropertyChanged(nameof(IsInverse));
+        }
+      }
+    }
 
-    
+    #endregion
 
-    private String _inputValue;
+    #region Variables
     private readonly List<InputInfo> _inputList = new List<InputInfo>();
+    private String _inputValue;
+    private KeyboardModes _keyboardMode = KeyboardModes.Number;
+    private Boolean _isInverse = false;
+    #endregion
   }
 }

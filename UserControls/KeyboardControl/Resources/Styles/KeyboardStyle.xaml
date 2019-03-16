@@ -7,6 +7,7 @@
     <Setter Property="CommandParameter" Value="{Binding RelativeSource={x:Static RelativeSource.Self}}"/>
   </Style>
   <Style x:Key="DisplayScreenStyle" TargetType="TextBox">
+    <Setter Property="Height" Value="50"/>
     <Setter Property="FontSize" Value="25"/>
     <Setter Property="FontWeight" Value="Bold"/>
     <Setter Property="Margin" Value="1,2"/>
@@ -14,8 +15,6 @@
     <Setter Property="Background" Value="White"/>
     <Setter Property="AcceptsReturn" Value="True"/>
     <Setter Property="TextWrapping" Value="Wrap"/>
-    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-    <Setter Property="VerticalAlignment" Value="Stretch"/>
     <Setter Property="HorizontalContentAlignment" Value="Right"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
     <Setter Property="IsHitTestVisible" Value="False"/>

@@ -22,8 +22,7 @@
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:KeyboardButton}">
           <Grid Margin="{TemplateBinding Margin}" Background="{TemplateBinding Background}">
-            <Border VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+            <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                     Margin="{TemplateBinding Padding}"
                     Background="{StaticResource TransparentBrush}"
                     BorderBrush="{TemplateBinding BorderBrush}"

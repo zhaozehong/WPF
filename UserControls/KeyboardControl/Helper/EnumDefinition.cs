@@ -35,6 +35,11 @@ namespace WPF.UserControls
     F_Tan,
     F_In,
     F_Sqrt,
+    F_ASin,
+    F_ACos,
+    F_ATan,
+    F_Exp,
+    F_Square,
 
     LeftBracket,
     RightBracket,
