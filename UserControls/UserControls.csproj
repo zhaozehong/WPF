@@ -53,6 +53,7 @@
     <Compile Include="KeyboardControl\CalculatorKeyboard.xaml.cs">
       <DependentUpon>CalculatorKeyboard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KeyboardControl\CalculatorKeyboardViewModel.cs" />
     <Compile Include="KeyboardControl\Helper\Converters.cs" />
     <Compile Include="KeyboardControl\Helper\EnumDefinition.cs" />
     <Compile Include="KeyboardControl\Helper\Helper.cs" />
