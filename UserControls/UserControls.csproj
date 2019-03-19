@@ -75,6 +75,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KeyboardPopup.cs" />
+    <Compile Include="PopupEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

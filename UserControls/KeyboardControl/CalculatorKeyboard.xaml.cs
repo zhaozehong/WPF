@@ -12,6 +12,7 @@ namespace WPF.UserControls
     public CalculatorKeyboard()
     {
       InitializeComponent();
+      OnButtonSizeChanged();
       this.ViewModel = this.DataContext as CalculatorKeyboardViewModel;
       this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
     }
@@ -31,6 +32,21 @@ namespace WPF.UserControls
       if (Closed != null)
         Closed(this, null);
     }
+    private void btnPin_Click(object sender, RoutedEventArgs e)
+    {
+      this.IsPin = !IsPin;
+    }
+    private void btnCLR_Click(object sender, RoutedEventArgs e)
+    {
+      if (this.TargetElement != null)
+        this.TargetElement.Clear();
+    }
+    private void btnEnter_Click(object sender, RoutedEventArgs e)
+    {
+      if (this.TargetElement != null)
+        this.TargetElement.Text = this.ViewModel.InputValue;
+    }
+
     private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       if (e.PropertyName == nameof(ViewModel.KeyboardMode))
@@ -69,7 +85,7 @@ namespace WPF.UserControls
         }
       }
     }
-    public Double DisplayScreenWidth
+    public double DisplayScreenWidth
     {
       get { return _displayScreenWidth; }
       set
@@ -85,15 +101,12 @@ namespace WPF.UserControls
     #endregion
 
     #region Dependency Properties
-    public Double ButtonSize
+    public double ButtonSize
     {
       get { return (Double)GetValue(ButtonSizeProperty); }
       set { SetValue(ButtonSizeProperty, value); }
     }
-
-    public static readonly DependencyProperty ButtonSizeProperty =
-        DependencyProperty.Register("ButtonSize", typeof(Double), typeof(CalculatorKeyboard), new PropertyMetadata(100.0, new PropertyChangedCallback(OnButtonSizeChanged)));
-
+    public static readonly DependencyProperty ButtonSizeProperty = DependencyProperty.Register("ButtonSize", typeof(double), typeof(CalculatorKeyboard), new PropertyMetadata(60.0, new PropertyChangedCallback(OnButtonSizeChanged)));
     private static void OnButtonSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       var control = d as CalculatorKeyboard;
@@ -101,11 +114,26 @@ namespace WPF.UserControls
         control.OnButtonSizeChanged();
     }
 
+    public TextBox TargetElement
+    {
+      get { return (TextBox)GetValue(TargetElementProperty); }
+      set { SetValue(TargetElementProperty, value); }
+    }
+    public static readonly DependencyProperty TargetElementProperty = DependencyProperty.Register("TargetElement", typeof(TextBox), typeof(CalculatorKeyboard), new PropertyMetadata(null));
+
+    public bool IsPin
+    {
+      get { return (Boolean)GetValue(IsPinProperty); }
+      set { SetValue(IsPinProperty, value); }
+    }
+    public static readonly DependencyProperty IsPinProperty = DependencyProperty.Register("IsPin", typeof(bool), typeof(CalculatorKeyboard), new PropertyMetadata(false));
+
     #endregion
 
     #region Variables
     private Int32 _buttonFontSize = 16;
     private Double _displayScreenWidth = 50;
+
     #endregion
   }
 }

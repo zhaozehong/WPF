@@ -101,7 +101,7 @@ namespace WPF.CustomControls
       image.Width = image.ActualWidth + diffWidth;
       image.Height = image.ActualHeight + diffHeight;
     }
-    
+
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
       try
@@ -139,7 +139,7 @@ namespace WPF.CustomControls
       {
         base.OnMouseLeftButtonUp(e);
 
-        this.RaiseEvent(new RoutedEventArgs(ClickEvent));
+        this.RaiseEvent(new RoutedEventArgs(ClickEvent, this));
         this.RaiseCommand();
       }
       catch (Exception) { }
@@ -373,7 +373,7 @@ namespace WPF.CustomControls
         return null;
 
       var mode = LicenseModes.License;
-      if(Enum.TryParse(value.ToString(), out mode) && mode == LicenseModes.Disabled)
+      if (Enum.TryParse(value.ToString(), out mode) && mode == LicenseModes.Disabled)
       {
         try
         {

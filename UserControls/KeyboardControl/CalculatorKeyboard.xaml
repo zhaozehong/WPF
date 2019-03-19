@@ -81,7 +81,7 @@
       <local:KeyboardButton Grid.Row="2" Grid.Column="5" Key="D_D5" Content="5"/>
       <local:KeyboardButton Grid.Row="2" Grid.Column="6" Key="D_D6" Content="6"/>
       <local:KeyboardButton Grid.Row="2" Grid.Column="7" Key="O_Multiply" Content="*" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-      <local:KeyboardButton Grid.Row="2" Grid.Column="8" Key="Pin">
+      <local:KeyboardButton Grid.Row="2" Grid.Column="8" Key="Pin" Command="{x:Null}" Click="btnPin_Click">
         <Image Source="/UserControls;component/KeyboardControl/Resources/Pin.png"/>
       </local:KeyboardButton>
 
@@ -106,7 +106,7 @@
       <local:KeyboardButton Grid.Row="3" Grid.Column="5" Key="D_D2" Content="2"/>
       <local:KeyboardButton Grid.Row="3" Grid.Column="6" Key="D_D3" Content="3"/>
       <local:KeyboardButton Grid.Row="3" Grid.Column="7" Key="O_Substract" Content="-" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-      <local:KeyboardButton Grid.Row="3" Grid.Column="8" Key="CLR" Content="CLR"/>
+      <local:KeyboardButton Grid.Row="3" Grid.Column="8" Key="CLR" Content="CLR" Command="{x:Null}" Click="btnCLR_Click"/>
 
       <!--Row 4-->
       <local:KeyboardButton Grid.Row="4" Grid.Column="0" Key="Inv" Content="Inv" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
@@ -131,7 +131,7 @@
         <local:KeyboardButton Key="Point" Content="." Visibility="{Binding KeyboardMode, ConverterParameter=Number, Converter={StaticResource EnumToVisibility}}"/>
       </Grid>
       <local:KeyboardButton Grid.Row="4" Grid.Column="7" Key="O_Add" Content="+" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-      <local:KeyboardButton Grid.Row="4" Grid.Column="8" Key="Enter">
+      <local:KeyboardButton Grid.Row="4" Grid.Column="8" Key="Enter"  Click="btnEnter_Click">
         <Image Source="/UserControls;component/KeyboardControl/Resources/Enter.png"/>
       </local:KeyboardButton>
     </Grid>

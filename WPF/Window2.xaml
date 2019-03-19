@@ -3,12 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:JM.Software.WPF"
         xmlns:userControls="clr-namespace:WPF.UserControls;assembly=UserControls"
         mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Width="30" Height="30"
         Title="Window2">
   <Grid Background="Black">
-    <!--<userControls:SmallKeyboardControl ButtonSize="70"/>-->
-    <userControls:CalculatorKeyboard  ButtonSize="80"/>
+    <userControls:CalculatorKeyboard ButtonSize="60"/>
   </Grid>
+  <!--<Grid Background="Black">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="100"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Button Grid.Row="2" Content="Keyboard" x:Name="popButton"/>
+    <userControls:PopupEx x:Name="pop1" Topmost="False"  StaysOpen="True" PopupAnimation="Slide" AllowsTransparency="False"
+                          PlacementTarget="{Binding ElementName=popButton}" Placement="Top">
+      <userControls:CalculatorKeyboard  ButtonSize="80" x:Name="pop_view"/>
+    </userControls:PopupEx>
+  </Grid>-->
 </Window>

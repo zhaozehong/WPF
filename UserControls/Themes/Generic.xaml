@@ -51,4 +51,16 @@
       </Setter.Value>
     </Setter>
   </Style>
+
+  <!--<Style TargetType="{x:Type local:KeyboardPopup}">
+    <Setter Property="Name" Value="KeyboardPopupObj"/>
+    <Setter Property="Child">
+      <Setter.Value>
+        --><!--to see if it could be changed to use Relative.Self--><!--
+        <local:CalculatorKeyboard Closed="CalculatorKeyboard_Closed"
+                                  ButtonSize="{Binding ElementName=KeyboardPopupObj, Path=ButtonSize}"
+                                  TargetElement="{Binding ElementName=KeyboardPopupObj, Path=TargetElement}"/>
+      </Setter.Value>
+    </Setter>
+  </Style>-->
 </ResourceDictionary>

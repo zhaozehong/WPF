@@ -226,8 +226,9 @@ namespace WPF.UserControls
       {
         base.OnMouseLeftButtonUp(e);
 
-        this.RaiseEvent(new RoutedEventArgs(ClickEvent));
+        // Zehong: run RaiseCommand before RaiseEvent, cos RaiseCommand will auto-fill bracket
         this.RaiseCommand();
+        this.RaiseEvent(new RoutedEventArgs(ClickEvent));
       }
       catch (Exception) { }
       finally
