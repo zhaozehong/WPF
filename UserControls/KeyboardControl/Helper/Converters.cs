@@ -55,4 +55,35 @@ namespace WPF.Helper
       }
     }
   }
+  public sealed class BooleanReverseConverter : IValueConverter
+  {
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      try
+      {
+        if (value == null && !(value is bool))
+          return false;
+
+        bool bvalue = (bool)value;
+        bool ret = !bvalue;
+        return ret;
+      }
+      catch (Exception)
+      {
+        return false;
+      }
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      try
+      {
+        bool bvalue = (bool)value;
+        return !bvalue;
+      }
+      catch (Exception)
+      {
+        return false;
+      }
+    }
+  }
 }

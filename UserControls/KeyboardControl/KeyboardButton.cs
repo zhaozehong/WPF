@@ -16,78 +16,6 @@ namespace WPF.UserControls
       DefaultStyleKeyProperty.OverrideMetadata(typeof(KeyboardButton), new FrameworkPropertyMetadata(typeof(KeyboardButton)));
     }
 
-    public void Handle(StringBuilder sbSource)
-    {
-      switch (this.Key)
-      {
-        case KeyboardKeys.D_D0:
-        case KeyboardKeys.D_D1:
-        case KeyboardKeys.D_D2:
-        case KeyboardKeys.D_D3:
-        case KeyboardKeys.D_D4:
-        case KeyboardKeys.D_D5:
-        case KeyboardKeys.D_D6:
-        case KeyboardKeys.D_D7:
-        case KeyboardKeys.D_D8:
-        case KeyboardKeys.D_D9:
-          sbSource.Append(this.Key.ToString().Last());
-          break;
-        case KeyboardKeys.Point:
-          sbSource.Append(".");
-          break;
-
-        case KeyboardKeys.O_Add:
-          sbSource.Append("+");
-          break;
-        case KeyboardKeys.O_Substract:
-          sbSource.Append("-");
-          break;
-        case KeyboardKeys.O_Multiply:
-          sbSource.Append("*");
-          break;
-        case KeyboardKeys.O_Divide:
-          sbSource.Append("/");
-          break;
-
-        case KeyboardKeys.PI:
-          sbSource.Append(Math.PI.ToString());
-          break;
-        case KeyboardKeys.F_Abs:
-        case KeyboardKeys.F_Sin:
-        case KeyboardKeys.F_Cos:
-        case KeyboardKeys.F_Tan:
-        case KeyboardKeys.F_In:
-        case KeyboardKeys.F_Sqrt:
-          sbSource.Append(String.Format("{0}(", Key));
-          break;
-
-        case KeyboardKeys.LeftBracket:
-          sbSource.Append("(");
-          break;
-        case KeyboardKeys.RightBracket:
-          sbSource.Append(")");
-          break;
-
-        case KeyboardKeys.Backspace:
-        case KeyboardKeys.C:
-          sbSource.Remove(sbSource.Length - 1, 1);
-          break;
-        case KeyboardKeys.AC:
-          sbSource.Clear();
-          break;
-
-        case KeyboardKeys.Equal:
-        case KeyboardKeys.Enter:
-        case KeyboardKeys.Inv:
-        case KeyboardKeys.M2I:
-        case KeyboardKeys.I2M:
-        case KeyboardKeys.Pin:
-        case KeyboardKeys.CLR:
-        case KeyboardKeys.Close:
-        case KeyboardKeys.SWITCH:
-          break;
-      }
-    }
     public Boolean Handle(List<InputInfo> recordList)
     {
       if (recordList == null)
@@ -408,5 +336,4 @@ namespace WPF.UserControls
     public Boolean IsLeftBracket { get; private set; }
     public Boolean IsRightBracket { get; private set; }
   }
-
 }

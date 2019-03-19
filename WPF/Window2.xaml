@@ -16,20 +16,15 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    
 
-    <TextBox Grid.Row="2"/>
-    <TextBox Grid.Row="3" Name="tbInput"/>
+    <TextBox Grid.Row="2" Name="tbInput1"/>
+    <TextBox Grid.Row="3" Name="tbInput2"/>
     
-    <!--<userControls:PopupEx x:Name="pop1" Topmost="False" StaysOpen="True" PopupAnimation="Slide" AllowsTransparency="False"
-                              IsOpen="{Binding ElementName=tbInput, Path=IsFocused, Mode=OneWay}"
-                              PlacementTarget="{Binding ElementName=tbInput}" Placement="Top">
-      <userControls:CalculatorKeyboard Grid.Row="1"/>
-    </userControls:PopupEx>-->
-    <userControls:PopupEx Topmost="False" StaysOpen="True" PopupAnimation="Slide" AllowsTransparency="False"
-                          IsOpen="{Binding ElementName=tbInput, Path=IsFocused, Mode=OneWay}"
-                          PlacementTarget="{Binding ElementName=tbInput}" Placement="Top">
-      <userControls:CalculatorKeyboard Grid.Row="1"/>
-    </userControls:PopupEx>
+    <userControls:KeyboardPopup Placement="Right"
+                                PlacementTarget="{Binding ElementName=tbInput1}"
+                                InputTarget="{Binding ElementName=tbInput1}"/>
+    <userControls:KeyboardPopup Placement="Right"
+                                PlacementTarget="{Binding ElementName=tbInput2}"
+                                InputTarget="{Binding ElementName=tbInput2}"/>
   </Grid>
 </Window>

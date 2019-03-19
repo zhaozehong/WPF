@@ -8,6 +8,7 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/UserControls;component/KeyboardControl/Resources/Styles/KeyboardStyle.xaml"/>
+        <ResourceDictionary Source="/UserControls;component/KeyboardControl/Resources/Brushes.xaml"/>
       </ResourceDictionary.MergedDictionaries>
 
       <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
@@ -82,6 +83,15 @@
       <local:KeyboardButton Grid.Row="2" Grid.Column="6" Key="D_D6" Content="6"/>
       <local:KeyboardButton Grid.Row="2" Grid.Column="7" Key="O_Multiply" Content="*" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:KeyboardButton Grid.Row="2" Grid.Column="8" Key="Pin" Command="{x:Null}" Click="btnPin_Click">
+        <local:KeyboardButton.Style>
+          <Style>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding ElementName=CalculatorKeyboardObj, Path=IsPin}" Value="True">
+                <Setter Property="local:KeyboardButton.Background" Value="{StaticResource MazakBrush}"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </local:KeyboardButton.Style>
         <Image Source="/UserControls;component/KeyboardControl/Resources/Pin.png"/>
       </local:KeyboardButton>
 
