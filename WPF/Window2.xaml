@@ -6,19 +6,30 @@
         xmlns:userControls="clr-namespace:WPF.UserControls;assembly=UserControls"
         mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Width="30" Height="30"
         Title="Window2">
-  <Grid Background="Black">
-    <userControls:CalculatorKeyboard ButtonSize="60"/>
-  </Grid>
   <!--<Grid Background="Black">
+    <userControls:CalculatorKeyboard ButtonSize="60"/>
+  </Grid>-->
+  <Grid Background="Black">
     <Grid.RowDefinitions>
       <RowDefinition Height="100"/>
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <Button Grid.Row="2" Content="Keyboard" x:Name="popButton"/>
-    <userControls:PopupEx x:Name="pop1" Topmost="False"  StaysOpen="True" PopupAnimation="Slide" AllowsTransparency="False"
-                          PlacementTarget="{Binding ElementName=popButton}" Placement="Top">
-      <userControls:CalculatorKeyboard  ButtonSize="80" x:Name="pop_view"/>
+    
+
+    <TextBox Grid.Row="2"/>
+    <TextBox Grid.Row="3" Name="tbInput"/>
+    
+    <!--<userControls:PopupEx x:Name="pop1" Topmost="False" StaysOpen="True" PopupAnimation="Slide" AllowsTransparency="False"
+                              IsOpen="{Binding ElementName=tbInput, Path=IsFocused, Mode=OneWay}"
+                              PlacementTarget="{Binding ElementName=tbInput}" Placement="Top">
+      <userControls:CalculatorKeyboard Grid.Row="1"/>
+    </userControls:PopupEx>-->
+    <userControls:PopupEx Topmost="False" StaysOpen="True" PopupAnimation="Slide" AllowsTransparency="False"
+                          IsOpen="{Binding ElementName=tbInput, Path=IsFocused, Mode=OneWay}"
+                          PlacementTarget="{Binding ElementName=tbInput}" Placement="Top">
+      <userControls:CalculatorKeyboard Grid.Row="1"/>
     </userControls:PopupEx>
-  </Grid>-->
+  </Grid>
 </Window>

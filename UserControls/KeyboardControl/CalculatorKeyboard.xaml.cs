@@ -12,9 +12,10 @@ namespace WPF.UserControls
     public CalculatorKeyboard()
     {
       InitializeComponent();
-      OnButtonSizeChanged();
       this.ViewModel = this.DataContext as CalculatorKeyboardViewModel;
       this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+
+      OnButtonSizeChanged();
     }
 
     private void OnButtonSizeChanged()
