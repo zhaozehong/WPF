@@ -5,8 +5,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Linq;
+using System.Windows.Input;
+using System.Text.RegularExpressions;
 
-namespace WPF.Helper
+namespace Hexagon.Software.NCGage.HelperLib
 {
   public static class Helpers
   {
@@ -71,6 +73,68 @@ namespace WPF.Helper
         sourceList.ForEach(p => sb.Append(p.ToString()));
       }
       return sb.ToString();
+    }
+
+    public static void RaiseTextInputEvent(UIElement element, string text)
+    {
+      if (element == null)
+        return;
+
+      InputManager inputManager = InputManager.Current;
+      InputDevice inputDevice = inputManager.PrimaryKeyboardDevice;
+      TextComposition composition = new TextComposition(inputManager, element, text);
+      TextCompositionEventArgs args = new TextCompositionEventArgs(inputDevice, composition);
+      args.RoutedEvent = UIElement.PreviewTextInputEvent;
+      element.RaiseEvent(args);
+      args.RoutedEvent = UIElement.TextInputEvent;
+      element.RaiseEvent(args);
+    }
+
+    public static int GetCount(String strSource, String pattern)
+    {
+      return String.IsNullOrWhiteSpace(strSource) ? 0 : Regex.Matches(strSource, pattern).OfType<Match>().Count();
+    }
+    public static Boolean IsNumericValue(String strValue)
+    {
+      return Regex.IsMatch(strValue, @"^-?\d+\.?\d*$");
+    }
+    public static String GetSubExpression(String strExpression, bool checkCount = true)
+    {
+      if (String.IsNullOrWhiteSpace(strExpression))
+        return null;
+
+      var leftIndexs = Regex.Matches(strExpression, @"[([{]").OfType<Match>().Select(m => m.Index).ToList();
+      var rightIndexs = Regex.Matches(strExpression, @"[)\]}]").OfType<Match>().Select(m => m.Index).ToList();
+      if (checkCount && leftIndexs.Count != rightIndexs.Count)
+        return null;
+
+      var stopIndexs = rightIndexs.Where((r, index) => leftIndexs.Count(l => l < r) == (index + 1));
+      return stopIndexs.Any() ? strExpression.Substring(0, stopIndexs.FirstOrDefault() + 1) : strExpression;
+    }
+    public static String GetLastSubExpression(String strExpression)
+    {
+      var index = GetLastSubExpressionIndex(strExpression);
+      return index != -1 ? strExpression.Substring(index) : null;
+    }
+    public static Int32 GetLastSubExpressionIndex(String strExpression)
+    {
+      if (String.IsNullOrWhiteSpace(strExpression))
+        return -1;
+
+      var leftIndexs = Regex.Matches(strExpression, @"[([{]").OfType<Match>().Select(m => m.Index).ToList();
+      var rightIndexs = Regex.Matches(strExpression, @"[)\]}]").OfType<Match>().Select(m => m.Index).ToList();
+      if (!leftIndexs.Any() || !rightIndexs.Any())
+        return -1;
+
+      var iEnd = rightIndexs.LastOrDefault();
+      var stopIndexs = leftIndexs.Where((i) => rightIndexs.Count(r => r >= i && r <= iEnd) == leftIndexs.Count(l => l >= i && l <= iEnd));
+      return stopIndexs.Any() ? stopIndexs.FirstOrDefault() : -1;
+    }
+    public static String GetValueString(Nullable<Double> value, Int32 decimals = 4)
+    {
+      if (value == null || Double.IsNaN(value.Value))
+        return String.Empty;
+      return String.Format("{0:F" + decimals.ToString() + "}", value);
     }
   }
 }

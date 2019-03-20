@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using WPF.Helper;
+using Hexagon.Software.NCGage.HelperLib;
 
-namespace WPF.UserControls
+namespace Hexagon.Software.NCGage.UserControls
 {
   public partial class CalculatorKeyboard : UserControl, INotifyPropertyChanged
   {
@@ -15,17 +14,18 @@ namespace WPF.UserControls
       this.ViewModel = this.DataContext as CalculatorKeyboardViewModel;
       this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
-      OnButtonSizeChanged();
+      this.UpdateDisplayScreenSize();
+      this.UpdateButtonFontSize();
     }
 
-    private void OnButtonSizeChanged()
-    {
-      this.UpdateDisplayScreenSize();
-      this.ButtonFontSize = (Int32)(this.ButtonSize / 3);
-    }
     private void UpdateDisplayScreenSize()
     {
-      this.DisplayScreenWidth = this.ButtonSize * (this.ViewModel.KeyboardMode == KeyboardModes.Calculator ? 9 : 4) + 16;
+      var columns = this.ViewModel.KeyboardMode == KeyboardModes.Calculator ? 9 : 4;
+      this.DisplayScreenWidth = this.ButtonSize * columns + this.ButtonMargin * 2 * (columns - 1);
+    }
+    private void UpdateButtonFontSize()
+    {
+      this.ButtonFontSize = (Int32)(this.ButtonSize / 3);
     }
 
     private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -39,15 +39,27 @@ namespace WPF.UserControls
     }
     private void btnCLR_Click(object sender, RoutedEventArgs e)
     {
-      if (this.TargetElement != null)
-        this.TargetElement.Clear();
+      if (this.InputTarget != null)
+        this.InputTarget.Clear();
     }
     private void btnEnter_Click(object sender, RoutedEventArgs e)
     {
-      if (this.TargetElement != null)
-        this.TargetElement.Text = this.ViewModel.InputValue;
+      if(this.InputTarget != null)
+      {
+        this.InputTarget.Clear();
+        Helpers.RaiseTextInputEvent(this.InputTarget, this.ViewModel.InputValue);
+      }
     }
 
+    private void OnButtonSizeChanged()
+    {
+      this.UpdateDisplayScreenSize();
+      this.UpdateButtonFontSize();
+    }
+    private void OnButtonMarginChanged()
+    {
+      this.UpdateDisplayScreenSize();
+    }
     private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       if (e.PropertyName == nameof(ViewModel.KeyboardMode))
@@ -102,6 +114,13 @@ namespace WPF.UserControls
     #endregion
 
     #region Dependency Properties
+    public TextBox InputTarget
+    {
+      get { return (TextBox)GetValue(InputTargetProperty); }
+      set { SetValue(InputTargetProperty, value); }
+    }
+    public static readonly DependencyProperty InputTargetProperty = DependencyProperty.Register("InputTarget", typeof(TextBox), typeof(CalculatorKeyboard), new PropertyMetadata(null));
+
     public double ButtonSize
     {
       get { return (Double)GetValue(ButtonSizeProperty); }
@@ -115,12 +134,18 @@ namespace WPF.UserControls
         control.OnButtonSizeChanged();
     }
 
-    public TextBox TargetElement
+    public double ButtonMargin
     {
-      get { return (TextBox)GetValue(TargetElementProperty); }
-      set { SetValue(TargetElementProperty, value); }
+      get { return (double)GetValue(ButtonMarginProperty); }
+      set { SetValue(ButtonMarginProperty, value); }
     }
-    public static readonly DependencyProperty TargetElementProperty = DependencyProperty.Register("TargetElement", typeof(TextBox), typeof(CalculatorKeyboard), new PropertyMetadata(null));
+    public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(CalculatorKeyboard), new PropertyMetadata(1.0, new PropertyChangedCallback(OnButtonMarginChanged)));
+    private static void OnButtonMarginChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      var control = d as CalculatorKeyboard;
+      if (control != null)
+        control.OnButtonMarginChanged();
+    }
 
     public bool IsPin
     {

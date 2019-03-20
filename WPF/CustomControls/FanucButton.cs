@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WPF.CustomControls
+namespace Hexagon.Software.NCGage.CustomControls
 {
   [TemplatePart(Name = Part_BorderPath, Type = typeof(Path))]
   [TemplatePart(Name = PART_TrianglePath, Type = typeof(Path))]

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace WPF.Helper
+namespace Hexagon.Software.NCGage.HelperLib
 {
   public abstract class CommandBase : ICommand
   {

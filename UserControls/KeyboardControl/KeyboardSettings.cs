@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
-using WPF.Helper;
+using Hexagon.Software.NCGage.HelperLib;
 
-namespace WPF.UserControls
+namespace Hexagon.Software.NCGage.UserControls
 {
   public class KeyboardSettings : NotifyPropertyChanged
   {

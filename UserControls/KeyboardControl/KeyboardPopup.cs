@@ -2,17 +2,18 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using WPF.Helper;
+using Hexagon.Software.NCGage.HelperLib;
 
-namespace WPF.UserControls
+namespace Hexagon.Software.NCGage.UserControls
 {
   public class KeyboardPopup : PopupEx
   {
     public KeyboardPopup()
     {
       var keyboard = new CalculatorKeyboard();
+      keyboard.SetBinding(CalculatorKeyboard.InputTargetProperty, new Binding("InputTarget") { Source = this });
       keyboard.SetBinding(CalculatorKeyboard.ButtonSizeProperty, new Binding("ButtonSize") { Source = this });
-      keyboard.SetBinding(CalculatorKeyboard.TargetElementProperty, new Binding("TargetElement") { Source = this });
+      keyboard.SetBinding(CalculatorKeyboard.ButtonMarginProperty, new Binding("ButtonMargin") { Source = this });
       keyboard.Closed += Keyboard_Closed;
 
       this.Child = keyboard;
@@ -47,13 +48,6 @@ namespace WPF.UserControls
     }
 
     #region Dependency Properties
-    public double ButtonSize
-    {
-      get { return (Double)GetValue(ButtonSizeProperty); }
-      set { SetValue(ButtonSizeProperty, value); }
-    }
-    public static readonly DependencyProperty ButtonSizeProperty = DependencyProperty.Register("ButtonSize", typeof(double), typeof(KeyboardPopup), new PropertyMetadata(50.0));
-
     public TextBox InputTarget
     {
       get { return (TextBox)GetValue(InputTargetProperty); }
@@ -66,6 +60,20 @@ namespace WPF.UserControls
       if (popup != null)
         popup.OnInputTargetChanged(e.OldValue as TextBox, e.NewValue as TextBox);
     }
+
+    public double ButtonSize
+    {
+      get { return (Double)GetValue(ButtonSizeProperty); }
+      set { SetValue(ButtonSizeProperty, value); }
+    }
+    public static readonly DependencyProperty ButtonSizeProperty = DependencyProperty.Register("ButtonSize", typeof(double), typeof(KeyboardPopup), new PropertyMetadata(50.0));
+
+    public double ButtonMargin
+    {
+      get { return (double)GetValue(ButtonMarginProperty); }
+      set { SetValue(ButtonMarginProperty, value); }
+    }
+    public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(KeyboardPopup), new PropertyMetadata(1.0));
 
     #endregion
   }

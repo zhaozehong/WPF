@@ -64,7 +64,6 @@
       <DependentUpon>PersonalityTypeResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\NotifyPropertyChanged.cs" />
     <Compile Include="ViewModel\PersonalityTypeViewModel.cs" />
     <Compile Include="ViewModel\PersonItemViewModel.cs" />
     <Compile Include="Window1.xaml.cs">

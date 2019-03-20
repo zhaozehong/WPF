@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using WPF.Model;
-using JM.Software.WPF;
+﻿using System.Collections.Generic;
 
-namespace WPF.ViewModel
+namespace JM.Software.WPF
 {
   class PersonalityTypeViewModel
   {

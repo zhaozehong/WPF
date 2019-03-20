@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WPF.Helper;
+using Hexagon.Software.NCGage.HelperLib;
 
-namespace WPF.UserControls
+namespace Hexagon.Software.NCGage.UserControls
 {
   public class KeyboardButton : ContentControl, ICommandSource
   {
@@ -16,34 +15,10 @@ namespace WPF.UserControls
       DefaultStyleKeyProperty.OverrideMetadata(typeof(KeyboardButton), new FrameworkPropertyMetadata(typeof(KeyboardButton)));
     }
 
-    public Boolean Handle(List<InputInfo> recordList)
+    public Boolean Handle(List<InputInfo> recordList, string preValue)
     {
       if (recordList == null)
         return false;
-
-      var lastInput = recordList.LastOrDefault();
-      if (NeedReturn(lastInput))
-        return true;
-
-      if (NeedDeleteLastInput(lastInput))
-      {
-        if (recordList.Count > 1)
-        {
-          var llastInput = recordList[recordList.Count - 2];
-          if (KeyboardHelper.IsOperatorKey(this.Key) && lastInput.Key == KeyboardKeys.O_Substract && (!llastInput.IsDigit && !llastInput.IsRightBracket && !llastInput.IsPoint))
-            return true;
-        }
-        recordList.RemoveAt(recordList.Count - 1);
-        lastInput = recordList.LastOrDefault();
-      }
-
-      String preValue = null;
-      if (NeedAddMultiply(lastInput))
-        preValue += "*";
-      if (NeedAddZero(lastInput))
-        preValue += "0";
-      if (NeedAddMultiplyZero(lastInput))
-        preValue += "*0";
 
       String value = null;
       switch (this.Key)
@@ -60,6 +35,7 @@ namespace WPF.UserControls
         case KeyboardKeys.D_D9:
           value = this.Key.ToString().Last().ToString();
           break;
+
         case KeyboardKeys.Point:
           value = ".";
           break;
@@ -76,6 +52,12 @@ namespace WPF.UserControls
         case KeyboardKeys.O_Divide:
           value = "/";
           break;
+        case KeyboardKeys.O_Mod:
+          value = "%";
+          break;
+        case KeyboardKeys.O_Square:
+          value = "^";
+          break;
 
         case KeyboardKeys.PI:
           value = String.Format("{0:F4}", Math.PI);
@@ -88,6 +70,10 @@ namespace WPF.UserControls
         case KeyboardKeys.F_Tan:
         case KeyboardKeys.F_In:
         case KeyboardKeys.F_Sqrt:
+        case KeyboardKeys.F_ASin:
+        case KeyboardKeys.F_ACos:
+        case KeyboardKeys.F_ATan:
+        case KeyboardKeys.F_Exp:
           value = String.Format("{0}(", Key.ToString().Substring(2));
           break;
         case KeyboardKeys.LeftBracket:
@@ -99,22 +85,21 @@ namespace WPF.UserControls
 
         case KeyboardKeys.Backspace:
         case KeyboardKeys.C:
-          recordList.RemoveAt(recordList.Count - 1);
+          var lastValue = recordList.LastOrDefault();
+          if (lastValue != null)
+          {
+            if (lastValue.Value == "2" && lastValue.Previous != null && lastValue.Previous.Value == "^")
+              recordList.RemoveAt(recordList.Count - 1);
+            recordList.RemoveAt(recordList.Count - 1);
+          }
           break;
         case KeyboardKeys.AC:
           recordList.Clear();
           break;
 
-        case KeyboardKeys.Equal:
+        case KeyboardKeys.None:
         case KeyboardKeys.Enter:
-          var text = Helpers.ListToValue(recordList.Select(p => p.Value).ToList());
-          var count = text.Split('(').Length - text.Split(')').Length;
-          if (count < 0)
-            return false;
-          if (count > 0)
-            value = new string(')', count);
-          break;
-
+        case KeyboardKeys.Equal:
         case KeyboardKeys.SWITCH:
         case KeyboardKeys.Pin:
         case KeyboardKeys.CLR:
@@ -124,8 +109,11 @@ namespace WPF.UserControls
         case KeyboardKeys.Close:
           break;
       }
-      if (value != null)
-        recordList.Add(new InputInfo(lastInput, this.Key, String.Format("{0}{1}", preValue, value)));
+      value = String.Format("{0}{1}", preValue, value);
+      if (!String.IsNullOrWhiteSpace(value))
+        recordList.Add(new InputInfo(recordList.LastOrDefault(), this.Key, value));
+      if (this.Key == KeyboardKeys.O_Square)
+        recordList.Add(new InputInfo(recordList.LastOrDefault(), KeyboardKeys.D_D2, "2"));
 
       return true;
     }
@@ -187,64 +175,6 @@ namespace WPF.UserControls
       else
         Command.Execute(CommandParameter);
     }
-
-    #region input rules
-    private Boolean NeedReturn(InputInfo lastInput)
-    {
-      if (lastInput == null)
-        return (KeyboardHelper.IsOperatorKey(this.Key) && this.Key != KeyboardKeys.O_Substract) || KeyboardHelper.IsRightBracketKey(this.Key);
-
-      var llastInput = lastInput.Previous;
-      if (llastInput != null)
-        if (KeyboardHelper.IsOperatorKey(this.Key) && lastInput.Key == KeyboardKeys.O_Substract && (!llastInput.IsDigit && !llastInput.IsRightBracket && !llastInput.IsPoint))
-          return true;
-
-      if (lastInput.IsOperator && (KeyboardHelper.IsSubmitKey(this.Key) || KeyboardHelper.IsRightBracketKey(this.Key)))
-        return true;
-
-      if ((lastInput.IsFunction || lastInput.IsLeftBracket) && ((KeyboardHelper.IsOperatorKey(this.Key) && this.Key != KeyboardKeys.O_Substract) || KeyboardHelper.IsRightBracketKey(this.Key) || KeyboardHelper.IsSubmitKey(this.Key)))
-        return true;
-
-      if (lastInput.IsPoint && KeyboardHelper.IsPointKey(this.Key))
-        return true;
-
-      return false;
-    }
-    private Boolean NeedDeleteLastInput(InputInfo lastInput)
-    {
-      if (lastInput != null && lastInput.IsOperator && (KeyboardHelper.IsOperatorKey(this.Key) || KeyboardHelper.IsSubmitKey(this.Key)))
-        return true;
-      return false;
-    }
-    private Boolean NeedAddMultiply(InputInfo lastInput)
-    {
-      if (lastInput != null)
-      {
-        if (lastInput.IsDigit && (KeyboardHelper.IsFunctionKey(this.Key) || KeyboardHelper.IsLeftBracketKey(this.Key)))
-          return true;
-
-        if (lastInput.IsRightBracket && (KeyboardHelper.IsDigitKey(this.Key) || KeyboardHelper.IsFunctionKey(this.Key) || KeyboardHelper.IsLeftBracketKey(this.Key)))
-          return true;
-
-        if (lastInput.IsPoint && (KeyboardHelper.IsFunctionKey(this.Key) || KeyboardHelper.IsLeftBracketKey(this.Key)))
-          return true;
-      }
-      return false;
-    }
-    private Boolean NeedAddZero(InputInfo lastInput)
-    {
-      if (KeyboardHelper.IsPointKey(this.Key))
-        return lastInput == null || lastInput.IsOperator || lastInput.IsFunction || lastInput.IsLeftBracket;
-      return false;
-    }
-    private Boolean NeedAddMultiplyZero(InputInfo lastInput)
-    {
-      if (lastInput != null && lastInput.IsRightBracket && KeyboardHelper.IsPointKey(this.Key))
-        return true;
-      return false;
-    }
-
-    #endregion
 
     #region Events
     private static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(KeyboardButton));

@@ -1,22 +1,29 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:WPF.UserControls">
+                    xmlns:local="clr-namespace:Hexagon.Software.NCGage.UserControls"
+                    xmlns:helperLib="clr-namespace:Hexagon.Software.NCGage.HelperLib">
+  <helperLib:DoubleToThicknessConverter x:Key="DoubleToThickness"/>
+
   <Style x:Key="KeyboardButtonStyle" TargetType="{x:Type local:KeyboardButton}">
-    <Setter Property="Margin" Value="1"/>
+    <Setter Property="Margin" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:CalculatorKeyboard}}, Path=ButtonMargin, Converter={StaticResource DoubleToThickness}}"/>
     <Setter Property="Command" Value="{Binding ButtonCommand}"/>
     <Setter Property="CommandParameter" Value="{Binding RelativeSource={x:Static RelativeSource.Self}}"/>
   </Style>
   <Style x:Key="DisplayScreenStyle" TargetType="TextBox">
-    <Setter Property="Height" Value="50"/>
+    <Setter Property="MinHeight" Value="50"/>
+    <Setter Property="MaxHeight" Value="100"/>
     <Setter Property="FontSize" Value="25"/>
     <Setter Property="FontWeight" Value="Bold"/>
     <Setter Property="Margin" Value="1,2"/>
     <Setter Property="Padding" Value="0,2"/>
     <Setter Property="Background" Value="White"/>
+    <Setter Property="TextWrapping" Value="NoWrap"/>
+    <!--<Setter Property="TextWrapping" Value="Wrap"/>
     <Setter Property="AcceptsReturn" Value="True"/>
-    <Setter Property="TextWrapping" Value="Wrap"/>
+    <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>-->
     <Setter Property="HorizontalContentAlignment" Value="Right"/>
     <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalAlignment" Value="Stretch"/>
     <Setter Property="IsHitTestVisible" Value="False"/>
     <Setter Property="Text" Value="{Binding InputValue, Mode=TwoWay}"/>
   </Style>

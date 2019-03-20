@@ -3,11 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:userControls="clr-namespace:WPF.UserControls;assembly=UserControls"
+        xmlns:userControls="clr-namespace:Hexagon.Software.NCGage.UserControls;assembly=UserControls"
         mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Width="30" Height="30"
         Title="Window2">
   <!--<Grid Background="Black">
-    <userControls:CalculatorKeyboard ButtonSize="60"/>
+    <userControls:CalculatorKeyboard ButtonSize="60" ButtonMargin="15"/>
   </Grid>-->
   <Grid Background="Black">
     <Grid.RowDefinitions>
@@ -20,7 +20,7 @@
     <TextBox Grid.Row="2" Name="tbInput1"/>
     <TextBox Grid.Row="3" Name="tbInput2"/>
     
-    <userControls:KeyboardPopup Placement="Right"
+    <userControls:KeyboardPopup Placement="Right" ButtonSize="100"
                                 PlacementTarget="{Binding ElementName=tbInput1}"
                                 InputTarget="{Binding ElementName=tbInput1}"/>
     <userControls:KeyboardPopup Placement="Right"

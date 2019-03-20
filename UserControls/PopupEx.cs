@@ -5,7 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace WPF.UserControls
+namespace Hexagon.Software.NCGage.UserControls
 {
   public class PopupEx : Popup
   {

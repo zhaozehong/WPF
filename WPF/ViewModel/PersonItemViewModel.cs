@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WPF.Model;
+using Hexagon.Software.NCGage.HelperLib;
 
-namespace WPF.ViewModel
+namespace JM.Software.WPF
 {
   public class PersonItemViewModel : NotifyPropertyChanged, IEditableObject, IDataErrorInfo
   {
@@ -28,7 +24,7 @@ namespace WPF.ViewModel
         if (_model.FirstName != value)
         {
           _model.FirstName = value;
-          OnPropertyChanged(() => FirstName);
+          this.RaisePropertyChanged(() => FirstName);
         }
       }
     }
@@ -40,7 +36,7 @@ namespace WPF.ViewModel
         if (_model.LastName != value)
         {
           _model.LastName = value;
-          OnPropertyChanged(() => LastName);
+          this.RaisePropertyChanged(() => LastName);
         }
       }
     }
@@ -52,7 +48,7 @@ namespace WPF.ViewModel
         if (_model.IsHungry != value)
         {
           _model.IsHungry = value;
-          OnPropertyChanged(() => IsHungry);
+          this.RaisePropertyChanged(() => IsHungry);
         }
       }
     }
@@ -64,7 +60,7 @@ namespace WPF.ViewModel
         if (_model.Personality != value)
         {
           _model.Personality = value;
-          OnPropertyChanged(() => Personality);
+          this.RaisePropertyChanged(() => Personality);
         }
       }
     }
@@ -76,7 +72,7 @@ namespace WPF.ViewModel
         if (_model.WebSite != value)
         {
           _model.WebSite = value;
-          OnPropertyChanged(() => WebSite);
+          this.RaisePropertyChanged(() => WebSite);
         }
       }
     }
@@ -115,11 +111,11 @@ namespace WPF.ViewModel
         _model = _oldValue;
         _oldValue = null;
 
-        OnPropertyChanged(() => FirstName);
-        OnPropertyChanged(() => LastName);
-        OnPropertyChanged(() => IsHungry);
-        OnPropertyChanged(() => Personality);
-        OnPropertyChanged(() => WebSite);
+        this.RaisePropertyChanged(() => FirstName);
+        this.RaisePropertyChanged(() => LastName);
+        this.RaisePropertyChanged(() => IsHungry);
+        this.RaisePropertyChanged(() => Personality);
+        this.RaisePropertyChanged(() => WebSite);
       }
     }
     public void EndEdit()

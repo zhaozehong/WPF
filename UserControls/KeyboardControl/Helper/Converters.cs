@@ -2,8 +2,9 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using System.Linq;
 
-namespace WPF.Helper
+namespace Hexagon.Software.NCGage.HelperLib
 {
   public sealed class EnumToVisibilityConverter : IValueConverter
   {
@@ -86,4 +87,54 @@ namespace WPF.Helper
       }
     }
   }
+  public sealed class DoubleToThicknessConverter : IValueConverter
+  {
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      try
+      {
+        return new Thickness((value != null && (value is double)) ? (double)value : 0);
+      }
+      catch (Exception)
+      {
+        return null;
+      }
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      try
+      {
+        if (value == null || !(value is Thickness))
+          return 0;
+        var thickness = (Thickness)value;
+        var sd = new double[] { thickness.Left, thickness.Right, thickness.Top, thickness.Bottom };
+        return sd.Average();
+      }
+      catch (Exception)
+      {
+        return false;
+      }
+    }
+  }
+  public sealed class IsNumericConverter : IValueConverter
+  {
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      try
+      {
+        if (value == null)
+          return false;
+        return Helpers.IsNumericValue(value.ToString());
+      }
+      catch (Exception)
+      {
+        return null;
+      }
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      return 0.0;
+    }
+  }
+
 }

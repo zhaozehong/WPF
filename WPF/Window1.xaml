@@ -1,10 +1,10 @@
-﻿<Window x:Class="WPF.Window1" x:Name="Self"
+﻿<Window x:Class="JM.Software.WPF.Window1" x:Name="Self"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:customControls="clr-namespace:WPF.CustomControls"
-        xmlns:userControls="clr-namespace:WPF.UserControls;assembly=UserControls"
+        xmlns:customControls="clr-namespace:Hexagon.Software.NCGage.CustomControls"
+        xmlns:userControls="clr-namespace:Hexagon.Software.NCGage.UserControls;assembly=UserControls"
         mc:Ignorable="d" SizeToContent="WidthAndHeight"
         Title="Window1">
   <Grid Background="Black" Margin="10" DataContext="{Binding ElementName=Self, Path=ViewModel}">

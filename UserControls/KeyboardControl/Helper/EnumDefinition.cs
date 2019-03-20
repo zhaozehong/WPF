@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace WPF.UserControls
+namespace Hexagon.Software.NCGage.HelperLib
 {
   public enum KeyboardKeys
   {
@@ -27,6 +25,9 @@ namespace WPF.UserControls
     O_Substract,
     O_Multiply,
     O_Divide,
+    O_Mod,
+    O_Square,
+
 
     // Function
     F_Abs,
@@ -39,7 +40,27 @@ namespace WPF.UserControls
     F_ACos,
     F_ATan,
     F_Exp,
-    F_Square,
+    // Extra Functions ////////
+    F_Ceiling,
+    F_Floor,
+    F_Truncate,
+    F_Sign,
+    F_Log,
+    F_Log10,
+    F_Sinh,
+    F_Cosh,
+    F_Tanh,
+    //Complex
+    F_Max,
+    F_Min,
+    F_Average,
+    F_Ave,
+    F_Sum,
+    F_Pow,
+    F_Atan2,
+    F_LogX,
+    F_IEEERemainder,
+    ///////////////////////////
 
     LeftBracket,
     RightBracket,
@@ -81,6 +102,10 @@ namespace WPF.UserControls
     {
       return key == KeyboardKeys.Equal || key == KeyboardKeys.Enter;
     }
+    public static Boolean IsEqualKey(KeyboardKeys key)
+    {
+      return key == KeyboardKeys.Equal || key == KeyboardKeys.Enter;
+    }
     public static Boolean IsPointKey(KeyboardKeys key)
     {
       return key == KeyboardKeys.Point;
@@ -93,5 +118,6 @@ namespace WPF.UserControls
     {
       return key == KeyboardKeys.RightBracket;
     }
+    public static List<String> FunctionNames = Enum.GetNames(typeof(KeyboardKeys)).Where(p => p.StartsWith("F_")).Select(p => p.Substring(2)).ToList();
   }
 }
