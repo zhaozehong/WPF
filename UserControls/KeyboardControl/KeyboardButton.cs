@@ -60,7 +60,7 @@ namespace Hexagon.Software.NCGage.UserControls
           break;
 
         case KeyboardKeys.PI:
-          value = String.Format("{0:F4}", Math.PI);
+          value = String.Format("{0:F7}", Math.PI);
           break;
 
         // functions
@@ -68,7 +68,7 @@ namespace Hexagon.Software.NCGage.UserControls
         case KeyboardKeys.F_Sin:
         case KeyboardKeys.F_Cos:
         case KeyboardKeys.F_Tan:
-        case KeyboardKeys.F_In:
+        case KeyboardKeys.F_ln:
         case KeyboardKeys.F_Sqrt:
         case KeyboardKeys.F_ASin:
         case KeyboardKeys.F_ACos:
@@ -96,7 +96,10 @@ namespace Hexagon.Software.NCGage.UserControls
         case KeyboardKeys.AC:
           recordList.Clear();
           break;
-
+        case KeyboardKeys.M2I:
+        case KeyboardKeys.I2M:
+          recordList.Add(new InputInfo(recordList.LastOrDefault(), this.Key, null));
+          return true;
         case KeyboardKeys.None:
         case KeyboardKeys.Enter:
         case KeyboardKeys.Equal:
@@ -104,8 +107,7 @@ namespace Hexagon.Software.NCGage.UserControls
         case KeyboardKeys.Pin:
         case KeyboardKeys.CLR:
         case KeyboardKeys.Inv:
-        case KeyboardKeys.M2I:
-        case KeyboardKeys.I2M:
+
         case KeyboardKeys.Close:
           break;
       }
@@ -252,6 +254,7 @@ namespace Hexagon.Software.NCGage.UserControls
       this.IsPoint = KeyboardHelper.IsPointKey(this.Key);
       this.IsLeftBracket = KeyboardHelper.IsLeftBracketKey(this.Key);
       this.IsRightBracket = KeyboardHelper.IsRightBracketKey(this.Key);
+      this.IsUnitConverter = KeyboardHelper.IsUnitConverterKey(this.Key);
     }
 
     public InputInfo Previous { get; private set; }
@@ -265,5 +268,6 @@ namespace Hexagon.Software.NCGage.UserControls
     public Boolean IsPoint { get; private set; }
     public Boolean IsLeftBracket { get; private set; }
     public Boolean IsRightBracket { get; private set; }
+    public Boolean IsUnitConverter { get; private set; }
   }
 }

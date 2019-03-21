@@ -50,24 +50,31 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KeyboardControl\Calculation\ComputeUnit\ComplexUnit.cs" />
-    <Compile Include="KeyboardControl\Calculation\ComputeUnit\ComputeUnit.cs" />
-    <Compile Include="KeyboardControl\Calculation\ComputeUnit\NumericUnit.cs" />
-    <Compile Include="KeyboardControl\Calculation\ComputeUnit\SimpleUnit.cs" />
-    <Compile Include="KeyboardControl\Calculation\Interfaces\IComputeUnit.cs" />
-    <Compile Include="KeyboardControl\Calculation\Interfaces\IExpression.cs" />
-    <Compile Include="KeyboardControl\Calculation\NumericCalculator.cs" />
+    <Compile Include="CursorSetter.cs" />
+    <Compile Include="Extensions\DispatcherObjectExternsion.cs" />
+    <Compile Include="IdleHandler.cs" />
+    <Compile Include="Calculation\ComputeUnit\ComplexUnit.cs" />
+    <Compile Include="Calculation\ComputeUnit\ComputeUnit.cs" />
+    <Compile Include="Calculation\ComputeUnit\NumericUnit.cs" />
+    <Compile Include="Calculation\ComputeUnit\SimpleUnit.cs" />
+    <Compile Include="Calculation\Interfaces\IComputeUnit.cs" />
+    <Compile Include="Calculation\Interfaces\IExpression.cs" />
+    <Compile Include="Calculation\NumericCalculator.cs" />
     <Compile Include="KeyboardControl\CalculatorKeyboard.xaml.cs">
       <DependentUpon>CalculatorKeyboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="KeyboardControl\CalculatorKeyboardViewModel.cs" />
     <Compile Include="KeyboardControl\Helper\Converters.cs" />
     <Compile Include="KeyboardControl\Helper\EnumDefinition.cs" />
+    <Compile Include="KeyboardControl\Helper\ExceptionHandler\DefaultExceptionManager.cs" />
+    <Compile Include="KeyboardControl\Helper\ExceptionHandler\ExceptionHandler.cs" />
+    <Compile Include="KeyboardControl\Helper\ExceptionHandler\IExceptionManager.cs" />
     <Compile Include="KeyboardControl\Helper\Helper.cs" />
     <Compile Include="KeyboardControl\Helper\NotifyPropertyChanged.cs" />
     <Compile Include="KeyboardControl\Helper\RelayCommand.cs" />
     <Compile Include="KeyboardControl\KeyboardButton.cs" />
     <Compile Include="KeyboardControl\KeyboardSettings.cs" />
+    <Compile Include="WindowsManager.cs" />
     <Page Include="KeyboardControl\CalculatorKeyboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -80,6 +87,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MessageBoxEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -87,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KeyboardControl\KeyboardPopup.cs" />
+    <Compile Include="MessageBoxEx.xaml.cs">
+      <DependentUpon>MessageBoxEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OS\Enums.cs" />
+    <Compile Include="OS\structs.cs" />
+    <Compile Include="OS\Win32.cs" />
     <Compile Include="PopupEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -110,15 +127,20 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Resource Include="KeyboardControl\Resources\Backspace.png" />
+    <Resource Include="KeyboardControl\Resources\Images\Warning.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="KeyboardControl\Resources\Pin.png" />
+    <Resource Include="KeyboardControl\Resources\Images\Backspace.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="KeyboardControl\Resources\Enter.png" />
+    <Resource Include="KeyboardControl\Resources\Images\Pin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="KeyboardControl\Resources\Images\Enter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="KeyboardControl\Resources\Icons\NCGage.icon" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

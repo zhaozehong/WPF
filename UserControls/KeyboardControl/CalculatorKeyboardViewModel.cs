@@ -12,10 +12,10 @@ namespace Hexagon.Software.NCGage.UserControls
   {
     public CalculatorKeyboardViewModel()
     {
-      this.ButtonCommand = new RelayCommand(UpdateValue);
+      this.ButtonCommand = new RelayCommand(Update);
     }
 
-    protected void UpdateValue(object parameter)
+    protected void Update(object parameter)
     {
       var button = parameter as KeyboardButton;
       if (button == null)
@@ -37,14 +37,7 @@ namespace Hexagon.Software.NCGage.UserControls
           case KeyboardKeys.CLR:
           case KeyboardKeys.Enter:
             break;
-          case KeyboardKeys.M2I:
-            // update InputValue
-            break;
-          case KeyboardKeys.I2M:
-            // update InputValue
-            break;
 
-          case KeyboardKeys.Equal:
           default:
             try
             {
@@ -54,13 +47,16 @@ namespace Hexagon.Software.NCGage.UserControls
             }
             finally
             {
-              this.InputValue = Helpers.ListToValue(_inputList.Select(p => p.Value).ToList());
+              this.InputValue = ConvertInputListToString();
               if (button.Key == KeyboardKeys.Equal)
               {
                 var convertedInputValue = GetConvertedInputValue();
                 var expressionUnit = NumericCalculator.Parse(convertedInputValue);
-                this.InputValue = Helpers.GetValueString(expressionUnit != null ? expressionUnit.Compute() : Double.NaN, 0);
+                var computeResult = expressionUnit != null ? expressionUnit.Compute(AngleUnits.Degree) : Double.NaN;
+                this.InputValue = Double.IsNaN(computeResult) ? "Error" : computeResult.ToString();
                 this._inputList.Clear();
+                if (!this.IsResetAfterCalculation)
+                  this._inputList.Add(new InputInfo(null, KeyboardKeys.D_Flag, this.InputValue));
               }
             }
             break;
@@ -69,6 +65,30 @@ namespace Hexagon.Software.NCGage.UserControls
       catch (Exception) { }
     }
 
+    private String ConvertInputListToString()
+    {
+      try
+      {
+        var iCurrent = _inputList.FindIndex(p => KeyboardHelper.IsUnitConverterKey(p.Key));
+        if (iCurrent == -1)
+          return Helpers.ListToValue(_inputList.Select(p => p.Value).ToList());
+
+        int iLast = 0;
+        var tempList = new List<String>();
+        while (iCurrent != -1)
+        {
+          tempList.Add(String.Format("{0}({1})", _inputList[iCurrent].Key, Helpers.ListToValue(_inputList.GetRange(iLast, iCurrent - iLast).Select(p => p.Value).ToList())));
+
+          iLast = iCurrent + 1;
+          iCurrent = _inputList.FindIndex(iLast, p => KeyboardHelper.IsUnitConverterKey(p.Key));
+        }
+        return Helpers.ListToValue(tempList);
+      }
+      catch (Exception)
+      {
+        return null;
+      }
+    }
     private String GetConvertedInputValue()
     {
       var retValue = Regex.Replace(this.InputValue, " ", "");
@@ -109,13 +129,14 @@ namespace Hexagon.Software.NCGage.UserControls
           iStart -= match.Value.Length;
         }
 
+        iEnd = iPow;
         var strRight = retValue.Substring(iPow + 1);
         if (strRight.StartsWith("(") || KeyboardHelper.FunctionNames.Any(p => strRight.StartsWith(p)))
         {
           var sub = Helpers.GetSubExpression(strRight, false);
           if (sub == null)
             return null; // the input string is an invalid expression
-          iEnd = iPow + sub.Length;
+          iEnd += sub.Length;
         }
         else // must be numeric value
         {
@@ -138,6 +159,7 @@ namespace Hexagon.Software.NCGage.UserControls
       }
       return retValue;
     }
+
     #region check input rules
     public Boolean CheckRules(KeyboardKeys key, out string preValue)
     {
@@ -182,7 +204,8 @@ namespace Hexagon.Software.NCGage.UserControls
     private Boolean NeedReturn(KeyboardKeys key)
     {
       var lastInput = _inputList.LastOrDefault();
-      if ((lastInput == null || lastInput.IsFunction || lastInput.IsLeftBracket) && ((KeyboardHelper.IsOperatorKey(key) && key != KeyboardKeys.O_Substract) || KeyboardHelper.IsEqualKey(key) || KeyboardHelper.IsRightBracketKey(key)))
+      if ((lastInput == null || lastInput.IsFunction || lastInput.IsLeftBracket) &&
+        ((KeyboardHelper.IsOperatorKey(key) && key != KeyboardKeys.O_Substract) || KeyboardHelper.IsEqualKey(key) || KeyboardHelper.IsRightBracketKey(key) || KeyboardHelper.IsUnitConverterKey(key)))
         return true;
 
       if (lastInput != null)
@@ -194,7 +217,9 @@ namespace Hexagon.Software.NCGage.UserControls
 
         if (lastInput.IsPoint && KeyboardHelper.IsPointKey(key))
           return true;
-        if (lastInput.IsOperator && (KeyboardHelper.IsEqualKey(key) || KeyboardHelper.IsRightBracketKey(key)))
+        if (lastInput.IsOperator && (KeyboardHelper.IsEqualKey(key) || KeyboardHelper.IsRightBracketKey(key) || KeyboardHelper.IsUnitConverterKey(key)))
+          return true;
+        if (lastInput.IsUnitConverter && (KeyboardHelper.IsRightBracketKey(key) || KeyboardHelper.IsUnitConverterKey(key)))
           return true;
         if ((lastInput.IsDigit || lastInput.IsPoint || lastInput.IsRightBracket) && KeyboardHelper.IsRightBracketKey(key))
         {
@@ -212,14 +237,14 @@ namespace Hexagon.Software.NCGage.UserControls
       if (lastInput == null)
         return false;
 
-      if (lastInput.IsRightBracket && KeyboardHelper.IsDigitKey(key))
+      if ((lastInput.IsRightBracket || lastInput.IsUnitConverter) && KeyboardHelper.IsDigitKey(key))
         return true;
-      return (lastInput.IsDigit || lastInput.IsPoint || lastInput.IsRightBracket) && (KeyboardHelper.IsFunctionKey(key) || KeyboardHelper.IsLeftBracketKey(key));
+      return (lastInput.IsDigit || lastInput.IsPoint || lastInput.IsRightBracket || lastInput.IsUnitConverter) && (KeyboardHelper.IsFunctionKey(key) || KeyboardHelper.IsLeftBracketKey(key));
     }
     private Boolean NeedAddZero(KeyboardKeys key)
     {
       var lastInput = _inputList.LastOrDefault();
-      return (lastInput == null || lastInput.IsFunction || lastInput.IsLeftBracket || lastInput.IsOperator) && KeyboardHelper.IsPointKey(key);
+      return (lastInput == null || lastInput.IsFunction || lastInput.IsLeftBracket || lastInput.IsOperator || lastInput.IsUnitConverter) && KeyboardHelper.IsPointKey(key);
     }
     private Boolean NeedAddMultiplyZero(KeyboardKeys key)
     {
@@ -229,7 +254,7 @@ namespace Hexagon.Software.NCGage.UserControls
     private Boolean NeedAddRightBrackets(KeyboardKeys key)
     {
       var lastInput = _inputList.LastOrDefault();
-      return lastInput != null && (lastInput.IsDigit || lastInput.IsPoint || lastInput.IsRightBracket) && key == KeyboardKeys.Equal;
+      return lastInput != null && (lastInput.IsDigit || lastInput.IsPoint || lastInput.IsRightBracket) && (key == KeyboardKeys.Equal || KeyboardHelper.IsUnitConverterKey(key));
     }
 
     #endregion
@@ -272,6 +297,7 @@ namespace Hexagon.Software.NCGage.UserControls
         }
       }
     }
+    public bool IsResetAfterCalculation { get; set; } = true;
 
     #endregion
 

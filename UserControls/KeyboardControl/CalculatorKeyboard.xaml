@@ -71,7 +71,7 @@
       <local:KeyboardButton Grid.Row="1" Grid.Column="6" Key="D_D9" Content="9"/>
       <local:KeyboardButton Grid.Row="1" Grid.Column="7" Key="O_Divide" Content="/" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:KeyboardButton Grid.Row="1" Grid.Column="8" Key="Backspace">
-        <Image Source="/UserControls;component/KeyboardControl/Resources/Backspace.png"/>
+        <Image Source="/UserControls;component/KeyboardControl/Resources/Images/Backspace.png"/>
       </local:KeyboardButton>
       <!--Row 2-->
       <local:KeyboardButton Grid.Row="2" Grid.Column="0" Key="LeftBracket" Content="(" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
@@ -92,7 +92,7 @@
             </Style.Triggers>
           </Style>
         </local:KeyboardButton.Style>
-        <Image Source="/UserControls;component/KeyboardControl/Resources/Pin.png"/>
+        <Image Source="/UserControls;component/KeyboardControl/Resources/Images/Pin.png"/>
       </local:KeyboardButton>
 
       <!--Row 3-->
@@ -109,7 +109,7 @@
         <local:KeyboardButton Key="F_ATan" Content="atan" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibility}}"/>
       </Grid>
       <Grid Grid.Row="3" Grid.Column="3" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
-        <local:KeyboardButton Key="F_In" Content="In" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibilityReverse}}"/>
+        <local:KeyboardButton Key="F_ln" Content="In" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibilityReverse}}"/>
         <local:KeyboardButton Key="F_Exp" Content="exp"  Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibility}}"/>
       </Grid>
       <local:KeyboardButton Grid.Row="3" Grid.Column="4" Key="D_D1" Content="1"/>
@@ -153,9 +153,8 @@
       <local:KeyboardButton Grid.Row="4" Grid.Column="7" Key="O_Add" Content="+" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:KeyboardButton Grid.Row="4" Grid.Column="8" Key="Enter" Command="{x:Null}" Click="btnEnter_Click"
                             IsEnabled="{Binding InputValue, Converter={StaticResource IsNumeric}}">
-        <Image Source="/UserControls;component/KeyboardControl/Resources/Enter.png"/>
+        <Image Source="/UserControls;component/KeyboardControl/Resources/Images/Enter.png"/>
       </local:KeyboardButton>
     </Grid>
   </Grid>
-
 </UserControl>

@@ -7,17 +7,17 @@ using Hexagon.Software.NCGage.HelperLib;
 
 namespace Hexagon.Software.NCGage.ExpressionCalculator
 {
-  public enum SimpleFunctions { None, Abs, Sqrt, Ceiling, Floor, Truncate, Sign, Log, Log10, Sin, Cos, Tan, Sinh, Cosh, Tanh, Asin, Acos, Atan }
+  public enum SimpleFunctions { None, Abs, Sqrt, Ceiling, Floor, Truncate, Sign, Exp, Log, Log10, ln, Sin, Cos, Tan, Sinh, Cosh, Tanh, Asin, Acos, Atan, M2I, I2M }
   public class SimpleUnit : ComputeUnit
   {
     public SimpleUnit(String strExpression, SimpleFunctions simpleFunction) : base(strExpression) { this._function = simpleFunction; }
 
-    public override Double Compute()
+    public override Double Compute(AngleUnits angleUnit)
     {
       if (String.IsNullOrWhiteSpace(this.Expression))
         return Double.NaN;
       if (Helpers.IsNumericValue(this.Expression))
-        return this.ApplyFunction(Double.Parse(this.Expression));
+        return this.ApplyFunction(Double.Parse(this.Expression), angleUnit);
 
       var _operatorList = new List<String>();
       var _unitList = new List<IComputeUnit>();
@@ -83,14 +83,14 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
         for (i = 0; i < _operatorList.Count; i++)
         {
           if (Double.IsNaN(value))
-            value = _unitList[i].Compute();
+            value = _unitList[i].Compute(angleUnit);
           if (_operatorList[i] == "*" || _operatorList[i] == "/" || _operatorList[i] == "%")
           {
             if (_operatorList[i] == "*")
-              value *= _unitList[i + 1].Compute();
+              value *= _unitList[i + 1].Compute(angleUnit);
             else
             {
-              var temp = _unitList[i + 1].Compute();
+              var temp = _unitList[i + 1].Compute(angleUnit);
               if (temp == 0)
                 return Double.NaN;
 
@@ -111,7 +111,7 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
           value = Double.NaN;
         }
         if (Double.IsNaN(value) && (!_operatorList.Any() || _operatorList.Last() == "+" || _operatorList.Last() == "-"))
-          value = _unitList.Last().Compute();
+          value = _unitList.Last().Compute(angleUnit);
         if (!Double.IsNaN(value))
         {
           if (operators.Any() && operators.Last() == "-")
@@ -120,7 +120,7 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
         }
 
         // apply function
-        return this.ApplyFunction(values.Sum());
+        return this.ApplyFunction(values.Sum(), angleUnit);
       }
       catch
       {
@@ -133,7 +133,7 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
       }
     }
 
-    private Double ApplyFunction(Double value)
+    private Double ApplyFunction(Double value, AngleUnits angleUnit)
     {
       switch (_function)
       {
@@ -151,28 +151,37 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
           return Math.Truncate(value);
         case SimpleFunctions.Sign:
           return Math.Sign(value);
+        case SimpleFunctions.Exp:
+          return Math.Exp(value);
         case SimpleFunctions.Log:
+        case SimpleFunctions.ln:
           return Math.Log(value);
         case SimpleFunctions.Log10:
           return Math.Log10(value);
         case SimpleFunctions.Sin:
-          return Math.Sin(value);
+          return Math.Sin(GetRadians(value, angleUnit));
         case SimpleFunctions.Cos:
-          return Math.Cos(value);
+          return Math.Cos(GetRadians(value, angleUnit));
         case SimpleFunctions.Tan:
-          return Math.Tan(value);
+          return Math.Tan(GetRadians(value, angleUnit));
         case SimpleFunctions.Sinh:
-          return Math.Sinh(value);
+          return Math.Sinh(GetRadians(value, angleUnit));
         case SimpleFunctions.Cosh:
-          return Math.Cosh(value);
+          return Math.Cosh(GetRadians(value, angleUnit));
         case SimpleFunctions.Tanh:
-          return Math.Tanh(value);
+          return Math.Tanh(GetRadians(value, angleUnit));
         case SimpleFunctions.Asin:
-          return Math.Asin(value);
+          return GetReturnedAngleValue(Math.Asin(value), angleUnit);
         case SimpleFunctions.Acos:
-          return Math.Acos(value);
+          return GetReturnedAngleValue(Math.Acos(value), angleUnit);
         case SimpleFunctions.Atan:
-          return Math.Atan(value);
+          return GetReturnedAngleValue(Math.Atan(value), angleUnit);
+
+        case SimpleFunctions.M2I:
+          return value / 25.4;
+        case SimpleFunctions.I2M:
+          return value * 25.4;
+        
       }
       return Double.NaN;
     }

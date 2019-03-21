@@ -9,7 +9,7 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
   public class ComplexUnit : ComputeUnit
   {
     public ComplexUnit(String strExpression, ComplexFunctions complexFunction) : base(strExpression) { this._function = complexFunction; }
-    public override Double Compute()
+    public override Double Compute(AngleUnits angleUnit)
     {
       if (String.IsNullOrWhiteSpace(Expression))
         return Double.NaN;
@@ -25,8 +25,8 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
             return Double.NaN;
           _unitList.Add(unit);
         }
-        var values = _unitList.Select(p => p.Compute()).ToList();
-        return this.ApplyFunction(values);
+        var values = _unitList.Select(p => p.Compute(angleUnit)).ToList();
+        return this.ApplyFunction(values, angleUnit);
       }
       catch
       {
@@ -68,7 +68,7 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
 
       return tempList.Where(p => !String.IsNullOrWhiteSpace(p)).ToList();
     }
-    private Double ApplyFunction(List<Double> values)
+    private Double ApplyFunction(List<Double> values, AngleUnits angleUnit)
     {
       if (values == null || !values.Any())
         return Double.NaN;
@@ -87,7 +87,7 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
         case ComplexFunctions.Pow:
           return values.Count >= 2 ? Math.Pow(values[0], values[1]) : Double.NaN;
         case ComplexFunctions.Atan2:
-          return values.Count >= 2 ? Math.Atan2(values[0], values[1]) : Double.NaN;
+          return GetReturnedAngleValue(values.Count >= 2 ? Math.Atan2(values[0], values[1]) : Double.NaN, angleUnit);
         case ComplexFunctions.LogX:
           return values.Count >= 2 ? Math.Log(values[0], values[1]) : Double.NaN;
         case ComplexFunctions.BigMul:

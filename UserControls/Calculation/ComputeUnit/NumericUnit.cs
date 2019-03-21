@@ -7,7 +7,7 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
   {
     public NumericUnit(String strExpression) : base(strExpression) { }
 
-    public override Double Compute()
+    public override Double Compute(AngleUnits angleUnit)
     {
       try
       {

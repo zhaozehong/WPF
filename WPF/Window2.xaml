@@ -23,7 +23,7 @@
     <userControls:KeyboardPopup Placement="Right" ButtonSize="100"
                                 PlacementTarget="{Binding ElementName=tbInput1}"
                                 InputTarget="{Binding ElementName=tbInput1}"/>
-    <userControls:KeyboardPopup Placement="Right"
+    <userControls:KeyboardPopup Placement="Right" ResetOnCalculation="False"
                                 PlacementTarget="{Binding ElementName=tbInput2}"
                                 InputTarget="{Binding ElementName=tbInput2}"/>
   </Grid>

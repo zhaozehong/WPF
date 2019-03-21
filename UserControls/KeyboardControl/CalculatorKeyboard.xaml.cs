@@ -12,6 +12,7 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       InitializeComponent();
       this.ViewModel = this.DataContext as CalculatorKeyboardViewModel;
+      this.ViewModel.IsResetAfterCalculation = this.ResetOnCalculation;
       this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
       this.UpdateDisplayScreenSize();
@@ -44,7 +45,7 @@ namespace Hexagon.Software.NCGage.UserControls
     }
     private void btnEnter_Click(object sender, RoutedEventArgs e)
     {
-      if(this.InputTarget != null)
+      if (this.InputTarget != null)
       {
         this.InputTarget.Clear();
         Helpers.RaiseTextInputEvent(this.InputTarget, this.ViewModel.InputValue);
@@ -59,6 +60,10 @@ namespace Hexagon.Software.NCGage.UserControls
     private void OnButtonMarginChanged()
     {
       this.UpdateDisplayScreenSize();
+    }
+    private void OnResetOnCalculationChanged()
+    {
+      this.ViewModel.IsResetAfterCalculation = this.ResetOnCalculation;
     }
     private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -153,6 +158,19 @@ namespace Hexagon.Software.NCGage.UserControls
       set { SetValue(IsPinProperty, value); }
     }
     public static readonly DependencyProperty IsPinProperty = DependencyProperty.Register("IsPin", typeof(bool), typeof(CalculatorKeyboard), new PropertyMetadata(false));
+
+    public bool ResetOnCalculation
+    {
+      get { return (Boolean)GetValue(ResetOnCalculationProperty); }
+      set { SetValue(ResetOnCalculationProperty, value); }
+    }
+    public static readonly DependencyProperty ResetOnCalculationProperty = DependencyProperty.Register("ResetOnCalculation", typeof(bool), typeof(CalculatorKeyboard), new PropertyMetadata(true, new PropertyChangedCallback(OnResetOnCalculationChanged)));
+    private static void OnResetOnCalculationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      var control = d as CalculatorKeyboard;
+      if (control != null)
+        control.OnResetOnCalculationChanged();
+    }
 
     #endregion
 

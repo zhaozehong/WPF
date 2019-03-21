@@ -19,6 +19,8 @@ namespace Hexagon.Software.NCGage.HelperLib
     D_D7,
     D_D8,
     D_D9,
+    D_Flag,
+    Point,
 
     // Operator
     O_Add,
@@ -28,13 +30,12 @@ namespace Hexagon.Software.NCGage.HelperLib
     O_Mod,
     O_Square,
 
-
     // Function
     F_Abs,
     F_Sin,
     F_Cos,
     F_Tan,
-    F_In,
+    F_ln,
     F_Sqrt,
     F_ASin,
     F_ACos,
@@ -60,13 +61,15 @@ namespace Hexagon.Software.NCGage.HelperLib
     F_Atan2,
     F_LogX,
     F_IEEERemainder,
+    M2I,
+    I2M,
     ///////////////////////////
 
     LeftBracket,
     RightBracket,
 
-    Point,
 
+    // Control
     Backspace,
     AC,
     C,
@@ -75,8 +78,7 @@ namespace Hexagon.Software.NCGage.HelperLib
     Equal,
     Inv,
 
-    M2I,
-    I2M,
+
 
     Enter = 100,
     Pin,
@@ -117,6 +119,10 @@ namespace Hexagon.Software.NCGage.HelperLib
     public static Boolean IsRightBracketKey(KeyboardKeys key)
     {
       return key == KeyboardKeys.RightBracket;
+    }
+    public static Boolean IsUnitConverterKey(KeyboardKeys key)
+    {
+      return key == KeyboardKeys.M2I || key == KeyboardKeys.I2M;
     }
     public static List<String> FunctionNames = Enum.GetNames(typeof(KeyboardKeys)).Where(p => p.StartsWith("F_")).Select(p => p.Substring(2)).ToList();
   }

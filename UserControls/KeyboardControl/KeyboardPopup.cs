@@ -14,6 +14,7 @@ namespace Hexagon.Software.NCGage.UserControls
       keyboard.SetBinding(CalculatorKeyboard.InputTargetProperty, new Binding("InputTarget") { Source = this });
       keyboard.SetBinding(CalculatorKeyboard.ButtonSizeProperty, new Binding("ButtonSize") { Source = this });
       keyboard.SetBinding(CalculatorKeyboard.ButtonMarginProperty, new Binding("ButtonMargin") { Source = this });
+      keyboard.SetBinding(CalculatorKeyboard.ResetOnCalculationProperty, new Binding("ResetOnCalculation") { Source = this });
       keyboard.Closed += Keyboard_Closed;
 
       this.Child = keyboard;
@@ -74,6 +75,13 @@ namespace Hexagon.Software.NCGage.UserControls
       set { SetValue(ButtonMarginProperty, value); }
     }
     public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(KeyboardPopup), new PropertyMetadata(1.0));
+
+    public bool ResetOnCalculation
+    {
+      get { return (Boolean)GetValue(ResetOnCalculationProperty); }
+      set { SetValue(ResetOnCalculationProperty, value); }
+    }
+    public static readonly DependencyProperty ResetOnCalculationProperty = DependencyProperty.Register("ResetOnCalculation", typeof(bool), typeof(KeyboardPopup), new PropertyMetadata(true));
 
     #endregion
   }
