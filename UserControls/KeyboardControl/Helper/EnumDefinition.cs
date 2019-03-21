@@ -19,7 +19,9 @@ namespace Hexagon.Software.NCGage.HelperLib
     D_D7,
     D_D8,
     D_D9,
+
     D_Flag,
+    D_PI,
     Point,
 
     // Operator
@@ -73,7 +75,6 @@ namespace Hexagon.Software.NCGage.HelperLib
     Backspace,
     AC,
     C,
-    PI,
 
     Equal,
     Inv,

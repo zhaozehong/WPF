@@ -11,43 +11,43 @@ namespace Hexagon.Software.NCGage.UserControls
   {
     public PopupEx()
     {
-      this.Loaded += popup_Loaded;
+      this.Loaded += (s, e) => SetMoveWithWindow();
     }
 
-    private void popup_Loaded(object sender, RoutedEventArgs e)
+    private void SetMoveWithWindow()
     {
-      var popup = sender as Popup;
-      var parent = VisualTreeHelper.GetParent(popup);
-      while (parent != null)
-      {
-        if (parent is Window)
-          break;
-
-        parent = VisualTreeHelper.GetParent(parent);
-      }
-      var window = parent as Window;
+      var window = Window.GetWindow(this);
       if (window == null)
         return;
 
-      window.LocationChanged -= PositionChanged;
       window.SizeChanged -= PositionChanged;
+      window.LocationChanged -= PositionChanged;
       if (AutoUpdatePosition)
       {
-        window.LocationChanged += PositionChanged;
         window.SizeChanged += PositionChanged;
+        window.LocationChanged += PositionChanged;
       }
     }
     private void PositionChanged(object sender, EventArgs e)
     {
       try
       {
-        var method = typeof(Popup).GetMethod("UpdatePosition", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         if (this.IsOpen)
         {
+          var method = typeof(Popup).GetMethod("UpdatePosition", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
           method.Invoke(this, null); // UpdatePosition
         }
       }
       catch { }
+    }
+    private void UpdateWindow()
+    {
+      var hwnd = ((HwndSource)PresentationSource.FromVisual(this.Child)).Handle;
+      RECT rect;
+      if (NativeMethods.GetWindowRect(hwnd, out rect))
+      {
+        NativeMethods.SetWindowPos(hwnd, Topmost ? -1 : -2, rect.Left, rect.Top, (int)this.Width, (int)this.Height, 0);
+      }
     }
 
     protected override void OnOpened(EventArgs e)
@@ -55,6 +55,7 @@ namespace Hexagon.Software.NCGage.UserControls
       UpdateWindow();
     }
 
+    #region Dependency Properties
     public bool AutoUpdatePosition
     {
       get { return (bool)GetValue(AutoUpdatePositionProperty); }
@@ -66,7 +67,7 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       var popup = d as PopupEx;
       if (popup != null)
-        popup.popup_Loaded(popup, null);
+        popup.SetMoveWithWindow();
     }
 
     public bool Topmost
@@ -82,16 +83,9 @@ namespace Hexagon.Software.NCGage.UserControls
         popup.UpdateWindow();
     }
 
-    private void UpdateWindow()
-    {
-      var hwnd = ((HwndSource)PresentationSource.FromVisual(this.Child)).Handle;
-      RECT rect;
-      if (NativeMethods.GetWindowRect(hwnd, out rect))
-      {
-        NativeMethods.SetWindowPos(hwnd, Topmost ? -1 : -2, rect.Left, rect.Top, (int)this.Width, (int)this.Height, 0);
-      }
-    }
+    #endregion
 
+    #region imports & definitions
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
     {
@@ -100,7 +94,6 @@ namespace Hexagon.Software.NCGage.UserControls
       public int Right;
       public int Bottom;
     }
-    #region P/Invoke imports & definitions
     public static class NativeMethods
     {
       [DllImport("user32.dll")]

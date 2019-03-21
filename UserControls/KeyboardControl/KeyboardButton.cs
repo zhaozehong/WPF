@@ -33,6 +33,7 @@ namespace Hexagon.Software.NCGage.UserControls
         case KeyboardKeys.D_D7:
         case KeyboardKeys.D_D8:
         case KeyboardKeys.D_D9:
+        case KeyboardKeys.D_PI:
           value = this.Key.ToString().Last().ToString();
           break;
 
@@ -57,10 +58,6 @@ namespace Hexagon.Software.NCGage.UserControls
           break;
         case KeyboardKeys.O_Square:
           value = "^";
-          break;
-
-        case KeyboardKeys.PI:
-          value = String.Format("{0:F7}", Math.PI);
           break;
 
         // functions

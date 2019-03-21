@@ -61,27 +61,27 @@
       </Grid.ColumnDefinitions>
 
       <!--Row 0-->
-      <local:KeyboardButton Grid.Row="0" Grid.Column="4" Key="SWITCH" Content="Num" Visibility="{Binding KeyboardMode, ConverterParameter=Number, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="0" Grid.Column="4" Key="SWITCH" Content="Num" Visibility="{Binding KeyboardType, ConverterParameter=Number, Converter={StaticResource EnumToVisibility}}"/>
       <!--Row 1-->
-      <local:KeyboardButton Grid.Row="1" Grid.Column="0" Key="SWITCH" Content="Cal" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-      <local:KeyboardButton Grid.Row="1" Grid.Column="2" Key="AC" Content="AC" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-      <local:KeyboardButton Grid.Row="1" Grid.Column="3" Key="C" Content="C" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="1" Grid.Column="0" Key="SWITCH" Content="Cal" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="1" Grid.Column="2" Key="AC" Content="AC" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="1" Grid.Column="3" Key="C" Content="C" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:KeyboardButton Grid.Row="1" Grid.Column="4" Key="D_D7" Content="7"/>
       <local:KeyboardButton Grid.Row="1" Grid.Column="5" Key="D_D8" Content="8"/>
       <local:KeyboardButton Grid.Row="1" Grid.Column="6" Key="D_D9" Content="9"/>
-      <local:KeyboardButton Grid.Row="1" Grid.Column="7" Key="O_Divide" Content="/" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="1" Grid.Column="7" Key="O_Divide" Content="/" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:KeyboardButton Grid.Row="1" Grid.Column="8" Key="Backspace">
         <Image Source="/UserControls;component/KeyboardControl/Resources/Images/Backspace.png"/>
       </local:KeyboardButton>
       <!--Row 2-->
-      <local:KeyboardButton Grid.Row="2" Grid.Column="0" Key="LeftBracket" Content="(" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-      <local:KeyboardButton Grid.Row="2" Grid.Column="1" Key="RightBracket" Content=")" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-      <local:KeyboardButton Grid.Row="2" Grid.Column="2" Key="PI" Content="PI" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-      <local:KeyboardButton Grid.Row="2" Grid.Column="3" Key="F_Abs" Content="Abs" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="2" Grid.Column="0" Key="LeftBracket" Content="(" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="2" Grid.Column="1" Key="RightBracket" Content=")" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="2" Grid.Column="2" Key="D_PI" Content="PI" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="2" Grid.Column="3" Key="F_Abs" Content="Abs" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:KeyboardButton Grid.Row="2" Grid.Column="4" Key="D_D4" Content="4"/>
       <local:KeyboardButton Grid.Row="2" Grid.Column="5" Key="D_D5" Content="5"/>
       <local:KeyboardButton Grid.Row="2" Grid.Column="6" Key="D_D6" Content="6"/>
-      <local:KeyboardButton Grid.Row="2" Grid.Column="7" Key="O_Multiply" Content="*" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="2" Grid.Column="7" Key="O_Multiply" Content="*" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:KeyboardButton Grid.Row="2" Grid.Column="8" Key="Pin" Command="{x:Null}" Click="btnPin_Click">
         <local:KeyboardButton.Style>
           <Style TargetType="{x:Type local:KeyboardButton}" BasedOn="{StaticResource {x:Type local:KeyboardButton}}">
@@ -96,30 +96,30 @@
       </local:KeyboardButton>
 
       <!--Row 3-->
-      <Grid Grid.Row="3" Grid.Column="0" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
+      <Grid Grid.Row="3" Grid.Column="0" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
         <local:KeyboardButton Key="F_Sin" Content="sin" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibilityReverse}}"/>
         <local:KeyboardButton Key="F_ASin" Content="asin" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibility}}"/>
       </Grid>
-      <Grid Grid.Row="3" Grid.Column="1" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
+      <Grid Grid.Row="3" Grid.Column="1" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
         <local:KeyboardButton Key="F_Cos" Content="cos" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibilityReverse}}"/>
         <local:KeyboardButton Key="F_ACos" Content="acos" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibility}}"/>
       </Grid>
-      <Grid Grid.Row="3" Grid.Column="2" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
+      <Grid Grid.Row="3" Grid.Column="2" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
         <local:KeyboardButton Key="F_Tan" Content="tan" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibilityReverse}}"/>
         <local:KeyboardButton Key="F_ATan" Content="atan" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibility}}"/>
       </Grid>
-      <Grid Grid.Row="3" Grid.Column="3" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
+      <Grid Grid.Row="3" Grid.Column="3" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
         <local:KeyboardButton Key="F_ln" Content="In" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibilityReverse}}"/>
         <local:KeyboardButton Key="F_Exp" Content="exp"  Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibility}}"/>
       </Grid>
       <local:KeyboardButton Grid.Row="3" Grid.Column="4" Key="D_D1" Content="1"/>
       <local:KeyboardButton Grid.Row="3" Grid.Column="5" Key="D_D2" Content="2"/>
       <local:KeyboardButton Grid.Row="3" Grid.Column="6" Key="D_D3" Content="3"/>
-      <local:KeyboardButton Grid.Row="3" Grid.Column="7" Key="O_Substract" Content="-" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="3" Grid.Column="7" Key="O_Substract" Content="-" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:KeyboardButton Grid.Row="3" Grid.Column="8" Key="CLR" Content="CLR" Command="{x:Null}" Click="btnCLR_Click"/>
 
       <!--Row 4-->
-      <local:KeyboardButton Grid.Row="4" Grid.Column="0" Key="Inv" Content="Inv" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
+      <local:KeyboardButton Grid.Row="4" Grid.Column="0" Key="Inv" Content="Inv" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
         <local:KeyboardButton.Style>
           <Style TargetType="{x:Type local:KeyboardButton}" BasedOn="{StaticResource {x:Type local:KeyboardButton}}">
             <Style.Triggers>
@@ -130,27 +130,27 @@
           </Style>
         </local:KeyboardButton.Style>
       </local:KeyboardButton>
-      <Grid Grid.Row="4" Grid.Column="1" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
+      <Grid Grid.Row="4" Grid.Column="1" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
         <local:KeyboardButton Key="F_Sqrt" Content="√" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibilityReverse}}"/>
         <local:KeyboardButton Key="O_Square" Content="x^2" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibility}}"/>
       </Grid>
-      <Grid Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
+      <Grid Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}">
         <local:KeyboardButton Key="M2I" Content="mm->inch" Width="Auto" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibilityReverse}}"/>
         <local:KeyboardButton Key="I2M" Content="inch->mm" Width="Auto" Visibility="{Binding IsInverse, Converter={StaticResource BooleanToVisibility}}"/>
       </Grid>
       <Grid Grid.Row="4" Grid.Column="4">
-        <local:KeyboardButton Key="D_D0" Content="0" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-        <local:KeyboardButton Key="O_Substract" Content="-" Visibility="{Binding KeyboardMode, ConverterParameter=Number, Converter={StaticResource EnumToVisibility}}"/>
+        <local:KeyboardButton Key="D_D0" Content="0" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+        <local:KeyboardButton Key="O_Substract" Content="-" Visibility="{Binding KeyboardType, ConverterParameter=Number, Converter={StaticResource EnumToVisibility}}"/>
       </Grid>
       <Grid Grid.Row="4" Grid.Column="5">
-        <local:KeyboardButton Key="Point" Content="." Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-        <local:KeyboardButton Key="D_D0" Content="0" Visibility="{Binding KeyboardMode, ConverterParameter=Number, Converter={StaticResource EnumToVisibility}}"/>
+        <local:KeyboardButton Key="Point" Content="." Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+        <local:KeyboardButton Key="D_D0" Content="0" Visibility="{Binding KeyboardType, ConverterParameter=Number, Converter={StaticResource EnumToVisibility}}"/>
       </Grid>
       <Grid Grid.Row="4" Grid.Column="6">
-        <local:KeyboardButton Key="Equal" Content="=" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-        <local:KeyboardButton Key="Point" Content="." Visibility="{Binding KeyboardMode, ConverterParameter=Number, Converter={StaticResource EnumToVisibility}}"/>
+        <local:KeyboardButton Key="Equal" Content="=" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+        <local:KeyboardButton Key="Point" Content="." Visibility="{Binding KeyboardType, ConverterParameter=Number, Converter={StaticResource EnumToVisibility}}"/>
       </Grid>
-      <local:KeyboardButton Grid.Row="4" Grid.Column="7" Key="O_Add" Content="+" Visibility="{Binding KeyboardMode, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:KeyboardButton Grid.Row="4" Grid.Column="7" Key="O_Add" Content="+" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:KeyboardButton Grid.Row="4" Grid.Column="8" Key="Enter" Command="{x:Null}" Click="btnEnter_Click"
                             IsEnabled="{Binding InputValue, Converter={StaticResource IsNumeric}}">
         <Image Source="/UserControls;component/KeyboardControl/Resources/Images/Enter.png"/>

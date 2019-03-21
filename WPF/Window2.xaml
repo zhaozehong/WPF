@@ -19,11 +19,11 @@
 
     <TextBox Grid.Row="2" Name="tbInput1"/>
     <TextBox Grid.Row="3" Name="tbInput2"/>
-    
-    <userControls:KeyboardPopup Placement="Right" ButtonSize="100"
+
+    <userControls:KeyboardPopup Placement="Right" KeyboardType="Number" ButtonSize="100" ButtonMargin="1" ResetOnCalculation="False"
                                 PlacementTarget="{Binding ElementName=tbInput1}"
                                 InputTarget="{Binding ElementName=tbInput1}"/>
-    <userControls:KeyboardPopup Placement="Right" ResetOnCalculation="False"
+    <userControls:KeyboardPopup Placement="Right" KeyboardType="Calculator" ButtonSize="50" ButtonMargin="1" ResetOnCalculation="True"
                                 PlacementTarget="{Binding ElementName=tbInput2}"
                                 InputTarget="{Binding ElementName=tbInput2}"/>
   </Grid>

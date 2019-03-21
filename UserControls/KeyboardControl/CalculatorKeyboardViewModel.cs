@@ -7,7 +7,7 @@ using Hexagon.Software.NCGage.HelperLib;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
-  public enum KeyboardModes { Number, Calculator }
+  public enum KeyboardTypes { Number, Calculator }
   public class CalculatorKeyboardViewModel : NotifyPropertyChanged
   {
     public CalculatorKeyboardViewModel()
@@ -26,7 +26,7 @@ namespace Hexagon.Software.NCGage.UserControls
         switch (button.Key)
         {
           case KeyboardKeys.SWITCH:
-            KeyboardMode = KeyboardMode == KeyboardModes.Number ? KeyboardModes.Calculator : KeyboardModes.Number;
+            KeyboardType = KeyboardType == KeyboardTypes.Number ? KeyboardTypes.Calculator : KeyboardTypes.Number;
             break;
           case KeyboardKeys.Inv:
             this.IsInverse = !IsInverse;
@@ -95,6 +95,7 @@ namespace Hexagon.Software.NCGage.UserControls
       if (String.IsNullOrWhiteSpace(retValue))
         return null;
 
+      retValue = Regex.Replace(this.InputValue, "PI", Math.PI.ToString());
       int iStart = -1, iEnd = -1;
       var iPow = retValue.IndexOf('^');
       while (iPow != -1)
@@ -123,7 +124,7 @@ namespace Hexagon.Software.NCGage.UserControls
           }
 
           // must be a numeric value left
-          var match = Regex.Match(strLeft, @"\d+$");
+          var match = Regex.Match(strLeft, @"\d+\.?\d*$");
           if (!match.Success)
             return null; // the input string is an invalid expression
           iStart -= match.Value.Length;
@@ -140,7 +141,7 @@ namespace Hexagon.Software.NCGage.UserControls
         }
         else // must be numeric value
         {
-          var match = Regex.Match(strRight, @"^\d+");
+          var match = Regex.Match(strRight, @"^-?\d+\.?\d*$");
           if (!match.Success)
             return null; // the input string is an invalid expression
           iEnd += match.Value.Length;
@@ -204,6 +205,9 @@ namespace Hexagon.Software.NCGage.UserControls
     private Boolean NeedReturn(KeyboardKeys key)
     {
       var lastInput = _inputList.LastOrDefault();
+      if (this.KeyboardType == KeyboardTypes.Number)
+        return (key == KeyboardKeys.O_Substract && lastInput != null) || (KeyboardHelper.IsPointKey(key) && this.InputValue.Contains("."));
+
       if ((lastInput == null || lastInput.IsFunction || lastInput.IsLeftBracket) &&
         ((KeyboardHelper.IsOperatorKey(key) && key != KeyboardKeys.O_Substract) || KeyboardHelper.IsEqualKey(key) || KeyboardHelper.IsRightBracketKey(key) || KeyboardHelper.IsUnitConverterKey(key)))
         return true;
@@ -273,7 +277,7 @@ namespace Hexagon.Software.NCGage.UserControls
         }
       }
     }
-    public KeyboardModes KeyboardMode
+    public KeyboardTypes KeyboardType
     {
       get { return _keyboardMode; }
       set
@@ -281,7 +285,7 @@ namespace Hexagon.Software.NCGage.UserControls
         if (_keyboardMode != value)
         {
           _keyboardMode = value;
-          this.RaisePropertyChanged(nameof(KeyboardMode));
+          this.RaisePropertyChanged(nameof(KeyboardType));
         }
       }
     }
@@ -304,7 +308,7 @@ namespace Hexagon.Software.NCGage.UserControls
     #region Variables
     private readonly List<InputInfo> _inputList = new List<InputInfo>();
     private String _inputValue;
-    private KeyboardModes _keyboardMode = KeyboardModes.Number;
+    private KeyboardTypes _keyboardMode = KeyboardTypes.Number;
     private Boolean _isInverse = false;
     #endregion
   }

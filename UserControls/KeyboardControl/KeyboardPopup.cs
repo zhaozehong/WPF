@@ -12,11 +12,11 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       var keyboard = new CalculatorKeyboard();
       keyboard.SetBinding(CalculatorKeyboard.InputTargetProperty, new Binding("InputTarget") { Source = this });
+      keyboard.SetBinding(CalculatorKeyboard.KeyboardTypeProperty, new Binding("KeyboardType") { Source = this });
       keyboard.SetBinding(CalculatorKeyboard.ButtonSizeProperty, new Binding("ButtonSize") { Source = this });
       keyboard.SetBinding(CalculatorKeyboard.ButtonMarginProperty, new Binding("ButtonMargin") { Source = this });
       keyboard.SetBinding(CalculatorKeyboard.ResetOnCalculationProperty, new Binding("ResetOnCalculation") { Source = this });
       keyboard.Closed += Keyboard_Closed;
-
       this.Child = keyboard;
 
       this.SetBinding(KeyboardPopup.AutoUpdatePositionProperty, new Binding("IsPin") { Source = keyboard, Converter = new BooleanReverseConverter() });
@@ -61,6 +61,13 @@ namespace Hexagon.Software.NCGage.UserControls
       if (popup != null)
         popup.OnInputTargetChanged(e.OldValue as TextBox, e.NewValue as TextBox);
     }
+
+    public KeyboardTypes KeyboardType
+    {
+      get { return (KeyboardTypes)GetValue(KeyboardTypeProperty); }
+      set { SetValue(KeyboardTypeProperty, value); }
+    }
+    public static readonly DependencyProperty KeyboardTypeProperty = DependencyProperty.Register("KeyboardType", typeof(KeyboardTypes), typeof(KeyboardPopup), new PropertyMetadata(KeyboardTypes.Number));
 
     public double ButtonSize
     {
