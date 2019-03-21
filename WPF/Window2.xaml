@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:userControls="clr-namespace:Hexagon.Software.NCGage.UserControls;assembly=UserControls"
-        mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Width="30" Height="30"
-        Title="Window2">
+        Icon="/WPF;component/Resources/Icons/NCGage.ico"
+        mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
+        Title="Test Calculator Keyboard">
   <!--<Grid Background="Black">
     <userControls:CalculatorKeyboard ButtonSize="60" ButtonMargin="15"/>
   </Grid>-->
-  <Grid Background="Black">
+  <Grid Height="300" Margin="5">
     <Grid.RowDefinitions>
       <RowDefinition Height="100"/>
       <RowDefinition Height="*"/>
@@ -17,10 +18,11 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
-    <TextBox Grid.Row="2" Name="tbInput1"/>
-    <TextBox Grid.Row="3" Name="tbInput2"/>
+    <TextBlock Grid.Row="1" Margin="5" VerticalAlignment="Bottom" Text="Click the following input boxes..."/>
+    <TextBox Grid.Row="2" Width="300" Margin="5" Height="25" Name="tbInput1"/>
+    <TextBox Grid.Row="3" Width="300" Margin="5" Height="25" Name="tbInput2"/>
 
-    <userControls:KeyboardPopup Placement="Right" KeyboardType="Number" ButtonSize="100" ButtonMargin="1" ResetOnCalculation="False"
+    <userControls:KeyboardPopup Placement="Right" KeyboardType="Number" ButtonSize="70" ButtonMargin="1" ResetOnCalculation="False"
                                 PlacementTarget="{Binding ElementName=tbInput1}"
                                 InputTarget="{Binding ElementName=tbInput1}"/>
     <userControls:KeyboardPopup Placement="Right" KeyboardType="Calculator" ButtonSize="50" ButtonMargin="1" ResetOnCalculation="True"
