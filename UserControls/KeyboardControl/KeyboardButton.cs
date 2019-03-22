@@ -33,10 +33,11 @@ namespace Hexagon.Software.NCGage.UserControls
         case KeyboardKeys.D_D7:
         case KeyboardKeys.D_D8:
         case KeyboardKeys.D_D9:
-        case KeyboardKeys.D_PI:
           value = this.Key.ToString().Last().ToString();
           break;
-
+        case KeyboardKeys.D_PI:
+          value = "PI";
+          break;
         case KeyboardKeys.Point:
           value = ".";
           break;
