@@ -17,6 +17,13 @@ namespace Hexagon.Software.NCGage.UserControls
       this.OnKeyboardTypeChanged();
       this.OnResetOnCalculationChanged();
       this.OnButtonSizeChanged();
+
+      this.Loaded += (s, e) =>
+       {
+#if !DEBUG
+         this.IsPin = false;
+#endif
+       };
     }
 
     private void UpdateDisplayScreenSize()

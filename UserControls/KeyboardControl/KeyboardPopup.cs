@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Hexagon.Software.NCGage.HelperLib;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
@@ -19,7 +18,7 @@ namespace Hexagon.Software.NCGage.UserControls
       keyboard.Closed += Keyboard_Closed;
       this.Child = keyboard;
 
-      this.SetBinding(KeyboardPopup.AutoUpdatePositionProperty, new Binding("IsPin") { Source = keyboard, Converter = new BooleanReverseConverter() });
+      this.SetBinding(PopupEx.IsPinProperty, new Binding("IsPin") { Source = keyboard, Mode = BindingMode.TwoWay });
     }
 
     private void OnInputTargetChanged(TextBox oldTarget, TextBox newTarget)

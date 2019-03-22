@@ -16,17 +16,25 @@
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
     <TextBlock Grid.Row="1" Margin="5" VerticalAlignment="Bottom" Text="Click the following input boxes..."/>
     <TextBox Grid.Row="2" Width="300" Margin="5" Height="25" Name="tbInput1"/>
     <TextBox Grid.Row="3" Width="300" Margin="5" Height="25" Name="tbInput2"/>
-
-    <userControls:KeyboardPopup Placement="Right" KeyboardType="Number" ButtonSize="70" ButtonMargin="1" ResetOnCalculation="False"
+    <TextBox Grid.Row="4" Width="300" Margin="5" Height="25" Name="tbInput3"/>
+    
+    <userControls:KeyboardPopup Placement="Right"
+                                KeyboardType="Number" ButtonSize="70" ButtonMargin="3" ResetOnCalculation="False" Topmost="True" SharePosition="False"
                                 PlacementTarget="{Binding ElementName=tbInput1}"
                                 InputTarget="{Binding ElementName=tbInput1}"/>
-    <userControls:KeyboardPopup Placement="Right" KeyboardType="Calculator" ButtonSize="50" ButtonMargin="1" ResetOnCalculation="True"
+    <userControls:KeyboardPopup Placement="Right"
+                                KeyboardType="Calculator" ButtonSize="50" ButtonMargin="1" ResetOnCalculation="True" Topmost="False" SharePosition="True"
                                 PlacementTarget="{Binding ElementName=tbInput2}"
                                 InputTarget="{Binding ElementName=tbInput2}"/>
+    <userControls:KeyboardPopup Placement="Right"
+                                KeyboardType="Calculator" ButtonSize="50" ButtonMargin="1" ResetOnCalculation="True" Topmost="False" SharePosition="True"
+                                PlacementTarget="{Binding ElementName=tbInput3}"
+                                InputTarget="{Binding ElementName=tbInput3}"/>
   </Grid>
 </Window>
