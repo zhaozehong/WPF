@@ -74,6 +74,7 @@
     <Compile Include="KeyboardControl\Helper\RelayCommand.cs" />
     <Compile Include="KeyboardControl\KeyboardButton.cs" />
     <Compile Include="KeyboardControl\KeyboardSettings.cs" />
+    <Compile Include="KeyboardControl\KeyboardManager.cs" />
     <Compile Include="WindowsManager.cs" />
     <Page Include="KeyboardControl\CalculatorKeyboard.xaml">
       <SubType>Designer</SubType>

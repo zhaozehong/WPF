@@ -11,11 +11,11 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       var keyboard = new CalculatorKeyboard();
       keyboard.SetBinding(CalculatorKeyboard.InputTargetProperty, new Binding("InputTarget") { Source = this });
-      keyboard.SetBinding(CalculatorKeyboard.KeyboardTypeProperty, new Binding("KeyboardType") { Source = this });
+      keyboard.SetBinding(CalculatorKeyboard.StartupKeyboardTypeProperty, new Binding("StartupKeyboardType") { Source = this });
       keyboard.SetBinding(CalculatorKeyboard.ButtonSizeProperty, new Binding("ButtonSize") { Source = this });
       keyboard.SetBinding(CalculatorKeyboard.ButtonMarginProperty, new Binding("ButtonMargin") { Source = this });
       keyboard.SetBinding(CalculatorKeyboard.ResetOnCalculationProperty, new Binding("ResetOnCalculation") { Source = this });
-      keyboard.Closed += Keyboard_Closed;
+      keyboard.Closed += (s, e) => this.IsOpen = false;
       this.Child = keyboard;
 
       this.SetBinding(PopupEx.IsPinProperty, new Binding("IsPin") { Source = keyboard, Mode = BindingMode.TwoWay });
@@ -23,26 +23,39 @@ namespace Hexagon.Software.NCGage.UserControls
 
     private void OnInputTargetChanged(TextBox oldTarget, TextBox newTarget)
     {
-      if (oldTarget != null)
+      if (KeyboardManager.Equals(this)) // only one instance
       {
-        oldTarget.GotFocus -= InputTarge_GotFocus;
-        oldTarget.LostFocus -= InputTarge_LostFocus;
+        if (newTarget != null)
+        {
+          newTarget.GotFocus -= InputTarge_GotFocus;
+          newTarget.LostFocus -= InputTarge_LostFocus;
+
+          newTarget.GotFocus += InputTarge_GotFocus;
+          newTarget.LostFocus += InputTarge_LostFocus;
+        }
       }
-      if (newTarget != null)
+      else
       {
-        newTarget.GotFocus += InputTarge_GotFocus;
-        newTarget.LostFocus += InputTarge_LostFocus;
+        if (oldTarget != null)
+        {
+          oldTarget.GotFocus -= InputTarge_GotFocus;
+          oldTarget.LostFocus -= InputTarge_LostFocus;
+        }
+        if (newTarget != null)
+        {
+          newTarget.GotFocus += InputTarge_GotFocus;
+          newTarget.LostFocus += InputTarge_LostFocus;
+        }
       }
     }
     private void InputTarge_GotFocus(object sender, RoutedEventArgs e)
     {
-      this.IsOpen = true;
+      if (KeyboardManager.Equals(this))
+        KeyboardManager.GetKeyboard(sender as DependencyObject).IsOpen = true;
+      else
+        this.IsOpen = true;
     }
     private void InputTarge_LostFocus(object sender, RoutedEventArgs e)
-    {
-      this.IsOpen = false;
-    }
-    private void Keyboard_Closed(object sender, EventArgs e)
     {
       this.IsOpen = false;
     }
@@ -61,12 +74,12 @@ namespace Hexagon.Software.NCGage.UserControls
         popup.OnInputTargetChanged(e.OldValue as TextBox, e.NewValue as TextBox);
     }
 
-    public KeyboardTypes KeyboardType
+    public KeyboardTypes StartupKeyboardType
     {
-      get { return (KeyboardTypes)GetValue(KeyboardTypeProperty); }
-      set { SetValue(KeyboardTypeProperty, value); }
+      get { return (KeyboardTypes)GetValue(StartupKeyboardTypeProperty); }
+      set { SetValue(StartupKeyboardTypeProperty, value); }
     }
-    public static readonly DependencyProperty KeyboardTypeProperty = DependencyProperty.Register("KeyboardType", typeof(KeyboardTypes), typeof(KeyboardPopup), new PropertyMetadata(KeyboardTypes.Number));
+    public static readonly DependencyProperty StartupKeyboardTypeProperty = DependencyProperty.Register("StartupKeyboardType", typeof(KeyboardTypes), typeof(KeyboardPopup), new PropertyMetadata(KeyboardTypes.Number));
 
     public double ButtonSize
     {

@@ -233,6 +233,6 @@ namespace Hexagon.Software.NCGage.HelperLib
 
     private List<string> _latestErrorMessages = new List<string>();
     private string _extraInfomation = string.Empty;
-    private string _appVersionInfo = null;
+    //private string _appVersionInfo = null;
   }
 }

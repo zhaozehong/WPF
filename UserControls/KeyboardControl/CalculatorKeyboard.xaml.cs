@@ -14,7 +14,7 @@ namespace Hexagon.Software.NCGage.UserControls
       this.ViewModel = this.DataContext as CalculatorKeyboardViewModel;
       this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
-      this.OnKeyboardTypeChanged();
+      this.OnStartupKeyboardTypeChanged();
       this.OnResetOnCalculationChanged();
       this.OnButtonSizeChanged();
 
@@ -59,9 +59,9 @@ namespace Hexagon.Software.NCGage.UserControls
       }
     }
 
-    private void OnKeyboardTypeChanged()
+    private void OnStartupKeyboardTypeChanged()
     {
-      this.ViewModel.KeyboardType = this.KeyboardType;
+      this.ViewModel.KeyboardType = this.StartupKeyboardType;
     }
     private void OnButtonSizeChanged()
     {
@@ -137,17 +137,17 @@ namespace Hexagon.Software.NCGage.UserControls
     }
     public static readonly DependencyProperty InputTargetProperty = DependencyProperty.Register("InputTarget", typeof(TextBox), typeof(CalculatorKeyboard), new PropertyMetadata(null));
 
-    public KeyboardTypes KeyboardType
+    public KeyboardTypes StartupKeyboardType
     {
-      get { return (KeyboardTypes)GetValue(KeyboardTypeProperty); }
-      set { SetValue(KeyboardTypeProperty, value); }
+      get { return (KeyboardTypes)GetValue(StartupKeyboardTypeProperty); }
+      set { SetValue(StartupKeyboardTypeProperty, value); }
     }
-    public static readonly DependencyProperty KeyboardTypeProperty = DependencyProperty.Register("KeyboardType", typeof(KeyboardTypes), typeof(CalculatorKeyboard), new PropertyMetadata(KeyboardTypes.Number, new PropertyChangedCallback(OnKeyboardTypeChanged)));
-    private static void OnKeyboardTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    public static readonly DependencyProperty StartupKeyboardTypeProperty = DependencyProperty.Register("StartupKeyboardType", typeof(KeyboardTypes), typeof(CalculatorKeyboard), new PropertyMetadata(KeyboardTypes.Number, new PropertyChangedCallback(OnStartupKeyboardTypeChanged)));
+    private static void OnStartupKeyboardTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       var control = d as CalculatorKeyboard;
       if (control != null)
-        control.OnKeyboardTypeChanged();
+        control.OnStartupKeyboardTypeChanged();
     }
 
     public double ButtonSize
