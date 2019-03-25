@@ -219,7 +219,7 @@ namespace Hexagon.Software.NCGage.UserControls
           if (KeyboardHelper.IsOperatorKey(key) && lastInput.Key == KeyboardKeys.O_Substract && (!llastInput.IsDigit && !llastInput.IsRightBracket && !llastInput.IsPoint)) // invalid operation for minus sign
             return true;
 
-        if (lastInput.IsPoint && KeyboardHelper.IsPointKey(key))
+        if ((lastInput.IsPoint || GetLastNumericText(this.InputValue).Contains(".")) && KeyboardHelper.IsPointKey(key))
           return true;
         if (lastInput.IsOperator && (KeyboardHelper.IsEqualKey(key) || KeyboardHelper.IsRightBracketKey(key) || KeyboardHelper.IsUnitConverterKey(key)))
           return true;
@@ -261,6 +261,13 @@ namespace Hexagon.Software.NCGage.UserControls
       return lastInput != null && (lastInput.IsDigit || lastInput.IsPoint || lastInput.IsRightBracket) && (key == KeyboardKeys.Equal || KeyboardHelper.IsUnitConverterKey(key));
     }
 
+    private String GetLastNumericText(String text)
+    {
+      var match = Regex.Match(text, @"\d+\.?\d*$");
+      if (!match.Success)
+        return String.Empty;
+      return match.Value;
+    }
     #endregion
 
     #region Properties
