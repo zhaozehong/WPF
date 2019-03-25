@@ -28,6 +28,15 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       // set position
       UpdateWindow();
+
+      /********************************ZEHONG: fix bug when Topmost set to true********************************
+       * When topmost keyboard is opened: textbox will lost its focus;
+       * 1. when keyboard is closed: textbox got focus again, and GotFocus will open keyboard again;
+       * 2. opened keyboard makes textbox lost its focus: LostFocus will close the keyboard
+       * so, 1 & 2 creates a dead loop.
+       *********************************************************************************************************/
+      if (this.PlacementTarget.IsFocused == false)
+        this.PlacementTarget.Focus();
     }
 
     private void OnIsPinChanged()
