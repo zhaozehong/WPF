@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Hexagon.Software.NCGage.UserControls">
   <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="/UserControls;component/KeyboardControl/Resources/Brushes.xaml"/>
+    <ResourceDictionary Source="/UserControls;component/Keyboard/Resources/Brushes.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 
   <Style TargetType="{x:Type local:KeyboardButton}">
