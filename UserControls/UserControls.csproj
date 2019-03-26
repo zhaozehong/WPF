@@ -73,6 +73,7 @@
     <Compile Include="KeyboardControl\Helper\NotifyPropertyChanged.cs" />
     <Compile Include="KeyboardControl\Helper\RelayCommand.cs" />
     <Compile Include="KeyboardControl\KeyboardButton.cs" />
+    <Compile Include="KeyboardControl\KeyboardButtonBase.cs" />
     <Compile Include="KeyboardControl\KeyboardSettings.cs" />
     <Compile Include="KeyboardControl\KeyboardManager.cs" />
     <Compile Include="WindowsManager.cs" />
