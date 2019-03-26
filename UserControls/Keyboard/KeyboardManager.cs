@@ -11,7 +11,7 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       return KeyboardPopupObj.Equals(popupObj);
     }
-    public static KeyboardPopup GetKeyboard(DependencyObject obj)
+    public static CalculatorKeyboardPopup GetKeyboard(DependencyObject obj)
     {
       if (!GetEnabled(obj))
         return null;
@@ -119,6 +119,6 @@ namespace Hexagon.Software.NCGage.UserControls
 
     #endregion
 
-    public readonly static KeyboardPopup KeyboardPopupObj = new KeyboardPopup();
+    public readonly static CalculatorKeyboardPopup KeyboardPopupObj = new CalculatorKeyboardPopup();
   }
 }

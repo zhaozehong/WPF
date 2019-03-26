@@ -31,6 +31,24 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -52,6 +70,11 @@
   <ItemGroup>
     <Compile Include="CursorSetter.cs" />
     <Compile Include="Extensions\DispatcherObjectExternsion.cs" />
+    <Compile Include="FullKeyboard\FullKeyboard.xaml.cs" />
+    <Compile Include="FullKeyboard\FullKeyboardButton.cs" />
+    <Compile Include="FullKeyboard\FullKeyboardHelper.cs" />
+    <Compile Include="FullKeyboard\KeyboardControl.cs" />
+    <Compile Include="Keyboard\KeyboardPopup\KeyboardPopup.cs" />
     <Compile Include="IdleHandler.cs" />
     <Compile Include="Calculation\ComputeUnit\ComplexUnit.cs" />
     <Compile Include="Calculation\ComputeUnit\ComputeUnit.cs" />
@@ -60,32 +83,36 @@
     <Compile Include="Calculation\Interfaces\IComputeUnit.cs" />
     <Compile Include="Calculation\Interfaces\IExpression.cs" />
     <Compile Include="Calculation\NumericCalculator.cs" />
-    <Compile Include="KeyboardControl\CalculatorKeyboard.xaml.cs">
-      <DependentUpon>CalculatorKeyboard.xaml</DependentUpon>
+    <Compile Include="Keyboard\KeyboardControl\CalculatorKeyboard\CalculatorKeyboardControl.xaml.cs">
+      <DependentUpon>CalculatorKeyboardControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KeyboardControl\CalculatorKeyboardViewModel.cs" />
-    <Compile Include="KeyboardControl\Helper\Converters.cs" />
-    <Compile Include="KeyboardControl\Helper\EnumDefinition.cs" />
-    <Compile Include="KeyboardControl\Helper\ExceptionHandler\DefaultExceptionManager.cs" />
-    <Compile Include="KeyboardControl\Helper\ExceptionHandler\ExceptionHandler.cs" />
-    <Compile Include="KeyboardControl\Helper\ExceptionHandler\IExceptionManager.cs" />
-    <Compile Include="KeyboardControl\Helper\Helper.cs" />
-    <Compile Include="KeyboardControl\Helper\NotifyPropertyChanged.cs" />
-    <Compile Include="KeyboardControl\Helper\RelayCommand.cs" />
-    <Compile Include="KeyboardControl\KeyboardButton.cs" />
-    <Compile Include="KeyboardControl\KeyboardButtonBase.cs" />
-    <Compile Include="KeyboardControl\KeyboardSettings.cs" />
-    <Compile Include="KeyboardControl\KeyboardManager.cs" />
+    <Compile Include="Keyboard\KeyboardControl\CalculatorKeyboard\CalculatorKeyboardControlViewModel.cs" />
+    <Compile Include="Keyboard\Helper\Converters.cs" />
+    <Compile Include="Keyboard\Helper\EnumDefinition.cs" />
+    <Compile Include="Keyboard\Helper\ExceptionHandler\DefaultExceptionManager.cs" />
+    <Compile Include="Keyboard\Helper\ExceptionHandler\ExceptionHandler.cs" />
+    <Compile Include="Keyboard\Helper\ExceptionHandler\IExceptionManager.cs" />
+    <Compile Include="Keyboard\Helper\Helper.cs" />
+    <Compile Include="Keyboard\Helper\NotifyPropertyChanged.cs" />
+    <Compile Include="Keyboard\Helper\RelayCommand.cs" />
+    <Compile Include="Keyboard\KeyboardButton\CalculatorKeyboardButton.cs" />
+    <Compile Include="Keyboard\KeyboardButton\KeyboardButton.cs" />
+    <Compile Include="Keyboard\KeyboardSettings.cs" />
+    <Compile Include="Keyboard\KeyboardManager.cs" />
     <Compile Include="WindowsManager.cs" />
-    <Page Include="KeyboardControl\CalculatorKeyboard.xaml">
+    <Page Include="FullKeyboard\FullKeyboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Keyboard\KeyboardControl\CalculatorKeyboard\CalculatorKeyboardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="KeyboardControl\Resources\Brushes.xaml">
+    <Page Include="Keyboard\Resources\Brushes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="KeyboardControl\Resources\Styles\KeyboardStyle.xaml">
+    <Page Include="Keyboard\Resources\Styles\KeyboardStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -99,7 +126,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KeyboardControl\KeyboardPopup.cs" />
+    <Compile Include="Keyboard\KeyboardPopup\CalculatorKeyboardPopup.cs" />
     <Compile Include="MessageBoxEx.xaml.cs">
       <DependentUpon>MessageBoxEx.xaml</DependentUpon>
     </Compile>
@@ -130,19 +157,20 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="KeyboardControl\Resources\Images\Warning.png" />
+    <Resource Include="Keyboard\Resources\Images\Warning.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="KeyboardControl\Resources\Images\Backspace.png" />
+    <Resource Include="Keyboard\Resources\Images\Backspace.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="KeyboardControl\Resources\Images\Pin.png" />
+    <Resource Include="Keyboard\Resources\Images\Pin.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="KeyboardControl\Resources\Images\Enter.png" />
+    <Resource Include="Keyboard\Resources\Images\Enter.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="KeyboardControl\Resources\Icons\NCGage.ico" />
+    <Resource Include="Keyboard\Resources\Icons\NCGage.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

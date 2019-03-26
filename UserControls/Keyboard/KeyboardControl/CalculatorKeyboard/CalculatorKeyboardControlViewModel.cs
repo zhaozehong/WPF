@@ -7,17 +7,17 @@ using Hexagon.Software.NCGage.HelperLib;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
-  public enum KeyboardTypes { Number, Calculator }
-  public class CalculatorKeyboardViewModel : NotifyPropertyChanged
+  public enum KeyboardTypes { Number, Calculator, Full }
+  public class CalculatorKeyboardControlViewModel : NotifyPropertyChanged
   {
-    public CalculatorKeyboardViewModel()
+    public CalculatorKeyboardControlViewModel()
     {
       this.ButtonCommand = new RelayCommand(Update);
     }
 
     protected void Update(object parameter)
     {
-      var button = parameter as KeyboardButton;
+      var button = parameter as CalculatorKeyboardButton;
       if (button == null)
         return;
 

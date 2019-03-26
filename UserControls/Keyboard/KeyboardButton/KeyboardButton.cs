@@ -8,11 +8,11 @@ using Hexagon.Software.NCGage.HelperLib;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
-  public abstract class KeyboardButtonBase : ContentControl, ICommandSource
+  public abstract class KeyboardButton : ContentControl, ICommandSource
   {
-    static KeyboardButtonBase()
+    static KeyboardButton()
     {
-      DefaultStyleKeyProperty.OverrideMetadata(typeof(KeyboardButtonBase), new FrameworkPropertyMetadata(typeof(KeyboardButtonBase)));
+      DefaultStyleKeyProperty.OverrideMetadata(typeof(KeyboardButton), new FrameworkPropertyMetadata(typeof(KeyboardButton)));
     }
 
     protected virtual void OnCommandChanged(ICommand oldCommand, ICommand newCommand)
@@ -74,7 +74,7 @@ namespace Hexagon.Software.NCGage.UserControls
     }
 
     #region Events
-    private static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(KeyboardButton));
+    private static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CalculatorKeyboardButton));
     public event RoutedEventHandler Click
     {
       add { AddHandler(ClickEvent, value); }
@@ -110,16 +110,16 @@ namespace Hexagon.Software.NCGage.UserControls
       set { SetValue(CommandTargetProperty, value); }
     }
 
-    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(KeyboardButtonBase), new PropertyMetadata(new CornerRadius(10)));
-    public static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register("IsPressed", typeof(Boolean), typeof(KeyboardButtonBase));
-    private static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(KeyboardButtonBase),
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(KeyboardButton), new PropertyMetadata(new CornerRadius(10)));
+    public static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register("IsPressed", typeof(Boolean), typeof(KeyboardButton));
+    private static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(KeyboardButton),
       new PropertyMetadata((ICommand)null, new PropertyChangedCallback(OnCommandChanged)));
-    private static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(KeyboardButtonBase), new PropertyMetadata(null));
-    private static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(KeyboardButtonBase), new PropertyMetadata(null));
+    private static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(KeyboardButton), new PropertyMetadata(null));
+    private static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(KeyboardButton), new PropertyMetadata(null));
 
     private static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      var control = d as KeyboardButtonBase;
+      var control = d as KeyboardButton;
       if (control != null)
         control.OnCommandChanged((ICommand)e.OldValue, (ICommand)e.NewValue);
     }

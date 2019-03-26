@@ -8,7 +8,7 @@ using Hexagon.Software.NCGage.HelperLib;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
-  public class KeyboardButton : KeyboardButtonBase
+  public class CalculatorKeyboardButton : KeyboardButton
   {
     public Boolean Handle(List<InputInfo> recordList, string preValue)
     {
@@ -119,7 +119,7 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (KeyboardKeys)GetValue(KeyboardKeyProperty); }
       set { SetValue(KeyboardKeyProperty, value); }
     }
-    public static readonly DependencyProperty KeyboardKeyProperty = DependencyProperty.Register("KeyboardKey", typeof(KeyboardKeys), typeof(KeyboardButton), new PropertyMetadata(KeyboardKeys.None));
+    public static readonly DependencyProperty KeyboardKeyProperty = DependencyProperty.Register("KeyboardKey", typeof(KeyboardKeys), typeof(CalculatorKeyboardButton), new PropertyMetadata(KeyboardKeys.None));
 
     #endregion
   }

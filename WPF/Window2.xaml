@@ -8,7 +8,7 @@
         mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
         Title="Test Calculator Keyboard">
   <!--<Grid Background="Black">
-    <userControls:CalculatorKeyboard ButtonSize="60" ButtonMargin="15"/>
+    <userControls:CalculatorKeyboardControl ButtonSize="60" ButtonMargin="15"/>
   </Grid>-->
   <Grid Height="300" Margin="5">
     <Grid.RowDefinitions>
@@ -21,8 +21,22 @@
     </Grid.RowDefinitions>
 
     <TextBlock Grid.Row="1" Margin="5" VerticalAlignment="Bottom" Text="Click the following input boxes..."/>
-    
-    <TextBox Grid.Row="2" Width="300" Margin="5" Height="25" Name="tbInput1"
+
+    <TextBox Grid.Row="2" Width="300" Margin="5" Height="25" Text="ZEHONG" Name="tbInput1"
+             />
+    <TextBox Grid.Row="3" Width="300" Margin="5" Height="25" Name="tbInput2"
+             userControls:KeyboardManager.Enabled="true"
+             userControls:KeyboardManager.ButtonSize="70"
+             userControls:KeyboardManager.StartupKeyboardType="Calculator"
+             userControls:KeyboardManager.Topmost="False"
+             userControls:KeyboardManager.SharePosition="True"/>
+    <TextBox Grid.Row="4" Width="300" Margin="5" Height="25" Name="tbInput3"
+             userControls:KeyboardManager.Enabled="true"
+             userControls:KeyboardManager.ButtonSize="70"
+             userControls:KeyboardManager.StartupKeyboardType="Calculator"
+             userControls:KeyboardManager.Topmost="False"
+             userControls:KeyboardManager.SharePosition="True"/>
+    <!--<TextBox Grid.Row="2" Width="300" Margin="5" Height="25" Name="tbInput1"
              userControls:KeyboardManager.Enabled="true"
              userControls:KeyboardManager.ButtonSize="70"
              userControls:KeyboardManager.ButtonMargin="3"
@@ -41,7 +55,7 @@
              userControls:KeyboardManager.ButtonSize="70"
              userControls:KeyboardManager.StartupKeyboardType="Calculator"
              userControls:KeyboardManager.Topmost="False"
-             userControls:KeyboardManager.SharePosition="True"/>
+             userControls:KeyboardManager.SharePosition="True"/>-->
     <Button Content="Keyboard Test" Click="Button_Click"/>
   </Grid>
 </Window>

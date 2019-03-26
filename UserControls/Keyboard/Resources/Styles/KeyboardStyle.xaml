@@ -4,8 +4,11 @@
                     xmlns:helperLib="clr-namespace:Hexagon.Software.NCGage.HelperLib">
   <helperLib:DoubleToThicknessConverter x:Key="DoubleToThickness"/>
 
-  <Style x:Key="KeyboardButtonStyle" TargetType="{x:Type local:KeyboardButtonBase}">
-    <Setter Property="Margin" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:CalculatorKeyboard}}, Path=ButtonMargin, Converter={StaticResource DoubleToThickness}}"/>
+  <Style TargetType="{x:Type local:KeyboardButton}">
+    <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, Mode=TwoWay}"/>
+    <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, Mode=TwoWay}"/>
+    <Setter Property="FontSize" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonFontSize, Mode=TwoWay}"/>
+    <Setter Property="Margin" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonMargin, Converter={StaticResource DoubleToThickness}}"/>
     <Setter Property="Command" Value="{Binding ButtonCommand}"/>
     <Setter Property="CommandParameter" Value="{Binding RelativeSource={x:Static RelativeSource.Self}}"/>
   </Style>
