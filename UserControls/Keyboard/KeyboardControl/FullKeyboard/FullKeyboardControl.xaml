@@ -1,0 +1,284 @@
+﻿<local:KeyboardControl x:Class="Hexagon.Software.NCGage.UserControls.FullKeyboardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Hexagon.Software.NCGage.UserControls"
+             xmlns:helperLib="clr-namespace:Hexagon.Software.NCGage.HelperLib">
+  <local:KeyboardControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/UserControls;component/Keyboard/Resources/Styles/KeyboardStyle.xaml"/>
+        <ResourceDictionary Source="/UserControls;component/Keyboard/Resources/Brushes.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+
+      <helperLib:DoubleToParamTimesDoubleConverter x:Key="DoubleToParamTimesDouble"/>
+
+      <Style TargetType="{x:Type local:FullKeyboardButton}" BasedOn="{StaticResource {x:Type local:KeyboardButton}}">
+        <Setter Property="Content" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=NormalText}"/>
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding DisplayMode}" Value="Capital">
+            <Setter Property="Content" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=ShiftText}"/>
+          </DataTrigger>
+          <DataTrigger Binding="{Binding DisplayMode}" Value="Symbol">
+            <Setter Property="Content" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=SymbolText}"/>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </local:KeyboardControl.Resources>
+  <local:KeyboardControl.DataContext>
+    <local:FullKeyboardControlViewModel/>
+  </local:KeyboardControl.DataContext>
+  <Grid Background="Transparent" Margin="5">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+
+    <!--Row 0-->
+    <local:FullKeyboardButton Grid.Row="0" Content="X" HorizontalAlignment="Right" Command="{x:Null}" Click="btnClose_Click"/>
+    <!--Row 1-->
+    <Grid Grid.Row="1">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+
+      <!--Row 0-->
+      <Grid Grid.Row="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+
+          <ColumnDefinition Width="0.5*"/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <local:FullKeyboardButton Grid.Column="0" NormalText="q" ShiftText="Q" SymbolText="!" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="1" NormalText="w" ShiftText="W" SymbolText="@" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="2" NormalText="e" ShiftText="E" SymbolText="#" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="3" NormalText="r" ShiftText="R" SymbolText="$" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="4" NormalText="t" ShiftText="T" SymbolText="%" JapaneseText="Ja"/>
+
+        <local:FullKeyboardButton Grid.Column="5" NormalText="y" ShiftText="Y" SymbolText="^" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="6" NormalText="u" ShiftText="U" SymbolText="&amp;" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="7" NormalText="i" ShiftText="I" SymbolText="*" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="8" NormalText="o" ShiftText="O" SymbolText="(" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="9" NormalText="p" ShiftText="P" SymbolText=")" JapaneseText="Ja"/>
+
+        <TextBlock Grid.Column="10" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <local:FullKeyboardButton Grid.Column="11" NormalText="7" ShiftText="7" SymbolText="7" JapaneseText="7"/>
+        <local:FullKeyboardButton Grid.Column="12" NormalText="8" ShiftText="8" SymbolText="8" JapaneseText="8"/>
+        <local:FullKeyboardButton Grid.Column="13" NormalText="9" ShiftText="9" SymbolText="9" JapaneseText="9"/>
+        <local:FullKeyboardButton Grid.Column="14" Key="Backspace">
+          <Image Source="/UserControls;component/Keyboard/Resources/Images/Backspace.png"/>
+        </local:FullKeyboardButton>
+
+        <TextBlock Grid.Column="15" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <local:FullKeyboardButton Grid.Column="16" Key="PageUp">
+          <Image Source="/UserControls;component/Keyboard/Resources/Images/PageUp.png"/>
+        </local:FullKeyboardButton>
+        <local:FullKeyboardButton Grid.Column="17" Key="PageDown">
+          <Image Source="/UserControls;component/Keyboard/Resources/Images/PageDown.png"/>
+        </local:FullKeyboardButton>
+      </Grid>
+      <!--Row 1-->
+      <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="0.5*"/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+
+          <ColumnDefinition/>
+          <ColumnDefinition Width="0.5*"/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+
+          <ColumnDefinition/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+
+        <local:FullKeyboardButton Grid.Column="1" NormalText="a" ShiftText="A" SymbolText="[" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="2" NormalText="s" ShiftText="S" SymbolText="]" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="3" NormalText="d" ShiftText="D" SymbolText="{}{" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="4" NormalText="f" ShiftText="F" SymbolText="}" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="5" NormalText="g" ShiftText="G" SymbolText="&lt;" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="6" NormalText="h" ShiftText="H" SymbolText="&gt;" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="7" NormalText="j" ShiftText="J" SymbolText=";" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="8" NormalText="k" ShiftText="K" SymbolText=":" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="9" NormalText="l" ShiftText="L" SymbolText="+" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="10" NormalText="#" ShiftText="#" SymbolText="=" JapaneseText="Ja"/>
+
+        <TextBlock Grid.Column="11" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+
+        <local:FullKeyboardButton Grid.Column="12" NormalText="4" ShiftText="4" SymbolText="4" JapaneseText="4"/>
+        <local:FullKeyboardButton Grid.Column="13" NormalText="5" ShiftText="5" SymbolText="5" JapaneseText="5"/>
+        <local:FullKeyboardButton Grid.Column="14" NormalText="6" ShiftText="6" SymbolText="6" JapaneseText="6"/>
+        <local:FullKeyboardButton Grid.Column="15" Command="{x:Null}" Click="btnPin_Click">
+          <local:FullKeyboardButton.Style>
+            <Style TargetType="{x:Type local:FullKeyboardButton}" BasedOn="{StaticResource {x:Type local:KeyboardButton}}">
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=IsPin}" Value="True">
+                  <Setter Property="Background" Value="{StaticResource MazakBrush}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </local:FullKeyboardButton.Style>
+          <Image Source="/UserControls;component/Keyboard/Resources/Images/Pin.png"/>
+        </local:FullKeyboardButton>
+
+        <TextBlock Grid.Column="16" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <local:FullKeyboardButton Grid.Column="17" Key="Up">
+          <Image Source="/UserControls;component/Keyboard/Resources/Images/Up.png"/>
+        </local:FullKeyboardButton>
+        <TextBlock Grid.Column="18" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+      </Grid>
+      <!--Row 2-->
+      <Grid Grid.Row="2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+
+          <ColumnDefinition Width="0.5*"/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <local:FullKeyboardButton Grid.Column="0" NormalText="tab" ShiftText="tab" SymbolText="tab" JapaneseText="tab"/>
+        <local:FullKeyboardButton Grid.Column="1" NormalText="z" ShiftText="Z" SymbolText="&quot;" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="2" NormalText="x" ShiftText="X" SymbolText="'" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="3" NormalText="c" ShiftText="C" SymbolText="_" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="4" NormalText="v" ShiftText="V" SymbolText="|" JapaneseText="Ja"/>
+
+        <local:FullKeyboardButton Grid.Column="5" NormalText="b" ShiftText="B" SymbolText="?" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="6" NormalText="n" ShiftText="N" SymbolText="~" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="7" NormalText="m" ShiftText="M" SymbolText="-" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="8" NormalText="," ShiftText="," SymbolText="," JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="9" NormalText="." ShiftText="." SymbolText="." JapaneseText="Ja"/>
+
+        <TextBlock Grid.Column="10" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <local:FullKeyboardButton Grid.Column="11" NormalText="1" ShiftText="1" SymbolText="1" JapaneseText="1"/>
+        <local:FullKeyboardButton Grid.Column="12" NormalText="2" ShiftText="2" SymbolText="2" JapaneseText="2"/>
+        <local:FullKeyboardButton Grid.Column="13" NormalText="3" ShiftText="3" SymbolText="3" JapaneseText="3"/>
+        <local:FullKeyboardButton Grid.Column="14" Content="DEL"/>
+
+        <TextBlock Grid.Column="15" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <local:FullKeyboardButton Grid.Column="16" Key="Left">
+          <Image Source="/UserControls;component/Keyboard/Resources/Images/Left.png"/>
+        </local:FullKeyboardButton>
+        <local:FullKeyboardButton Grid.Column="17" Key="Right">
+          <Image Source="/UserControls;component/Keyboard/Resources/Images/Right.png"/>
+        </local:FullKeyboardButton>
+      </Grid>
+      <!--Row 3-->
+      <Grid Grid.Row="3">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="0.5*"/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="5*"/>
+
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="0.5*"/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <local:FullKeyboardButton Grid.Column="1" Content="!#?" Command="{x:Null}" Click="btnSymbol_click">
+          <local:FullKeyboardButton.Style>
+            <Style TargetType="{x:Type local:FullKeyboardButton}" BasedOn="{StaticResource {x:Type local:KeyboardButton}}">
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=DisplayMode}" Value="Symbol">
+                  <Setter Property="Background" Value="{StaticResource MazakBrush}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </local:FullKeyboardButton.Style>
+        </local:FullKeyboardButton>
+        <local:FullKeyboardButton Grid.Column="2" Content="abc" Command="{x:Null}" Click="btnCapital_click">
+          <local:FullKeyboardButton.Style>
+            <Style TargetType="{x:Type local:FullKeyboardButton}" BasedOn="{StaticResource {x:Type local:KeyboardButton}}">
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=DisplayMode}" Value="Capital">
+                  <Setter Property="Background" Value="{StaticResource MazakBrush}"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </local:FullKeyboardButton.Style>
+        </local:FullKeyboardButton>
+        <TextBlock Grid.Column="3" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <local:FullKeyboardButton Grid.Column="4" Key="Space" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+
+        <local:FullKeyboardButton Grid.Column="5" NormalText="/" ShiftText="/" SymbolText="/" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="6" NormalText="\" ShiftText="\" SymbolText="\" JapaneseText="Ja"/>
+        <TextBlock Grid.Column="7" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <local:FullKeyboardButton Grid.Column="8" NormalText="-" ShiftText="-" SymbolText="-" JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="9" NormalText="0" ShiftText="0" SymbolText="0" JapaneseText="Ja"/>
+
+        <local:FullKeyboardButton Grid.Column="10" Key="Decimal" NormalText="." ShiftText="." SymbolText="." JapaneseText="Ja"/>
+        <local:FullKeyboardButton Grid.Column="11" Key="Enter">
+          <Image Source="/UserControls;component/Keyboard/Resources/Images/Enter.png"/>
+        </local:FullKeyboardButton>
+        <TextBlock Grid.Column="12" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <local:FullKeyboardButton Grid.Column="13" Key="Down">
+          <Image Source="/UserControls;component/Keyboard/Resources/Images/Down.png"/>
+        </local:FullKeyboardButton>
+        <TextBlock Grid.Column="14" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+      </Grid>
+    </Grid>
+  </Grid>
+</local:KeyboardControl>

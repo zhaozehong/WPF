@@ -5,21 +5,11 @@ using System.Windows.Controls;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
- public abstract class KeyboardControl : UserControl, INotifyPropertyChanged
+  public abstract class KeyboardControl : UserControl, INotifyPropertyChanged
   {
     public KeyboardControl()
     {
-      this.Loaded += (s, e) =>
-      {
-#if !DEBUG
-         this.IsPin = false;
-#endif
-      };
-    }
-
-    private void UpdateButtonFontSize()
-    {
-      this.ButtonFontSize = (Int32)(this.ButtonSize / 3);
+      this.Loaded += OnLoaded;
     }
 
     protected void btnClose_Click(object sender, RoutedEventArgs e)
@@ -36,14 +26,27 @@ namespace Hexagon.Software.NCGage.UserControls
       if (this.InputTarget != null)
         this.InputTarget.Clear();
     }
-    protected abstract void btnEnter_Click(object sender, RoutedEventArgs e);
 
+    protected virtual void OnLoaded(object sender, RoutedEventArgs e)
+    {
+#if !DEBUG
+         this.IsPin = false;
+#endif
+
+      this.OnStartupKeyboardTypeChanged();
+      this.OnButtonSizeChanged();
+    }
     protected virtual void OnStartupKeyboardTypeChanged() { }
     protected virtual void OnButtonSizeChanged()
     {
       this.UpdateButtonFontSize();
     }
     protected virtual void OnButtonMarginChanged() { }
+
+    private void UpdateButtonFontSize()
+    {
+      this.ButtonFontSize = (Int32)(this.ButtonSize / 2.2);
+    }
 
     #region INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
@@ -61,7 +64,7 @@ namespace Hexagon.Software.NCGage.UserControls
 
     public event EventHandler Closed;
 
-    #region Properties
+    private Int32 _buttonFontSize = 16;
     public Int32 ButtonFontSize
     {
       get { return _buttonFontSize; }
@@ -74,8 +77,6 @@ namespace Hexagon.Software.NCGage.UserControls
         }
       }
     }
-
-    #endregion
 
     #region Dependency Properties
     public TextBox InputTarget
@@ -130,11 +131,6 @@ namespace Hexagon.Software.NCGage.UserControls
       set { SetValue(IsPinProperty, value); }
     }
     public static readonly DependencyProperty IsPinProperty = DependencyProperty.Register("IsPin", typeof(bool), typeof(KeyboardControl), new PropertyMetadata(false));
-
-    #endregion
-
-    #region Variables
-    private Int32 _buttonFontSize = 16;
 
     #endregion
   }

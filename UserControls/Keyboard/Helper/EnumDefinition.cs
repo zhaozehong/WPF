@@ -127,4 +127,7 @@ namespace Hexagon.Software.NCGage.HelperLib
     }
     public static List<String> FunctionNames = Enum.GetNames(typeof(KeyboardKeys)).Where(p => p.StartsWith("F_")).Select(p => p.Substring(2)).ToList();
   }
+
+  public enum KeyboardTypes { Number, Calculator, Full }
+  public enum DisplayModes { Normal, Capital, Symbol }
 }

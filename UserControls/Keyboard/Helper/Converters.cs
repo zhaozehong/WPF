@@ -136,5 +136,37 @@ namespace Hexagon.Software.NCGage.HelperLib
       return 0.0;
     }
   }
-
+  public sealed class DoubleToParamTimesDoubleConverter : IValueConverter
+  {
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      try
+      {
+        if (value == null || !(value is double))
+          return Double.NaN;
+        if (parameter == null || !Helpers.IsNumericValue(parameter.ToString()))
+          return value;
+        return (double)value * double.Parse(parameter.ToString());
+      }
+      catch (Exception)
+      {
+        return Double.NaN;
+      }
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      try
+      {
+        if (value == null || !(value is double))
+          return Double.NaN;
+        if (parameter == null || !Helpers.IsNumericValue(parameter.ToString()))
+          return value;
+        return (double)value / double.Parse(parameter.ToString());
+      }
+      catch (Exception)
+      {
+        return Double.NaN;
+      }
+    }
+  }
 }

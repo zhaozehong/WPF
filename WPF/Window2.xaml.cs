@@ -7,6 +7,7 @@ namespace JM.Software.WPF
     public Window2()
     {
       InitializeComponent();
+      this.tbInput.Focus();
     }
 
     private void Button_Click(object sender, RoutedEventArgs e)

@@ -10,12 +10,6 @@ namespace Hexagon.Software.NCGage.UserControls
     public CalculatorKeyboardControl()
     {
       InitializeComponent();
-      this.ViewModel = this.DataContext as CalculatorKeyboardControlViewModel;
-      this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-
-      this.OnStartupKeyboardTypeChanged();
-      this.OnResetOnCalculationChanged();
-      this.OnButtonSizeChanged();
     }
 
     private void UpdateDisplayScreenSize()
@@ -24,7 +18,7 @@ namespace Hexagon.Software.NCGage.UserControls
       this.DisplayScreenWidth = this.ButtonSize * columns + this.ButtonMargin * 2 * (columns - 1);
     }
 
-    protected override void btnEnter_Click(object sender, RoutedEventArgs e)
+    protected void btnEnter_Click(object sender, RoutedEventArgs e)
     {
       if (this.InputTarget != null)
       {
@@ -33,6 +27,14 @@ namespace Hexagon.Software.NCGage.UserControls
       }
     }
 
+    protected override void OnLoaded(object sender, RoutedEventArgs e)
+    {
+      this.ViewModel = this.DataContext as CalculatorKeyboardControlViewModel;
+      this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+      this.OnResetOnCalculationChanged();
+
+      base.OnLoaded(sender, e);
+    }
     protected override void OnStartupKeyboardTypeChanged()
     {
       this.ViewModel.KeyboardType = this.StartupKeyboardType;

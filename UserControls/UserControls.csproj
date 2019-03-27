@@ -70,10 +70,14 @@
   <ItemGroup>
     <Compile Include="CursorSetter.cs" />
     <Compile Include="Extensions\DispatcherObjectExternsion.cs" />
-    <Compile Include="FullKeyboard\FullKeyboard.xaml.cs" />
-    <Compile Include="FullKeyboard\FullKeyboardButton.cs" />
-    <Compile Include="FullKeyboard\FullKeyboardHelper.cs" />
-    <Compile Include="FullKeyboard\KeyboardControl.cs" />
+    <Compile Include="Keyboard\KeyboardControl\FullKeyboard\FullKeyboardHelper.cs" />
+    <Compile Include="Keyboard\KeyboardControl\KeyboardControl.cs" />
+    <Compile Include="Keyboard\KeyboardButton\FullKeyboardButton.cs" />
+    <Compile Include="Keyboard\KeyboardControl\FullKeyboard\FullKeyboardControl.xaml.cs">
+      <DependentUpon>FullKeyboardControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Keyboard\KeyboardControl\FullKeyboard\FullKeyboardControlViewModel.cs" />
+    <Compile Include="Keyboard\KeyboardPopup\FullKeyboardPopup.cs" />
     <Compile Include="Keyboard\KeyboardPopup\KeyboardPopup.cs" />
     <Compile Include="IdleHandler.cs" />
     <Compile Include="Calculation\ComputeUnit\ComplexUnit.cs" />
@@ -100,11 +104,11 @@
     <Compile Include="Keyboard\KeyboardSettings.cs" />
     <Compile Include="Keyboard\KeyboardManager.cs" />
     <Compile Include="WindowsManager.cs" />
-    <Page Include="FullKeyboard\FullKeyboard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Keyboard\KeyboardControl\CalculatorKeyboard\CalculatorKeyboardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Keyboard\KeyboardControl\FullKeyboard\FullKeyboardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -171,6 +175,16 @@
   <ItemGroup>
     <Resource Include="Keyboard\Resources\Icons\NCGage.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="FullKeyboard\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Keyboard\Resources\Images\Down.png" />
+    <Resource Include="Keyboard\Resources\Images\Left.png" />
+    <Resource Include="Keyboard\Resources\Images\PageDown.png" />
+    <Resource Include="Keyboard\Resources\Images\PageUp.png" />
+    <Resource Include="Keyboard\Resources\Images\Right.png" />
+    <Resource Include="Keyboard\Resources\Images\Up.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
