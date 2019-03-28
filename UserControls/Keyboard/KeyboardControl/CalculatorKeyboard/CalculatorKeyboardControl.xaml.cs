@@ -27,13 +27,13 @@ namespace Hexagon.Software.NCGage.UserControls
       }
     }
 
-    protected override void OnLoaded(object sender, RoutedEventArgs e)
+    protected override void OnInitialized(object sender, EventArgs e)
     {
       this.ViewModel = this.DataContext as CalculatorKeyboardControlViewModel;
       this.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
       this.OnResetOnCalculationChanged();
 
-      base.OnLoaded(sender, e);
+      base.OnInitialized(sender, e);
     }
     protected override void OnStartupKeyboardTypeChanged()
     {

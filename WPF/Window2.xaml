@@ -7,11 +7,11 @@
         Icon="/WPF;component/Resources/Icons/NCGage.ico"
         mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
         Title="Test Keyboard">
-  <StackPanel Background="Black">
+  <!--<StackPanel Background="Black">
     <TextBox HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Name="tbInput"/>
     <userControls:FullKeyboardControl/>
-  </StackPanel>
-  <!--<Grid Height="300" Margin="5">
+  </StackPanel>-->
+  <Grid Height="300" Margin="5">
     <Grid.RowDefinitions>
       <RowDefinition Height="100"/>
       <RowDefinition Height="*"/>
@@ -44,5 +44,5 @@
              userControls:KeyboardManager.Topmost="False"
              userControls:KeyboardManager.SharePosition="True"/>
     <Button Content="Keyboard Test" Click="Button_Click"/>
-  </Grid>-->
+  </Grid>
 </Window>

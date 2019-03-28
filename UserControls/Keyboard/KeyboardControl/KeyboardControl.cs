@@ -9,7 +9,7 @@ namespace Hexagon.Software.NCGage.UserControls
   {
     public KeyboardControl()
     {
-      this.Loaded += OnLoaded;
+      this.Initialized += OnInitialized;
     }
 
     protected void btnClose_Click(object sender, RoutedEventArgs e)
@@ -27,7 +27,7 @@ namespace Hexagon.Software.NCGage.UserControls
         this.InputTarget.Clear();
     }
 
-    protected virtual void OnLoaded(object sender, RoutedEventArgs e)
+    protected virtual void OnInitialized(object sender, EventArgs e)
     {
 #if !DEBUG
          this.IsPin = false;
@@ -45,7 +45,7 @@ namespace Hexagon.Software.NCGage.UserControls
 
     private void UpdateButtonFontSize()
     {
-      this.ButtonFontSize = (Int32)(this.ButtonSize / 2.2);
+      this.ButtonFontSize = (Int32)(this.ButtonSize / 2.5);
     }
 
     #region INotifyPropertyChanged
