@@ -162,7 +162,7 @@ namespace Hexagon.Software.NCGage.UserControls
       set { SetValue(IsPinProperty, value); }
     }
     public static readonly DependencyProperty IsPinProperty =
-        DependencyProperty.Register("IsPin", typeof(bool), typeof(PopupEx), new PropertyMetadata(false, new PropertyChangedCallback(OnIsPinChanged)));
+        DependencyProperty.Register("IsPin", typeof(bool), typeof(PopupEx), new PropertyMetadata(false, OnIsPinChanged));
     private static void OnIsPinChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       var popup = d as PopupEx;
@@ -176,7 +176,7 @@ namespace Hexagon.Software.NCGage.UserControls
       set { SetValue(SharePositionProperty, value); }
     }
     public static readonly DependencyProperty SharePositionProperty =
-        DependencyProperty.Register("SharePosition", typeof(bool), typeof(PopupEx), new PropertyMetadata(true, new PropertyChangedCallback(OnSharePositionChanged)));
+        DependencyProperty.Register("SharePosition", typeof(bool), typeof(PopupEx), new PropertyMetadata(true, OnSharePositionChanged));
     private static void OnSharePositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       var popup = d as PopupEx;

@@ -210,7 +210,7 @@ namespace Hexagon.Software.NCGage.CustomControls
     }
 
     private static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(FanucButton),
-      new PropertyMetadata((ICommand)null, new PropertyChangedCallback(OnCommandChanged)));
+      new PropertyMetadata((ICommand)null, OnCommandChanged));
     private static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(FanucButton), new PropertyMetadata(null));
     private static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(FanucButton), new PropertyMetadata(null));
 
