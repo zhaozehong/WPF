@@ -175,9 +175,7 @@
   <ItemGroup>
     <Resource Include="Keyboard\Resources\Icons\NCGage.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FullKeyboard\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Keyboard\Resources\Images\Down.png" />
     <Resource Include="Keyboard\Resources\Images\Left.png" />

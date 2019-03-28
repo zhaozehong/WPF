@@ -84,7 +84,7 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (Boolean)GetValue(ResetOnCalculationProperty); }
       set { SetValue(ResetOnCalculationProperty, value); }
     }
-    public static readonly DependencyProperty ResetOnCalculationProperty = DependencyProperty.Register("ResetOnCalculation", typeof(bool), typeof(CalculatorKeyboardControl), new PropertyMetadata(true, new PropertyChangedCallback(OnResetOnCalculationChanged)));
+    public static readonly DependencyProperty ResetOnCalculationProperty = DependencyProperty.Register("ResetOnCalculation", typeof(bool), typeof(CalculatorKeyboardControl), new PropertyMetadata(true, OnResetOnCalculationChanged));
     private static void OnResetOnCalculationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       var control = d as CalculatorKeyboardControl;

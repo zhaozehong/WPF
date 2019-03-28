@@ -91,7 +91,7 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (KeyboardTypes)GetValue(StartupKeyboardTypeProperty); }
       set { SetValue(StartupKeyboardTypeProperty, value); }
     }
-    public static readonly DependencyProperty StartupKeyboardTypeProperty = DependencyProperty.Register("StartupKeyboardType", typeof(KeyboardTypes), typeof(KeyboardControl), new PropertyMetadata(KeyboardTypes.Number, new PropertyChangedCallback(OnStartupKeyboardTypeChanged)));
+    public static readonly DependencyProperty StartupKeyboardTypeProperty = DependencyProperty.Register("StartupKeyboardType", typeof(KeyboardTypes), typeof(KeyboardControl), new PropertyMetadata(KeyboardTypes.Number, OnStartupKeyboardTypeChanged));
     private static void OnStartupKeyboardTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       var control = d as KeyboardControl;
@@ -104,7 +104,7 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (Double)GetValue(ButtonSizeProperty); }
       set { SetValue(ButtonSizeProperty, value); }
     }
-    public static readonly DependencyProperty ButtonSizeProperty = DependencyProperty.Register("ButtonSize", typeof(double), typeof(KeyboardControl), new PropertyMetadata(60.0, new PropertyChangedCallback(OnButtonSizeChanged)));
+    public static readonly DependencyProperty ButtonSizeProperty = DependencyProperty.Register("ButtonSize", typeof(double), typeof(KeyboardControl), new PropertyMetadata(60.0, OnButtonSizeChanged));
     private static void OnButtonSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       var control = d as KeyboardControl;
@@ -117,7 +117,7 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (double)GetValue(ButtonMarginProperty); }
       set { SetValue(ButtonMarginProperty, value); }
     }
-    public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(KeyboardControl), new PropertyMetadata(1.0, new PropertyChangedCallback(OnButtonMarginChanged)));
+    public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(KeyboardControl), new PropertyMetadata(1.0, OnButtonMarginChanged));
     private static void OnButtonMarginChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       var control = d as KeyboardControl;

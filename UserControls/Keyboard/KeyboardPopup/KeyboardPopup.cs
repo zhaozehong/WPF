@@ -9,7 +9,7 @@ namespace Hexagon.Software.NCGage.UserControls
   {
     public KeyboardPopup()
     {
-      if(Keyboard != null)
+      if (Keyboard != null)
       {
         Keyboard.SetBinding(KeyboardControl.InputTargetProperty, new Binding("InputTarget") { Source = this });
         Keyboard.SetBinding(KeyboardControl.StartupKeyboardTypeProperty, new Binding("StartupKeyboardType") { Source = this });
@@ -17,7 +17,8 @@ namespace Hexagon.Software.NCGage.UserControls
         Keyboard.SetBinding(KeyboardControl.ButtonMarginProperty, new Binding("ButtonMargin") { Source = this });
         Keyboard.Closed += (s, e) => this.IsOpen = false;
 
-        this.Child = Keyboard;
+        //ZEHONG: use a viewbox to make keyboard become big enough to fit inside the available space
+        this.Child = new Viewbox() { Child = Keyboard };
 
         this.SetBinding(PopupEx.IsPinProperty, new Binding("IsPin") { Source = Keyboard, Mode = BindingMode.TwoWay });
       }
@@ -25,7 +26,7 @@ namespace Hexagon.Software.NCGage.UserControls
 
     private void OnInputTargetChanged(TextBox oldTarget, TextBox newTarget)
     {
-      if (KeyboardManager.Equals(this)) // only one instance
+      if (KeyboardManager.Equals(this)) //ZEHONG: never remove event handler from oldTarget if you're using KeyboardManager, or it will never receive GotFocus&LostFocus except for the last TextBox.
       {
         if (newTarget != null)
         {
@@ -36,7 +37,7 @@ namespace Hexagon.Software.NCGage.UserControls
           newTarget.LostFocus += InputTarge_LostFocus;
         }
       }
-      else
+      else // if you are using Keyboard popup separately, you need to remove the old handler for each popup
       {
         if (oldTarget != null)
         {
@@ -53,13 +54,14 @@ namespace Hexagon.Software.NCGage.UserControls
     private void InputTarge_GotFocus(object sender, RoutedEventArgs e)
     {
       if (KeyboardManager.Equals(this))
-        KeyboardManager.GetKeyboard(sender as DependencyObject).IsOpen = true;
+        KeyboardManager.GetKeyboardPopup(sender as DependencyObject).IsOpen = true;
       else
         this.IsOpen = true;
     }
     private void InputTarge_LostFocus(object sender, RoutedEventArgs e)
     {
-      this.IsOpen = false;
+      if (this.IsOpen)
+        this.IsOpen = false;
     }
 
     protected abstract KeyboardControl Keyboard { get; }
@@ -70,10 +72,10 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (TextBox)GetValue(InputTargetProperty); }
       set { SetValue(InputTargetProperty, value); }
     }
-    public static readonly DependencyProperty InputTargetProperty = DependencyProperty.Register("InputTarget", typeof(TextBox), typeof(CalculatorKeyboardPopup), new PropertyMetadata(null, new PropertyChangedCallback(OnInputTargetChanged)));
+    public static readonly DependencyProperty InputTargetProperty = DependencyProperty.Register("InputTarget", typeof(TextBox), typeof(KeyboardPopup), new PropertyMetadata(null, OnInputTargetChanged));
     private static void OnInputTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      var popup = d as CalculatorKeyboardPopup;
+      var popup = d as KeyboardPopup;
       if (popup != null)
         popup.OnInputTargetChanged(e.OldValue as TextBox, e.NewValue as TextBox);
     }
@@ -83,21 +85,21 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (KeyboardTypes)GetValue(StartupKeyboardTypeProperty); }
       set { SetValue(StartupKeyboardTypeProperty, value); }
     }
-    public static readonly DependencyProperty StartupKeyboardTypeProperty = DependencyProperty.Register("StartupKeyboardType", typeof(KeyboardTypes), typeof(CalculatorKeyboardPopup), new PropertyMetadata(KeyboardTypes.Number));
+    public static readonly DependencyProperty StartupKeyboardTypeProperty = DependencyProperty.Register("StartupKeyboardType", typeof(KeyboardTypes), typeof(KeyboardPopup), new PropertyMetadata(KeyboardTypes.Number));
 
     public double ButtonSize
     {
       get { return (Double)GetValue(ButtonSizeProperty); }
       set { SetValue(ButtonSizeProperty, value); }
     }
-    public static readonly DependencyProperty ButtonSizeProperty = DependencyProperty.Register("ButtonSize", typeof(double), typeof(CalculatorKeyboardPopup), new PropertyMetadata(50.0));
+    public static readonly DependencyProperty ButtonSizeProperty = DependencyProperty.Register("ButtonSize", typeof(double), typeof(KeyboardPopup), new PropertyMetadata(50.0));
 
     public double ButtonMargin
     {
       get { return (double)GetValue(ButtonMarginProperty); }
       set { SetValue(ButtonMarginProperty, value); }
     }
-    public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(CalculatorKeyboardPopup), new PropertyMetadata(1.0));
+    public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(KeyboardPopup), new PropertyMetadata(1.0));
 
     #endregion
   }

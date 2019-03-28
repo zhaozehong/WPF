@@ -71,7 +71,7 @@ namespace Hexagon.Software.NCGage.UserControls
     }
 
     #region Events
-    private static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CalculatorKeyboardButton));
+    private static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(KeyboardButton));
     public event RoutedEventHandler Click
     {
       add { AddHandler(ClickEvent, value); }
@@ -109,8 +109,7 @@ namespace Hexagon.Software.NCGage.UserControls
 
     public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(KeyboardButton), new PropertyMetadata(new CornerRadius(10)));
     public static readonly DependencyProperty IsPressedProperty = DependencyProperty.Register("IsPressed", typeof(Boolean), typeof(KeyboardButton));
-    private static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(KeyboardButton),
-      new PropertyMetadata((ICommand)null, new PropertyChangedCallback(OnCommandChanged)));
+    private static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(KeyboardButton), new PropertyMetadata((ICommand)null, OnCommandChanged));
     private static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter", typeof(object), typeof(KeyboardButton), new PropertyMetadata(null));
     private static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(KeyboardButton), new PropertyMetadata(null));
 

@@ -23,26 +23,24 @@
 
     <TextBlock Grid.Row="1" Margin="5" VerticalAlignment="Bottom" Text="Click the following input boxes..."/>
 
-    <TextBox Grid.Row="2" Width="300" Margin="5" Height="25" Name="tbInput1"
+    <TextBox Grid.Row="2" Width="300" Margin="5" Height="25" Text="0" Name="tbInput1"
              userControls:KeyboardManager.Enabled="true"
+             userControls:KeyboardManager.StartupKeyboardType="Number"
+             userControls:KeyboardManager.Topmost="False"
              userControls:KeyboardManager.ButtonSize="70"
-             userControls:KeyboardManager.ButtonMargin="3"
-             userControls:KeyboardManager.ResetOnCalculation="False"
-             userControls:KeyboardManager.Topmost="True"
-             userControls:KeyboardManager.SharePosition="False"
+             userControls:KeyboardManager.ButtonMargin="12"
+             userControls:KeyboardManager.ResetOnCalculation="True"
+             userControls:KeyboardManager.SharePosition="True"
+             userControls:KeyboardManager.Placement="Right"
              />
-    <TextBox Grid.Row="3" Width="300" Margin="5" Height="25" Name="tbInput2"
+    <TextBox Grid.Row="3" Width="300" Margin="5" Height="25" Text="1" Name="tbInput2"
              userControls:KeyboardManager.Enabled="true"
-             userControls:KeyboardManager.ButtonSize="70"
              userControls:KeyboardManager.StartupKeyboardType="Calculator"
-             userControls:KeyboardManager.Topmost="False"
-             userControls:KeyboardManager.SharePosition="True"/>
-    <TextBox Grid.Row="4" Width="300" Margin="5" Height="25" Name="tbInput3"
+             />
+    <TextBox Grid.Row="4" Width="300" Margin="5" Height="25" Text="2" Name="tbInput3"
              userControls:KeyboardManager.Enabled="true"
-             userControls:KeyboardManager.ButtonSize="70"
-             userControls:KeyboardManager.StartupKeyboardType="Calculator"
-             userControls:KeyboardManager.Topmost="False"
-             userControls:KeyboardManager.SharePosition="True"/>
+             userControls:KeyboardManager.StartupKeyboardType="Full"
+             />
     <Button Content="Keyboard Test" Click="Button_Click"/>
   </Grid>
 </Window>

@@ -35,7 +35,7 @@ namespace Hexagon.Software.NCGage.UserControls
        * 2. opened keyboard makes textbox lost its focus: LostFocus will close the keyboard
        * so, 1 & 2 creates a dead loop.
        *********************************************************************************************************/
-      if (this.PlacementTarget.IsFocused == false)
+      if (this.PlacementTarget.IsFocused == false) //ZEHONG: PlacementTarget must not be null when coming here
         this.PlacementTarget.Focus();
     }
 
