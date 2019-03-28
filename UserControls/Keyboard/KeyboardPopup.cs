@@ -1,27 +1,29 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
-  public abstract class KeyboardPopup : PopupEx
+  public class KeyboardPopup : PopupEx
   {
     public KeyboardPopup()
     {
-      if (Keyboard != null)
-      {
-        Keyboard.SetBinding(KeyboardControl.InputTargetProperty, new Binding("InputTarget") { Source = this });
-        Keyboard.SetBinding(KeyboardControl.StartupKeyboardTypeProperty, new Binding("StartupKeyboardType") { Source = this });
-        Keyboard.SetBinding(KeyboardControl.ButtonSizeProperty, new Binding("ButtonSize") { Source = this });
-        Keyboard.SetBinding(KeyboardControl.ButtonMarginProperty, new Binding("ButtonMargin") { Source = this });
-        Keyboard.Closed += (s, e) => this.IsOpen = false;
+      var keyboard = new KeyboardControl();
+      keyboard.SetBinding(KeyboardControlBase.InputTargetProperty, new Binding("InputTarget") { Source = this });
+      keyboard.SetBinding(KeyboardControlBase.StartupKeyboardTypeProperty, new Binding("StartupKeyboardType") { Source = this });
+      keyboard.SetBinding(KeyboardControlBase.ButtonSizeProperty, new Binding("ButtonSize") { Source = this });
+      keyboard.SetBinding(KeyboardControlBase.ButtonMarginProperty, new Binding("ButtonMargin") { Source = this });
+      keyboard.SetBinding(CalculatorKeyboardControl.ResetOnCalculationProperty, new Binding("ResetOnCalculation") { Source = this });
+      keyboard.Closed += (s, e) => this.IsOpen = false;
 
-        //ZEHONG: use a viewbox to make keyboard become big enough to fit inside the available space
-        this.Child = new Viewbox() { Child = Keyboard };
+      //ZEHONG: use a viewbox to make keyboard become big enough to fit inside the available space
+      this.Child = new Viewbox() { Child = keyboard };
 
-        this.SetBinding(PopupEx.IsPinProperty, new Binding("IsPin") { Source = Keyboard, Mode = BindingMode.TwoWay });
-      }
+      this.SetBinding(PopupEx.IsPinProperty, new Binding("IsPin") { Source = keyboard, Mode = BindingMode.TwoWay });
     }
 
     private void OnInputTargetChanged(TextBox oldTarget, TextBox newTarget)
@@ -54,7 +56,7 @@ namespace Hexagon.Software.NCGage.UserControls
     private void InputTarge_GotFocus(object sender, RoutedEventArgs e)
     {
       if (KeyboardManager.Equals(this))
-        KeyboardManager.GetKeyboardPopup(sender as DependencyObject).IsOpen = true;
+        KeyboardManager.GetPopup(sender as DependencyObject).IsOpen = true;
       else
         this.IsOpen = true;
     }
@@ -63,8 +65,6 @@ namespace Hexagon.Software.NCGage.UserControls
       if (this.IsOpen)
         this.IsOpen = false;
     }
-
-    protected abstract KeyboardControl Keyboard { get; }
 
     #region Dependency Properties
     public TextBox InputTarget
@@ -100,6 +100,14 @@ namespace Hexagon.Software.NCGage.UserControls
       set { SetValue(ButtonMarginProperty, value); }
     }
     public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(KeyboardPopup), new PropertyMetadata(1.0));
+
+    public bool ResetOnCalculation
+    {
+      get { return (Boolean)GetValue(ResetOnCalculationProperty); }
+      set { SetValue(ResetOnCalculationProperty, value); }
+    }
+    public static readonly DependencyProperty ResetOnCalculationProperty = DependencyProperty.Register("ResetOnCalculation", typeof(bool), typeof(KeyboardPopup), new PropertyMetadata(true));
+
 
     #endregion
   }

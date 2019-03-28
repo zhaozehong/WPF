@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
-  public partial class FullKeyboardControl : KeyboardControl
+  public partial class FullKeyboardControl : KeyboardControlBase
   {
     public FullKeyboardControl()
     {
@@ -22,6 +22,14 @@ namespace Hexagon.Software.NCGage.UserControls
       };
     }
 
+    protected void btnClose_Click(object sender, RoutedEventArgs e)
+    {
+      base.FireClosedEvent(sender, e);
+    }
+    protected void btnPin_Click(object sender, RoutedEventArgs e)
+    {
+      this.IsPin = !IsPin;
+    }
     private void btnSymbol_click(object sender, RoutedEventArgs e)
     {
       var vm = this.DataContext as FullKeyboardControlViewModel;

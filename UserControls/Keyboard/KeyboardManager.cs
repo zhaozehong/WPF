@@ -7,35 +7,29 @@ namespace Hexagon.Software.NCGage.UserControls
 {
   public class KeyboardManager
   {
-    public readonly static CalculatorKeyboardPopup CalculatorKeyboardPopupObj = new CalculatorKeyboardPopup();
-    public readonly static FullKeyboardPopup FullKeyboardPopupObj = new FullKeyboardPopup();
-
     public static bool Equals(KeyboardPopup popupObj)
     {
-      return FullKeyboardPopupObj.Equals(popupObj) || CalculatorKeyboardPopupObj.Equals(popupObj);
+      return KeyboardPopupObj.Equals(popupObj);
     }
-    public static KeyboardPopup GetKeyboardPopup(DependencyObject obj)
+    public static KeyboardPopup GetPopup(DependencyObject obj)
     {
       if (!GetEnabled(obj))
         return null;
 
-      var startupKeyboard = GetStartupKeyboardType(obj);
-      var keyboardPopup = startupKeyboard == KeyboardTypes.Full ? (KeyboardPopup)FullKeyboardPopupObj : CalculatorKeyboardPopupObj;
-      if (!obj.Equals(keyboardPopup.PlacementTarget))
+      if (!obj.Equals(KeyboardPopupObj.PlacementTarget))
       {
         // apply user defined properties to update the keyboardPopup object
-        keyboardPopup.StartupKeyboardType = startupKeyboard;
-        keyboardPopup.Topmost = GetTopmost(obj);
-        keyboardPopup.ButtonSize = GetButtonSize(obj);
-        keyboardPopup.ButtonMargin = GetButtonMargin(obj);
-        keyboardPopup.InputTarget = obj as TextBox;
-        keyboardPopup.PlacementTarget = keyboardPopup.InputTarget;
-        keyboardPopup.SharePosition = GetSharePosition(obj);
-        keyboardPopup.Placement = GetPlacement(obj);
-        // it always applies to CalculatorKeyboardPopupObj
-        CalculatorKeyboardPopupObj.ResetOnCalculation = GetResetOnCalculation(obj);
+        KeyboardPopupObj.StartupKeyboardType = GetStartupKeyboardType(obj);
+        KeyboardPopupObj.Topmost = GetTopmost(obj);
+        KeyboardPopupObj.ButtonSize = GetButtonSize(obj);
+        KeyboardPopupObj.ButtonMargin = GetButtonMargin(obj);
+        KeyboardPopupObj.InputTarget = obj as TextBox;
+        KeyboardPopupObj.PlacementTarget = KeyboardPopupObj.InputTarget;
+        KeyboardPopupObj.SharePosition = GetSharePosition(obj);
+        KeyboardPopupObj.Placement = GetPlacement(obj);
+        KeyboardPopupObj.ResetOnCalculation = GetResetOnCalculation(obj);
       }
-      return keyboardPopup;
+      return KeyboardPopupObj;
     }
 
     #region Attached Properties
@@ -51,7 +45,7 @@ namespace Hexagon.Software.NCGage.UserControls
     private static void OnEnableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       if ((bool)e.NewValue)
-        CalculatorKeyboardPopupObj.InputTarget = d as TextBox; // ZEHONG: set InputTarget to subscribe GotFocus & LostFocus event to Open/Close keyboard popup
+        KeyboardPopupObj.InputTarget = d as TextBox; //ZEHONG: to subscribe GotFocus & LostFocus event to Open/Close keyboard popup
     }
 
     public static KeyboardTypes GetStartupKeyboardType(DependencyObject obj)
@@ -125,5 +119,7 @@ namespace Hexagon.Software.NCGage.UserControls
     public static readonly DependencyProperty PlacementProperty = DependencyProperty.RegisterAttached("Placement", typeof(PlacementMode), typeof(KeyboardManager), new PropertyMetadata(PlacementMode.Right));
 
     #endregion
+
+    private readonly static KeyboardPopup KeyboardPopupObj = new KeyboardPopup();
   }
 }

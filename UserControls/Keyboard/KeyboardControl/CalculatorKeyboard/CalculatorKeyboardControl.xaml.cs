@@ -5,7 +5,7 @@ using Hexagon.Software.NCGage.HelperLib;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
-  public partial class CalculatorKeyboardControl : KeyboardControl
+  public partial class CalculatorKeyboardControl : KeyboardControlBase
   {
     public CalculatorKeyboardControl()
     {
@@ -18,6 +18,19 @@ namespace Hexagon.Software.NCGage.UserControls
       this.DisplayScreenWidth = this.ButtonSize * columns + this.ButtonMargin * 2 * (columns - 1);
     }
 
+    protected void btnClose_Click(object sender, RoutedEventArgs e)
+    {
+      base.FireClosedEvent(sender, e);
+    }
+    protected void btnPin_Click(object sender, RoutedEventArgs e)
+    {
+      this.IsPin = !IsPin;
+    }
+    protected void btnCLR_Click(object sender, RoutedEventArgs e)
+    {
+      if (this.InputTarget != null)
+        this.InputTarget.Clear();
+    }
     protected void btnEnter_Click(object sender, RoutedEventArgs e)
     {
       if (this.InputTarget != null)
@@ -59,7 +72,6 @@ namespace Hexagon.Software.NCGage.UserControls
         this.UpdateDisplayScreenSize();
       }
     }
-
 
     #region Properties
     protected CalculatorKeyboardControlViewModel ViewModel { get; private set; }

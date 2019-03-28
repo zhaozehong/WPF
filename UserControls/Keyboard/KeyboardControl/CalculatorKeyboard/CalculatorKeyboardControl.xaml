@@ -1,9 +1,9 @@
-﻿<local:KeyboardControl x:Class="Hexagon.Software.NCGage.UserControls.CalculatorKeyboardControl"
+﻿<local:KeyboardControlBase x:Class="Hexagon.Software.NCGage.UserControls.CalculatorKeyboardControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Hexagon.Software.NCGage.UserControls"
              xmlns:helperLib="clr-namespace:Hexagon.Software.NCGage.HelperLib">
-  <local:KeyboardControl.Resources>
+  <local:KeyboardControlBase.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/UserControls;component/Keyboard/Resources/Styles/KeyboardStyle.xaml"/>
@@ -20,10 +20,10 @@
         <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:CalculatorKeyboardControl}}, Path=DisplayScreenWidth, Mode=TwoWay}"/>
       </Style>
     </ResourceDictionary>
-  </local:KeyboardControl.Resources>
-  <local:KeyboardControl.DataContext>
+  </local:KeyboardControlBase.Resources>
+  <local:KeyboardControlBase.DataContext>
     <local:CalculatorKeyboardControlViewModel/>
-  </local:KeyboardControl.DataContext>
+  </local:KeyboardControlBase.DataContext>
   <Grid Background="Transparent" Margin="5">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
@@ -82,7 +82,7 @@
         <local:CalculatorKeyboardButton.Style>
           <Style TargetType="{x:Type local:CalculatorKeyboardButton}" BasedOn="{StaticResource {x:Type local:KeyboardButton}}">
             <Style.Triggers>
-              <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=IsPin}" Value="True">
+              <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=IsPin}" Value="True">
                 <Setter Property="Background" Value="{StaticResource MazakBrush}"/>
               </DataTrigger>
             </Style.Triggers>
@@ -153,4 +153,4 @@
       </local:CalculatorKeyboardButton>
     </Grid>
   </Grid>
-</local:KeyboardControl>
+</local:KeyboardControlBase>

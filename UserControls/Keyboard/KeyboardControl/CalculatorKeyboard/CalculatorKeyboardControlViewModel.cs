@@ -8,14 +8,9 @@ using Hexagon.Software.NCGage.HelperLib;
 namespace Hexagon.Software.NCGage.UserControls
 {
   public enum KeyboardTypes { Number, Calculator, Full }
-  public class CalculatorKeyboardControlViewModel : NotifyPropertyChanged
+  public class CalculatorKeyboardControlViewModel : KeyboardControlViewModelBase
   {
-    public CalculatorKeyboardControlViewModel()
-    {
-      this.ButtonCommand = new RelayCommand(Update);
-    }
-
-    protected void Update(object parameter)
+    protected override void Update(object parameter)
     {
       var button = parameter as CalculatorKeyboardButton;
       if (button == null)
@@ -48,7 +43,7 @@ namespace Hexagon.Software.NCGage.UserControls
             finally
             {
               this.InputValue = ConvertInputListToString();
-              if (button.Key == KeyboardKeys.Equal)
+              if (button.Key == KeyboardKeys.Equal && !NeedReturn(KeyboardKeys.Equal))
               {
                 var convertedInputValue = GetConvertedInputValue();
                 var expressionUnit = NumericCalculator.Parse(convertedInputValue);
@@ -271,7 +266,6 @@ namespace Hexagon.Software.NCGage.UserControls
     #endregion
 
     #region Properties
-    public RelayCommand ButtonCommand { get; private set; }
     public String InputValue
     {
       get { return _inputValue; }

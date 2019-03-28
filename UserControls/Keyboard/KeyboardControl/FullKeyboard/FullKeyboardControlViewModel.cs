@@ -2,21 +2,15 @@
 
 namespace Hexagon.Software.NCGage.UserControls
 {
-  public class FullKeyboardControlViewModel : NotifyPropertyChanged
+  public class FullKeyboardControlViewModel : KeyboardControlViewModelBase
   {
-    public FullKeyboardControlViewModel()
-    {
-      this.ButtonCommand = new RelayCommand(Update);
-    }
-
-    protected void Update(object parameter)
+    protected override void Update(object parameter)
     {
       var button = parameter as FullKeyboardButton;
       if (button != null)
         button.SendKey();
     }
 
-    public RelayCommand ButtonCommand { get; private set; }
     public DisplayModes DisplayMode
     {
       get { return _displayMode; }

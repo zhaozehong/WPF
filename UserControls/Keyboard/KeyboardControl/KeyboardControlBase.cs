@@ -5,26 +5,17 @@ using System.Windows.Controls;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
-  public abstract class KeyboardControl : UserControl, INotifyPropertyChanged
+  public abstract class KeyboardControlBase : UserControl, INotifyPropertyChanged
   {
-    public KeyboardControl()
+    public KeyboardControlBase()
     {
       this.Initialized += OnInitialized;
     }
 
-    protected void btnClose_Click(object sender, RoutedEventArgs e)
+    protected void FireClosedEvent(object sender, RoutedEventArgs e)
     {
       if (Closed != null)
         Closed(this, null);
-    }
-    protected void btnPin_Click(object sender, RoutedEventArgs e)
-    {
-      this.IsPin = !IsPin;
-    }
-    protected void btnCLR_Click(object sender, RoutedEventArgs e)
-    {
-      if (this.InputTarget != null)
-        this.InputTarget.Clear();
     }
 
     protected virtual void OnInitialized(object sender, EventArgs e)
@@ -84,17 +75,17 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (TextBox)GetValue(InputTargetProperty); }
       set { SetValue(InputTargetProperty, value); }
     }
-    public static readonly DependencyProperty InputTargetProperty = DependencyProperty.Register("InputTarget", typeof(TextBox), typeof(KeyboardControl), new PropertyMetadata(null));
+    public static readonly DependencyProperty InputTargetProperty = DependencyProperty.Register("InputTarget", typeof(TextBox), typeof(KeyboardControlBase), new PropertyMetadata(null));
 
     public KeyboardTypes StartupKeyboardType
     {
       get { return (KeyboardTypes)GetValue(StartupKeyboardTypeProperty); }
       set { SetValue(StartupKeyboardTypeProperty, value); }
     }
-    public static readonly DependencyProperty StartupKeyboardTypeProperty = DependencyProperty.Register("StartupKeyboardType", typeof(KeyboardTypes), typeof(KeyboardControl), new PropertyMetadata(KeyboardTypes.Number, OnStartupKeyboardTypeChanged));
+    public static readonly DependencyProperty StartupKeyboardTypeProperty = DependencyProperty.Register("StartupKeyboardType", typeof(KeyboardTypes), typeof(KeyboardControlBase), new PropertyMetadata(KeyboardTypes.Number, OnStartupKeyboardTypeChanged));
     private static void OnStartupKeyboardTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      var control = d as KeyboardControl;
+      var control = d as KeyboardControlBase;
       if (control != null)
         control.OnStartupKeyboardTypeChanged();
     }
@@ -104,10 +95,10 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (Double)GetValue(ButtonSizeProperty); }
       set { SetValue(ButtonSizeProperty, value); }
     }
-    public static readonly DependencyProperty ButtonSizeProperty = DependencyProperty.Register("ButtonSize", typeof(double), typeof(KeyboardControl), new PropertyMetadata(60.0, OnButtonSizeChanged));
+    public static readonly DependencyProperty ButtonSizeProperty = DependencyProperty.Register("ButtonSize", typeof(double), typeof(KeyboardControlBase), new PropertyMetadata(60.0, OnButtonSizeChanged));
     private static void OnButtonSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      var control = d as KeyboardControl;
+      var control = d as KeyboardControlBase;
       if (control != null)
         control.OnButtonSizeChanged();
     }
@@ -117,10 +108,10 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (double)GetValue(ButtonMarginProperty); }
       set { SetValue(ButtonMarginProperty, value); }
     }
-    public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(KeyboardControl), new PropertyMetadata(1.0, OnButtonMarginChanged));
+    public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(KeyboardControlBase), new PropertyMetadata(1.0, OnButtonMarginChanged));
     private static void OnButtonMarginChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      var control = d as KeyboardControl;
+      var control = d as KeyboardControlBase;
       if (control != null)
         control.OnButtonMarginChanged();
     }
@@ -130,7 +121,7 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (Boolean)GetValue(IsPinProperty); }
       set { SetValue(IsPinProperty, value); }
     }
-    public static readonly DependencyProperty IsPinProperty = DependencyProperty.Register("IsPin", typeof(bool), typeof(KeyboardControl), new PropertyMetadata(false));
+    public static readonly DependencyProperty IsPinProperty = DependencyProperty.Register("IsPin", typeof(bool), typeof(KeyboardControlBase), new PropertyMetadata(false));
 
     #endregion
   }

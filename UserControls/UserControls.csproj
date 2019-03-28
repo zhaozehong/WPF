@@ -54,6 +54,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -71,14 +72,18 @@
     <Compile Include="CursorSetter.cs" />
     <Compile Include="Extensions\DispatcherObjectExternsion.cs" />
     <Compile Include="Keyboard\KeyboardControl\FullKeyboard\FullKeyboardHelper.cs" />
-    <Compile Include="Keyboard\KeyboardControl\KeyboardControl.cs" />
+    <Compile Include="Keyboard\KeyboardControl\KeyboardControlBase.cs" />
     <Compile Include="Keyboard\KeyboardButton\FullKeyboardButton.cs" />
     <Compile Include="Keyboard\KeyboardControl\FullKeyboard\FullKeyboardControl.xaml.cs">
       <DependentUpon>FullKeyboardControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Keyboard\KeyboardControl\FullKeyboard\FullKeyboardControlViewModel.cs" />
-    <Compile Include="Keyboard\KeyboardPopup\FullKeyboardPopup.cs" />
-    <Compile Include="Keyboard\KeyboardPopup\KeyboardPopup.cs" />
+    <Compile Include="Keyboard\KeyboardControl\Keyboard\KeyboardControl.xaml.cs">
+      <DependentUpon>KeyboardControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Keyboard\KeyboardControl\Keyboard\KeyboardControlViewModel.cs" />
+    <Compile Include="Keyboard\KeyboardControl\KeyboardControlViewModelBase.cs" />
+    <Compile Include="Keyboard\KeyboardPopup.cs" />
     <Compile Include="IdleHandler.cs" />
     <Compile Include="Calculation\ComputeUnit\ComplexUnit.cs" />
     <Compile Include="Calculation\ComputeUnit\ComputeUnit.cs" />
@@ -101,6 +106,7 @@
     <Compile Include="Keyboard\Helper\RelayCommand.cs" />
     <Compile Include="Keyboard\KeyboardButton\CalculatorKeyboardButton.cs" />
     <Compile Include="Keyboard\KeyboardButton\KeyboardButton.cs" />
+    <Compile Include="Keyboard\popup_dragmove_behavior.cs" />
     <Compile Include="Keyboard\KeyboardSettings.cs" />
     <Compile Include="Keyboard\KeyboardManager.cs" />
     <Compile Include="WindowsManager.cs" />
@@ -109,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Keyboard\KeyboardControl\FullKeyboard\FullKeyboardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Keyboard\KeyboardControl\Keyboard\KeyboardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -130,7 +140,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Keyboard\KeyboardPopup\CalculatorKeyboardPopup.cs" />
     <Compile Include="MessageBoxEx.xaml.cs">
       <DependentUpon>MessageBoxEx.xaml</DependentUpon>
     </Compile>

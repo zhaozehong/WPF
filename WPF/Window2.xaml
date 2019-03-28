@@ -8,8 +8,9 @@
         mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
         Title="Test Keyboard">
   <!--<StackPanel Background="Black">
-    <TextBox HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Name="tbInput"/>
-    <userControls:FullKeyboardControl/>
+    <CheckBox Content="check me" Name="cb"/>
+    <TextBox HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Height="30" Name="tbInput"/>
+    <userControls:KeyboardPopup PlacementTarget="{Binding ElementName=tbInput}" Placement="Right" IsOpen="{Binding ElementName=cb, Path=IsChecked}"/>
   </StackPanel>-->
   <Grid Height="300" Margin="5">
     <Grid.RowDefinitions>
@@ -43,4 +44,5 @@
              />
     <Button Content="Keyboard Test" Click="Button_Click"/>
   </Grid>
+  <!--<userControls:KeyboardControl/>-->
 </Window>

@@ -6,6 +6,7 @@ using System.Windows.Interop;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
@@ -13,6 +14,11 @@ namespace Hexagon.Software.NCGage.UserControls
   {
     public PopupEx()
     {
+      //this.MouseLeftButtonDown += KeyboardPopup_MouseLeftButtonDown;
+      //this.MouseLeftButtonUp += KeyboardPopup_MouseLeftButtonUp;
+      //this.MouseMove += KeyboardPopup_MouseMove;
+      //this.Closed += KeyboardPopup_Closed;
+
       this.Loaded += (s, e) =>
       {
         SetUpdatePosition();
@@ -23,6 +29,41 @@ namespace Hexagon.Software.NCGage.UserControls
         }
       };
     }
+
+    #region move
+    private void KeyboardPopup_Closed(object sender, EventArgs e)
+    {
+      this.HorizontalOffset = 0;
+      this.VerticalOffset = 0;
+    }
+    private Point startPoint;
+    private bool isMoving;
+    private void KeyboardPopup_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      startPoint = this.Child.PointToScreen(e.GetPosition(this.Child));
+      this.CaptureMouse();
+    }
+    private void KeyboardPopup_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+      if(isMoving || this.IsPin)
+      {
+        SavePostion();
+      }
+      this.ReleaseMouseCapture();
+      isMoving = false;
+    }
+    private void KeyboardPopup_MouseMove(object sender, MouseEventArgs e)
+    {
+      if (e.LeftButton == MouseButtonState.Pressed)
+      {
+        isMoving = true;
+        var newPosition = this.Child.PointToScreen(e.GetPosition(this.Child));
+        this.HorizontalOffset += (newPosition.X - startPoint.X);
+        this.VerticalOffset += (newPosition.Y - startPoint.Y);
+        startPoint = newPosition;
+      }
+    }
+    #endregion
 
     protected override void OnOpened(EventArgs e)
     {
