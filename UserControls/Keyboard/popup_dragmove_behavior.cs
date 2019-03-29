@@ -13,10 +13,6 @@ namespace Hexagon.Software.NCGage.UserControls
 
     Point _orignal_pos;
     double max_vertical_offset;
-    public popup_dragmove_behavior()
-    {
-
-    }
     protected override void OnAttached()
     {
       base.OnAttached();

@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:Hexagon.Software.NCGage.UserControls">
   <local:KeyboardControlBase.Resources>
     <DataTemplate DataType="{x:Type local:CalculatorKeyboardControlViewModel}">
-      <local:CalculatorKeyboardControl InputTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=InputTarget, Mode=TwoWay}"
+      <local:CalculatorKeyboardControl Closed="KeyboardControl_Closed"
+                                       InputTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=InputTarget, Mode=TwoWay}"
                                        StartupKeyboardType="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=StartupKeyboardType, Mode=TwoWay}"
                                        ButtonSize="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, Mode=TwoWay}"
                                        ButtonMargin="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonMargin, Mode=TwoWay}"
@@ -12,7 +13,8 @@
                                        ResetOnCalculation="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ResetOnCalculation, Mode=TwoWay}"/>
     </DataTemplate>
     <DataTemplate DataType="{x:Type local:FullKeyboardControlViewModel}">
-      <local:FullKeyboardControl InputTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=InputTarget, Mode=TwoWay}"
+      <local:FullKeyboardControl Closed="KeyboardControl_Closed"
+                                 InputTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=InputTarget, Mode=TwoWay}"
                                  StartupKeyboardType="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=StartupKeyboardType, Mode=TwoWay}"
                                  ButtonSize="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, Mode=TwoWay}"
                                  ButtonMargin="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonMargin, Mode=TwoWay}"

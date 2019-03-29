@@ -69,14 +69,20 @@ namespace Hexagon.Software.NCGage.UserControls
           return Helpers.ListToValue(_inputList.Select(p => p.Value).ToList());
 
         int iLast = 0;
+        var unitText = String.Empty;
         var tempList = new List<String>();
         while (iCurrent != -1)
         {
-          tempList.Add(String.Format("{0}({1})", _inputList[iCurrent].Key, Helpers.ListToValue(_inputList.GetRange(iLast, iCurrent - iLast).Select(p => p.Value).ToList())));
+          tempList.AddRange(_inputList.GetRange(iLast, iCurrent - iLast).Select(p => p.Value));
+          unitText = String.Format("{0}({1})", _inputList[iCurrent].Key, Helpers.ListToValue(tempList));
+
+          tempList.Clear();
+          tempList.Add(unitText);
 
           iLast = iCurrent + 1;
           iCurrent = _inputList.FindIndex(iLast, p => KeyboardHelper.IsUnitConverterKey(p.Key));
         }
+        tempList.AddRange(_inputList.GetRange(iLast, _inputList.Count - iLast).Select(p => p.Value));
         return Helpers.ListToValue(tempList);
       }
       catch (Exception)

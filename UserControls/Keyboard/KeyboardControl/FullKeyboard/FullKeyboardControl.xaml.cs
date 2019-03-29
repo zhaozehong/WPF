@@ -24,7 +24,7 @@ namespace Hexagon.Software.NCGage.UserControls
 
     protected void btnClose_Click(object sender, RoutedEventArgs e)
     {
-      base.FireClosedEvent(sender, e);
+      base.FireClosedEvent();
     }
     protected void btnPin_Click(object sender, RoutedEventArgs e)
     {

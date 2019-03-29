@@ -26,6 +26,20 @@ namespace Hexagon.Software.NCGage.UserControls
       this.SetBinding(PopupEx.IsPinProperty, new Binding("IsPin") { Source = keyboard, Mode = BindingMode.TwoWay });
     }
 
+    protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
+    {
+      base.OnMouseRightButtonDown(e);
+      if (!Keyboard.IsKeyDown(Key.LeftCtrl) && !Keyboard.Modifiers.HasFlag(ModifierKeys.Alt))
+        return;
+
+      if (this.StartupKeyboardType == KeyboardTypes.Full)
+        this.StartupKeyboardType = KeyboardTypes.Number;
+      else if (this.StartupKeyboardType == KeyboardTypes.Number)
+        this.StartupKeyboardType = KeyboardTypes.Calculator;
+      else
+        this.StartupKeyboardType = KeyboardTypes.Full;
+    }
+
     private void OnInputTargetChanged(TextBox oldTarget, TextBox newTarget)
     {
       if (KeyboardManager.Equals(this)) //ZEHONG: never remove event handler from oldTarget if you're using KeyboardManager, or it will never receive GotFocus&LostFocus except for the last TextBox.
@@ -55,10 +69,17 @@ namespace Hexagon.Software.NCGage.UserControls
     }
     private void InputTarge_GotFocus(object sender, RoutedEventArgs e)
     {
-      if (KeyboardManager.Equals(this))
-        KeyboardManager.GetPopup(sender as DependencyObject).IsOpen = true;
-      else
-        this.IsOpen = true;
+      try
+      {
+        if (KeyboardManager.Equals(this))
+          KeyboardManager.GetPopup(sender as DependencyObject).IsOpen = true;
+        else
+          this.IsOpen = true;
+      }
+      catch (Exception)
+      {
+      }
+      
     }
     private void InputTarge_LostFocus(object sender, RoutedEventArgs e)
     {

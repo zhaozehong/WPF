@@ -12,18 +12,11 @@ namespace Hexagon.Software.NCGage.UserControls
       InitializeComponent();
       this.ViewModel = this.DataContext as KeyboardControlViewModel;
       this.ViewModel.RefreshKeyboard(StartupKeyboardType);
-
-      this.MouseRightButtonDown += KeyboardControl_MouseRightButtonDown;
     }
 
-    private void KeyboardControl_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private void KeyboardControl_Closed(object sender, EventArgs e)
     {
-      if (this.StartupKeyboardType == KeyboardTypes.Full)
-        this.StartupKeyboardType = KeyboardTypes.Number;
-      else if (this.StartupKeyboardType == KeyboardTypes.Number)
-        this.StartupKeyboardType = KeyboardTypes.Calculator;
-      else
-        this.StartupKeyboardType = KeyboardTypes.Full;
+      base.FireClosedEvent();
     }
 
     protected override void OnStartupKeyboardTypeChanged()

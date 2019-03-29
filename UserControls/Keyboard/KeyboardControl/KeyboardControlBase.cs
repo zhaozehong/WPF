@@ -12,7 +12,7 @@ namespace Hexagon.Software.NCGage.UserControls
       this.Initialized += OnInitialized;
     }
 
-    protected void FireClosedEvent(object sender, RoutedEventArgs e)
+    protected void FireClosedEvent()
     {
       if (Closed != null)
         Closed(this, null);
