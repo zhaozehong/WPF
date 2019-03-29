@@ -6,6 +6,9 @@ using System.Windows.Interop;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using System.Windows.Input;
+using System.Windows.Controls;
+using Hexagon.Software.NCGage.HelperLib;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
@@ -146,6 +149,73 @@ namespace Hexagon.Software.NCGage.UserControls
       }
       NativeMethods.SetWindowPos(hwnd.Value, Topmost ? -1 : -2, rect.Left, rect.Top, (int)this.Width, (int)this.Height, 0);
     }
+
+    #region Move Popup
+    private double minVerOffset, maxVerOffset, minHorOffset, maxHorOffset;
+    private Point? startPoint = null;
+    protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+    {
+      base.OnPreviewMouseLeftButtonDown(e);
+      if (e.OriginalSource == null || e.OriginalSource.GetType() != typeof(Grid) || !(this.Child is FrameworkElement child))
+        return;
+
+      if (Helpers.IsNullOrZero(this.VerticalOffset - 0))
+      {
+        var topLeftPoint = this.Child.PointToScreen(Helpers.ZeroPoint);
+        minHorOffset = Helpers.PixelsToDIU(0 - (int)topLeftPoint.X);
+        minVerOffset = Helpers.PixelsToDIU(0 - (int)topLeftPoint.Y, false);
+
+        var bottomRightPoint = this.Child.PointToScreen(new Point(child.ActualWidth, child.ActualHeight));
+        maxHorOffset = SystemParameters.WorkArea.Size.Width - Helpers.PixelsToDIU((int)bottomRightPoint.X);
+        maxVerOffset = SystemParameters.WorkArea.Size.Height - Helpers.PixelsToDIU((int)bottomRightPoint.Y, false);
+      }
+
+      startPoint = this.Child.PointToScreen(e.GetPosition(this.Child));
+      this.CaptureMouse();
+      e.Handled = true;
+    }
+    protected override void OnMouseMove(MouseEventArgs e)
+    {
+      base.OnMouseMove(e);
+      if (!startPoint.HasValue)
+        return;
+
+      var newPosition = this.Child.PointToScreen(e.GetPosition(this.Child));
+
+      var hOffset = this.HorizontalOffset + Helpers.PixelsToDIU((int)(newPosition.X - startPoint.Value.X));
+      hOffset = Math.Max(minHorOffset, hOffset);
+      hOffset = Math.Min(maxHorOffset, hOffset);
+      this.HorizontalOffset = hOffset;
+
+      var vOffset = this.VerticalOffset + Helpers.PixelsToDIU((int)(newPosition.Y - startPoint.Value.Y), false);
+      vOffset = Math.Max(minVerOffset, vOffset);
+      vOffset = Math.Min(maxVerOffset, vOffset);
+      this.VerticalOffset = vOffset;
+
+      startPoint = newPosition;
+    }
+    protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
+    {
+      base.OnPreviewMouseLeftButtonUp(e);
+
+      if (startPoint.HasValue || this.IsPin)
+      {
+        SavePostion();
+        if (startPoint.HasValue)
+        {
+          this.ReleaseMouseCapture();
+          startPoint = null;
+          e.Handled = true; // disable keyboard button input
+        }
+      }
+    }
+    protected override void OnClosed(EventArgs e)
+    {
+      base.OnClosed(e);
+      this.HorizontalOffset = 0;
+      this.VerticalOffset = 0;
+    }
+    #endregion
 
     #region Dependency Properties
     public bool Topmost
