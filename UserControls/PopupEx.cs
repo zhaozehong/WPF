@@ -6,7 +6,6 @@ using System.Windows.Interop;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
-using System.Windows.Input;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
@@ -14,56 +13,21 @@ namespace Hexagon.Software.NCGage.UserControls
   {
     public PopupEx()
     {
-      //this.MouseLeftButtonDown += KeyboardPopup_MouseLeftButtonDown;
-      //this.MouseLeftButtonUp += KeyboardPopup_MouseLeftButtonUp;
-      //this.MouseMove += KeyboardPopup_MouseMove;
-      //this.Closed += KeyboardPopup_Closed;
+      this.LayoutUpdated += PopupEx_LayoutUpdated;
+    }
 
-      this.Loaded += (s, e) =>
+    private void PopupEx_LayoutUpdated(object sender, EventArgs e)
+    {
+      if (SetUpdatePosition())
       {
-        SetUpdatePosition();
+        this.LayoutUpdated -= PopupEx_LayoutUpdated;
         if (this.SharePosition && !_PopupList.Contains(this))
         {
           _PopupList.Add(this);
           // since IsPin is always false, so we don't need to initialize _PinPosition when startup
         }
-      };
-    }
-
-    #region move
-    private void KeyboardPopup_Closed(object sender, EventArgs e)
-    {
-      this.HorizontalOffset = 0;
-      this.VerticalOffset = 0;
-    }
-    private Point startPoint;
-    private bool isMoving;
-    private void KeyboardPopup_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-      startPoint = this.Child.PointToScreen(e.GetPosition(this.Child));
-      this.CaptureMouse();
-    }
-    private void KeyboardPopup_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-    {
-      if(isMoving || this.IsPin)
-      {
-        SavePostion();
-      }
-      this.ReleaseMouseCapture();
-      isMoving = false;
-    }
-    private void KeyboardPopup_MouseMove(object sender, MouseEventArgs e)
-    {
-      if (e.LeftButton == MouseButtonState.Pressed)
-      {
-        isMoving = true;
-        var newPosition = this.Child.PointToScreen(e.GetPosition(this.Child));
-        this.HorizontalOffset += (newPosition.X - startPoint.X);
-        this.VerticalOffset += (newPosition.Y - startPoint.Y);
-        startPoint = newPosition;
       }
     }
-    #endregion
 
     protected override void OnOpened(EventArgs e)
     {
@@ -134,11 +98,11 @@ namespace Hexagon.Software.NCGage.UserControls
     }
 
     // Update Position
-    private void SetUpdatePosition()
+    private bool SetUpdatePosition()
     {
       var window = Window.GetWindow(this);
       if (window == null)
-        return;
+        return false;
 
       window.SizeChanged -= UpdatePosition;
       window.LocationChanged -= UpdatePosition;
@@ -147,6 +111,7 @@ namespace Hexagon.Software.NCGage.UserControls
         window.SizeChanged += UpdatePosition;
         window.LocationChanged += UpdatePosition;
       }
+      return true;
     }
     private void UpdatePosition(object sender, EventArgs e)
     {

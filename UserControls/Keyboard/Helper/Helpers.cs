@@ -13,9 +13,10 @@ namespace Hexagon.Software.NCGage.HelperLib
 {
   public static class Helpers
   {
+    public static Double MIN_VALUE = 1e-8;
+    public static Point ZeroPoint = new Point(0, 0);
     public static bool IsRuningAsServiceMode { get { return false; } }
 
-    public static Double MIN_VALUE = 1e-8;
     public static Boolean IsNullOrZero(Double? value)
     {
       return value == null || Double.IsNaN(value.Value) || Math.Abs(value.Value) < MIN_VALUE;
@@ -59,7 +60,6 @@ namespace Hexagon.Software.NCGage.HelperLib
       }
       return endSize;
     }
-
     public static String ListToValue<T>(List<T> sourceList, String separator = "")
     {
       if (sourceList == null || !sourceList.Any())
@@ -91,6 +91,47 @@ namespace Hexagon.Software.NCGage.HelperLib
       element.RaiseEvent(args);
       args.RoutedEvent = UIElement.TextInputEvent;
       element.RaiseEvent(args);
+    }
+    public static double GetWindowLeft(Window window)
+    {
+      if (window.WindowState == WindowState.Maximized)
+      {
+        var leftField = typeof(Window).GetField("_actualLeft", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        return (double)leftField.GetValue(window);
+      }
+      else
+      {
+        return window.Left;
+      }
+    }
+    public static int DIUToPixels(double value, bool isWidth = true)
+    {
+      if (isWidth)
+        return (int)(value * System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width / SystemParameters.WorkArea.Width);
+      else
+        return (int)(value * System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height / SystemParameters.WorkArea.Height);
+    }
+    public static double PixelsToDIU(int pixels, bool isWidth = true)
+    {
+      if (isWidth)
+        return pixels * SystemParameters.WorkArea.Width / System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+      else
+        return pixels * SystemParameters.WorkArea.Height / System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
+    }
+    public static Size GetElementPixelSize(UIElement element)
+    {
+      Matrix transformToDevice;
+      var source = PresentationSource.FromVisual(element);
+      if (source != null)
+        transformToDevice = source.CompositionTarget.TransformToDevice;
+      else
+        using (var source1 = new System.Windows.Interop.HwndSource(new System.Windows.Interop.HwndSourceParameters()))
+          transformToDevice = source1.CompositionTarget.TransformToDevice;
+
+      if (element.DesiredSize == new Size())
+        element.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+
+      return (Size)transformToDevice.Transform((Vector)element.DesiredSize);
     }
 
     public static int GetCount(String strSource, String pattern)
@@ -221,27 +262,22 @@ namespace Hexagon.Software.NCGage.HelperLib
     {
       get { return (Environment.OSVersion.Platform == PlatformID.Win32NT) && (Environment.OSVersion.Version.Major == 5) && (Environment.OSVersion.Version.Minor == 0); }
     }
-
     public static bool IsWindowsXP
     {
       get { return (Environment.OSVersion.Platform == PlatformID.Win32NT) && (Environment.OSVersion.Version.Major == 5) && (Environment.OSVersion.Version.Minor == 1); }
     }
-
     public static bool IsWindows2003
     {
       get { return (Environment.OSVersion.Platform == PlatformID.Win32NT) && (Environment.OSVersion.Version.Major == 5) && (Environment.OSVersion.Version.Minor == 2); }
     }
-
     public static bool IsWindowsVista
     {
       get { return (Environment.OSVersion.Platform == PlatformID.Win32NT) && (Environment.OSVersion.Version.Major == 6) && (Environment.OSVersion.Version.Minor == 0); }
     }
-
     public static bool IsWindows7
     {
       get { return (Environment.OSVersion.Platform == PlatformID.Win32NT) && (Environment.OSVersion.Version.Major == 6) && (Environment.OSVersion.Version.Minor == 1); }
     }
-
     public static bool IsWindows8
     {
       get { return (Environment.OSVersion.Platform == PlatformID.Win32NT) && (Environment.OSVersion.Version.Major == 6) && (Environment.OSVersion.Version.Minor == 2); }
@@ -282,5 +318,17 @@ namespace Hexagon.Software.NCGage.HelperLib
     {
       return ForceCreateDirectory(System.IO.Path.GetDirectoryName(filePath));
     }
+
+
   }
+
+  // pixel
+  // System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width
+  // System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height
+
+  // WPF unit
+  // SystemParameters.PrimaryScreenWidth
+  // SystemParameters.PrimaryScreenHeight
+  // SystemParameters.WorkArea.Size.Width
+  // SystemParameters.WorkArea.Size.Height
 }

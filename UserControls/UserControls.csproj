@@ -101,7 +101,7 @@
     <Compile Include="Keyboard\Helper\ExceptionHandler\DefaultExceptionManager.cs" />
     <Compile Include="Keyboard\Helper\ExceptionHandler\ExceptionHandler.cs" />
     <Compile Include="Keyboard\Helper\ExceptionHandler\IExceptionManager.cs" />
-    <Compile Include="Keyboard\Helper\Helper.cs" />
+    <Compile Include="Keyboard\Helper\Helpers.cs" />
     <Compile Include="Keyboard\Helper\NotifyPropertyChanged.cs" />
     <Compile Include="Keyboard\Helper\RelayCommand.cs" />
     <Compile Include="Keyboard\KeyboardButton\CalculatorKeyboardButton.cs" />

@@ -25,11 +25,11 @@
     <TextBlock Grid.Row="1" Margin="5" VerticalAlignment="Bottom" Text="Click the following input boxes..."/>
 
     <TextBox Grid.Row="2" Width="300" Margin="5" Height="25" Text="0" Name="tbInput1"
-             userControls:KeyboardManager.Enabled="true"
+             userControls:KeyboardManager.Enabled="True"
              userControls:KeyboardManager.StartupKeyboardType="Number"
-             userControls:KeyboardManager.Topmost="False"
+             userControls:KeyboardManager.Topmost="True"
              userControls:KeyboardManager.ButtonSize="70"
-             userControls:KeyboardManager.ButtonMargin="12"
+             userControls:KeyboardManager.ButtonMargin="2"
              userControls:KeyboardManager.ResetOnCalculation="True"
              userControls:KeyboardManager.SharePosition="True"
              userControls:KeyboardManager.Placement="Right"

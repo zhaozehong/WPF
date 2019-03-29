@@ -4,16 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:userControls="clr-namespace:Hexagon.Software.NCGage.UserControls;assembly=UserControls"
-        xmlns:local="clr-namespace:JM.Software.WPF"
-        mc:Ignorable="d"
-        Title="TestDialog" Height="450" Width="800">
-    <Grid>
-    <StackPanel>
-      <TextBox Name="textBox1" HorizontalAlignment="Stretch" Background="Pink"
-               userControls:KeyboardManager.Enabled="true"
-               userControls:KeyboardManager.ButtonSize="70"/>
-      <TextBox Name="textBox2" HorizontalAlignment="Stretch" Text="ABCD"
-               userControls:KeyboardManager.Enabled="True"/>
-    </StackPanel>
-    </Grid>
+        mc:Ignorable="d" SizeToContent="WidthAndHeight"
+        Title="TestDialog">
+  <StackPanel MinWidth="300" MinHeight="100">
+    <CheckBox Margin="5,30,5,5" Content="ABCD" Name="cb1"/>
+    <CheckBox Margin="5" Content="Solution" Name="cb2"/>
+    <TextBox Margin="5" HorizontalAlignment="Stretch" Background="Pink" userControls:KeyboardManager.Enabled="true"/>
+    <userControls:KeyboardPopup Placement="Right"
+                                PlacementTarget="{Binding ElementName=cb1}"
+                                IsOpen="{Binding ElementName=cb1, Path=IsChecked}"/>
+    <userControls:KeyboardPopup Placement="Right"
+                                PlacementTarget="{Binding ElementName=cb2}"
+                                IsOpen="{Binding ElementName=cb2, Path=IsChecked}"/>
+  </StackPanel>
 </Window>
