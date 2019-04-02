@@ -32,10 +32,13 @@ namespace Hexagon.Software.NCGage.UserControls
       }
     }
 
+    private bool _hasOpenedBefore = false;
     protected override void OnOpened(EventArgs e)
     {
       // set position
-      UpdateWindow();
+      if (!_hasOpenedBefore)
+        UpdateWindow();
+      _hasOpenedBefore = true;
 
       /********************************ZEHONG: fix bug when Topmost set to true********************************
        * When topmost keyboard is opened: textbox will lost its focus;

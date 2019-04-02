@@ -116,7 +116,7 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       obj.SetValue(PlacementProperty, value);
     }
-    public static readonly DependencyProperty PlacementProperty = DependencyProperty.RegisterAttached("Placement", typeof(PlacementMode), typeof(KeyboardManager), new PropertyMetadata(PlacementMode.Right));
+    public static readonly DependencyProperty PlacementProperty = DependencyProperty.RegisterAttached("Placement", typeof(PlacementMode), typeof(KeyboardManager), new PropertyMetadata(PlacementMode.Bottom));
 
     #endregion
 
