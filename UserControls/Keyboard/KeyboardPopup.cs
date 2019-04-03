@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
@@ -20,7 +18,7 @@ namespace Hexagon.Software.NCGage.UserControls
       keyboard.SetBinding(CalculatorKeyboardControl.ResetOnCalculationProperty, new Binding("ResetOnCalculation") { Source = this });
       keyboard.Closed += (s, e) => this.IsOpen = false;
 
-      //ZEHONG: use a viewbox to make keyboard become big enough to fit inside the available space
+      //ZEHONG: use a Viewbox to make keyboard become big enough to fit inside the available space
       this.Child = new Viewbox() { Child = keyboard };
 
       this.SetBinding(PopupEx.IsPinProperty, new Binding("IsPin") { Source = keyboard, Mode = BindingMode.TwoWay });
@@ -76,10 +74,7 @@ namespace Hexagon.Software.NCGage.UserControls
         else
           this.IsOpen = true;
       }
-      catch (Exception)
-      {
-      }
-      
+      catch (Exception) { }
     }
     private void InputTarge_LostFocus(object sender, RoutedEventArgs e)
     {
