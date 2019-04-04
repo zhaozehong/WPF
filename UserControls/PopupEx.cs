@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Controls;
 using Hexagon.Software.NCGage.HelperLib;
+using System.Windows.Media;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
@@ -17,6 +18,7 @@ namespace Hexagon.Software.NCGage.UserControls
     public PopupEx()
     {
       this.LayoutUpdated += PopupEx_LayoutUpdated;
+      CompositionTarget.Rendering += CompositionTarget_Rendering;
     }
 
     protected override void OnOpened(EventArgs e)
@@ -31,7 +33,6 @@ namespace Hexagon.Software.NCGage.UserControls
         _backupPlacement = this.Placement;
         this.Placement = PlacementMode.Absolute;
       }
-      UpdateOffsetLimit();
 
       /********************************ZEHONG: fix bug when Topmost set to true********************************
        * When topmost keyboard is opened: textbox will lost its focus;
@@ -135,22 +136,27 @@ namespace Hexagon.Software.NCGage.UserControls
       if (!(this.Child is FrameworkElement child))
         return;
 
-      var topLeftPoint = this.Child.PointToScreen(Helpers.ZeroPoint);
-      var bottomRightPoint = this.Child.PointToScreen(new Point(child.ActualWidth, child.ActualHeight));
-      if (this.Placement == PlacementMode.Absolute)
+      try
       {
-        _minHorOffset = _minVerOffset = 0;
-        _maxHorOffset = SystemParameters.WorkArea.Size.Width - (bottomRightPoint.X - topLeftPoint.X);
-        _maxVerOffset = SystemParameters.WorkArea.Size.Height - (bottomRightPoint.Y - topLeftPoint.Y);
-      }
-      else
-      {
-        _minHorOffset = Helpers.PixelsToDIU(0 - (int)topLeftPoint.X);
-        _minVerOffset = Helpers.PixelsToDIU(0 - (int)topLeftPoint.Y, false);
+        var workArea = Helpers.GetWorkArea(this);
+        var topLeftPoint = this.Child.PointToScreen(Helpers.ZeroPoint);
+        var bottomRightPoint = this.Child.PointToScreen(new Point(child.ActualWidth, child.ActualHeight));
+        if (this.Placement == PlacementMode.Absolute)
+        {
+          _minHorOffset = _minVerOffset = 0;
+          _maxHorOffset = workArea.Size.Width - Helpers.PixelsToDIU((int)(bottomRightPoint.X - topLeftPoint.X));
+          _maxVerOffset = workArea.Size.Height - Helpers.PixelsToDIU((int)(bottomRightPoint.Y - topLeftPoint.Y));
+        }
+        else
+        {
+          _minHorOffset = Helpers.PixelsToDIU(0 - (int)topLeftPoint.X) + this.HorizontalOffset;
+          _minVerOffset = Helpers.PixelsToDIU(0 - (int)topLeftPoint.Y, false) + this.VerticalOffset;
 
-        _maxHorOffset = SystemParameters.WorkArea.Size.Width - Helpers.PixelsToDIU((int)bottomRightPoint.X);
-        _maxVerOffset = SystemParameters.WorkArea.Size.Height - Helpers.PixelsToDIU((int)bottomRightPoint.Y, false);
+          _maxHorOffset = workArea.Size.Width - Helpers.PixelsToDIU((int)bottomRightPoint.X) + this.HorizontalOffset;
+          _maxVerOffset = workArea.Size.Height - Helpers.PixelsToDIU((int)bottomRightPoint.Y, false) + this.VerticalOffset;
+        }
       }
+      catch (Exception) { }
     }
 
     private void PopupEx_LayoutUpdated(object sender, EventArgs e)
@@ -162,26 +168,20 @@ namespace Hexagon.Software.NCGage.UserControls
         this.LayoutUpdated -= PopupEx_LayoutUpdated;
       }
     }
+    private void CompositionTarget_Rendering(object sender, EventArgs e)
+    {
+      if (this.IsOpen)
+        UpdateOffsetLimit();
+    }
 
     #region Move Popup
     protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
     {
       base.OnPreviewMouseLeftButtonDown(e);
-      if (e.OriginalSource == null || e.OriginalSource.GetType() != typeof(Grid) || !(this.Child is FrameworkElement child))
+      if (e.OriginalSource == null || e.OriginalSource.GetType() != typeof(Grid))
         return;
 
       startPoint = this.Child.PointToScreen(e.GetPosition(this.Child));
-      if (Helpers.IsNullOrZero(this.HorizontalOffset) && Helpers.IsNullOrZero(this.VerticalOffset))
-      {
-        var topLeftPoint = this.Child.PointToScreen(Helpers.ZeroPoint);
-        _minHorOffset = Helpers.PixelsToDIU(0 - (int)topLeftPoint.X);
-        _minVerOffset = Helpers.PixelsToDIU(0 - (int)topLeftPoint.Y, false);
-
-        var bottomRightPoint = this.Child.PointToScreen(new Point(child.ActualWidth, child.ActualHeight));
-        _maxHorOffset = SystemParameters.WorkArea.Size.Width - Helpers.PixelsToDIU((int)bottomRightPoint.X);
-        _maxVerOffset = SystemParameters.WorkArea.Size.Height - Helpers.PixelsToDIU((int)bottomRightPoint.Y, false);
-      }
-
       this.CaptureMouse();
       e.Handled = true;
     }
@@ -219,8 +219,11 @@ namespace Hexagon.Software.NCGage.UserControls
     protected override void OnClosed(EventArgs e)
     {
       base.OnClosed(e);
-      this.HorizontalOffset = 0;
-      this.VerticalOffset = 0;
+      if (!this.IsPin)
+      {
+        this.HorizontalOffset = 0;
+        this.VerticalOffset = 0;
+      }
     }
 
     #endregion

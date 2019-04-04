@@ -124,7 +124,6 @@ namespace Hexagon.Software.NCGage.UserControls
     }
     public static readonly DependencyProperty ResetOnCalculationProperty = DependencyProperty.Register("ResetOnCalculation", typeof(bool), typeof(KeyboardPopup), new PropertyMetadata(true));
 
-
     #endregion
   }
 }

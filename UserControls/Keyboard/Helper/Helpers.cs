@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Windows.Interop;
 
 namespace Hexagon.Software.NCGage.HelperLib
 {
@@ -318,8 +319,31 @@ namespace Hexagon.Software.NCGage.HelperLib
     {
       return ForceCreateDirectory(System.IO.Path.GetDirectoryName(filePath));
     }
-
-
+    public static System.Windows.Forms.Screen GetScreen(Window window)
+    {
+      return System.Windows.Forms.Screen.FromHandle(new WindowInteropHelper(window).Handle);
+    }
+    public static Rect GetWorkArea(DependencyObject obj)
+    {
+      var window = obj as Window;
+      if (window == null)
+        window = Window.GetWindow(obj);
+      if (window == null)
+        return SystemParameters.WorkArea;
+      return GetWorkArea(window);
+    }
+    public static Rect GetWorkArea(Window window)
+    {
+      try
+      {
+        var rectangle = GetScreen(window).WorkingArea;
+        return new Rect(new Size(PixelsToDIU(rectangle.Width), PixelsToDIU(rectangle.Height)));
+      }
+      catch (Exception)
+      {
+        return SystemParameters.WorkArea;
+      }
+    }
   }
 
   // pixel
