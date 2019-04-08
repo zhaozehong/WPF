@@ -1,0 +1,18 @@
+﻿<Window x:Class="JM.Software.WPF.Window4"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        LocationChanged="Window_LocationChanged"
+        Loaded="Window_Loaded"
+        Title="Window1" Height="300" Width="300">
+  <StackPanel>
+    <Expander Header="Test"  >
+      <Rectangle LayoutUpdated="Rectangle_LayoutUpdated" Fill="Orange" Height="100"/>
+    </Expander>
+    <TextBox HorizontalAlignment="Stretch" Height="25" Name="_TheText">This is Some Text</TextBox>
+    <Popup Name="MyPopUp" IsOpen="True" Placement="Right" PlacementTarget="{Binding ElementName=_TheText}">
+      <Border Background="Green">
+        <TextBlock>This is a Popup</TextBlock>
+      </Border>
+    </Popup>
+  </StackPanel>
+</Window>

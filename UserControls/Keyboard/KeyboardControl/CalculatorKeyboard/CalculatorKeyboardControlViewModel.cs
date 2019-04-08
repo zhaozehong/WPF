@@ -7,7 +7,6 @@ using Hexagon.Software.NCGage.HelperLib;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
-  public enum KeyboardTypes { Number, Calculator, Full }
   public class CalculatorKeyboardControlViewModel : KeyboardControlViewModelBase
   {
     protected override void Update(object parameter)

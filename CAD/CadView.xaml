@@ -4,9 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JM.Software.WPF.CAD"
+        xmlns:uc="clr-namespace:Hexagon.Software.NCGage.UserControls;assembly=UserControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+  <Grid>
+    <!--<TextBox Text="this is a test text box" Background="Pink"
+             uc:KeyboardManager.Enabled="True"
+             />-->
+    <CheckBox Content="This is a textbox object used to test WPF keyboard" Name="testBox" Height="50"
+               />
+    <Popup IsOpen="{Binding ElementName=testBox, Path=IsChecked}" PlacementTarget="{Binding testBox}" Placement="Bottom">
+      <TextBlock Background="Pink" Text="This is a Popup"/>
+    </Popup>
+  </Grid>
 </Window>

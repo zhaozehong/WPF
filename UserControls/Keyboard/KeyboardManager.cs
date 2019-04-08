@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Hexagon.Software.NCGage.HelperLib;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;

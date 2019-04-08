@@ -1,7 +1,5 @@
-﻿using Hexagon.Software.NCGage.HelperLib;
-using System;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Hexagon.Software.NCGage.UserControls
 {

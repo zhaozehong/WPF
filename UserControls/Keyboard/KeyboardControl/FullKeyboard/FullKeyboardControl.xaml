@@ -10,7 +10,7 @@
         <ResourceDictionary Source="/UserControls;component/Keyboard/Resources/Brushes.xaml"/>
       </ResourceDictionary.MergedDictionaries>
 
-      <helperLib:DoubleToParamTimesDoubleConverter x:Key="DoubleToParamTimesDouble"/>
+      <helperLib:DoubleToParamDoubleConverter x:Key="DoubleToParamDouble"/>
 
       <Style TargetType="{x:Type local:FullKeyboardButton}" BasedOn="{StaticResource {x:Type local:KeyboardButton}}">
         <Setter Property="Content" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=NormalText}"/>
@@ -83,7 +83,7 @@
         <local:FullKeyboardButton Grid.Column="8" NormalText="o" ShiftText="O" SymbolText="(" JapaneseText="Ja"/>
         <local:FullKeyboardButton Grid.Column="9" NormalText="p" ShiftText="P" SymbolText=")" JapaneseText="Ja"/>
 
-        <TextBlock Grid.Column="10" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="10" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamDouble}}"/>
         <local:FullKeyboardButton Grid.Column="11" NormalText="7" ShiftText="7" SymbolText="7" JapaneseText="7"/>
         <local:FullKeyboardButton Grid.Column="12" NormalText="8" ShiftText="8" SymbolText="8" JapaneseText="8"/>
         <local:FullKeyboardButton Grid.Column="13" NormalText="9" ShiftText="9" SymbolText="9" JapaneseText="9"/>
@@ -91,7 +91,7 @@
           <Image Source="/UserControls;component/Keyboard/Resources/Images/Backspace.png"/>
         </local:FullKeyboardButton>
 
-        <TextBlock Grid.Column="15" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="15" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamDouble}}"/>
         <local:FullKeyboardButton Grid.Column="16" Key="PageUp">
           <Image Source="/UserControls;component/Keyboard/Resources/Images/PageUp.png"/>
         </local:FullKeyboardButton>
@@ -126,7 +126,7 @@
           <ColumnDefinition Width="0.5*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="0" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamDouble}}"/>
 
         <local:FullKeyboardButton Grid.Column="1" NormalText="a" ShiftText="A" SymbolText="[" JapaneseText="Ja"/>
         <local:FullKeyboardButton Grid.Column="2" NormalText="s" ShiftText="S" SymbolText="]" JapaneseText="Ja"/>
@@ -139,7 +139,7 @@
         <local:FullKeyboardButton Grid.Column="9" NormalText="l" ShiftText="L" SymbolText="+" JapaneseText="Ja"/>
         <local:FullKeyboardButton Grid.Column="10" NormalText="#" ShiftText="#" SymbolText="=" JapaneseText="Ja"/>
 
-        <TextBlock Grid.Column="11" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="11" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamDouble}}"/>
 
         <local:FullKeyboardButton Grid.Column="12" NormalText="4" ShiftText="4" SymbolText="4" JapaneseText="4"/>
         <local:FullKeyboardButton Grid.Column="13" NormalText="5" ShiftText="5" SymbolText="5" JapaneseText="5"/>
@@ -157,11 +157,11 @@
           <Image Source="/UserControls;component/Keyboard/Resources/Images/Pin.png"/>
         </local:FullKeyboardButton>
 
-        <TextBlock Grid.Column="16" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="16" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamDouble}}"/>
         <local:FullKeyboardButton Grid.Column="17" Key="Up">
           <Image Source="/UserControls;component/Keyboard/Resources/Images/Up.png"/>
         </local:FullKeyboardButton>
-        <TextBlock Grid.Column="18" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="18" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamDouble}}"/>
       </Grid>
       <!--Row 2-->
       <Grid Grid.Row="2">
@@ -201,13 +201,13 @@
         <local:FullKeyboardButton Grid.Column="8" NormalText="," ShiftText="," SymbolText="," JapaneseText="Ja"/>
         <local:FullKeyboardButton Grid.Column="9" NormalText="." ShiftText="." SymbolText="." JapaneseText="Ja"/>
 
-        <TextBlock Grid.Column="10" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="10" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamDouble}}"/>
         <local:FullKeyboardButton Grid.Column="11" NormalText="1" ShiftText="1" SymbolText="1" JapaneseText="1"/>
         <local:FullKeyboardButton Grid.Column="12" NormalText="2" ShiftText="2" SymbolText="2" JapaneseText="2"/>
         <local:FullKeyboardButton Grid.Column="13" NormalText="3" ShiftText="3" SymbolText="3" JapaneseText="3"/>
         <local:FullKeyboardButton Grid.Column="14" Content="DEL"/>
 
-        <TextBlock Grid.Column="15" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="15" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamDouble}}"/>
         <local:FullKeyboardButton Grid.Column="16" Key="Left">
           <Image Source="/UserControls;component/Keyboard/Resources/Images/Left.png"/>
         </local:FullKeyboardButton>
@@ -237,7 +237,7 @@
           <ColumnDefinition Width="0.5*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="0" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamDouble}}"/>
         <local:FullKeyboardButton Grid.Column="1" Content="!#?" Command="{x:Null}" Click="btnSymbol_click">
           <local:FullKeyboardButton.Style>
             <Style TargetType="{x:Type local:FullKeyboardButton}" BasedOn="{StaticResource {x:Type local:KeyboardButton}}">
@@ -260,12 +260,12 @@
             </Style>
           </local:FullKeyboardButton.Style>
         </local:FullKeyboardButton>
-        <TextBlock Grid.Column="3" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamTimesDouble}}"/>
-        <local:FullKeyboardButton Grid.Column="4" Key="Space" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="3" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamDouble}}"/>
+        <local:FullKeyboardButton Grid.Column="4" Key="Space" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=5, Converter={StaticResource DoubleToParamDouble}}"/>
 
         <local:FullKeyboardButton Grid.Column="5" NormalText="/" ShiftText="/" SymbolText="/" JapaneseText="Ja"/>
         <local:FullKeyboardButton Grid.Column="6" NormalText="\" ShiftText="\" SymbolText="\" JapaneseText="Ja"/>
-        <TextBlock Grid.Column="7" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="7" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamDouble}}"/>
         <local:FullKeyboardButton Grid.Column="8" NormalText="-" ShiftText="-" SymbolText="-" JapaneseText="Ja"/>
         <local:FullKeyboardButton Grid.Column="9" NormalText="0" ShiftText="0" SymbolText="0" JapaneseText="Ja"/>
 
@@ -273,11 +273,11 @@
         <local:FullKeyboardButton Grid.Column="11" Key="Enter">
           <Image Source="/UserControls;component/Keyboard/Resources/Images/Enter.png"/>
         </local:FullKeyboardButton>
-        <TextBlock Grid.Column="12" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="12" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=1, Converter={StaticResource DoubleToParamDouble}}"/>
         <local:FullKeyboardButton Grid.Column="13" Key="Down">
           <Image Source="/UserControls;component/Keyboard/Resources/Images/Down.png"/>
         </local:FullKeyboardButton>
-        <TextBlock Grid.Column="14" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamTimesDouble}}"/>
+        <TextBlock Grid.Column="14" Visibility="Hidden" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControlBase}}, Path=ButtonSize, ConverterParameter=0.5, Converter={StaticResource DoubleToParamDouble}}"/>
       </Grid>
     </Grid>
   </Grid>

@@ -7,10 +7,16 @@
         Icon="/WPF;component/Resources/Icons/NCGage.ico"
         mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
         Title="Test Keyboard">
-  <!--<StackPanel Background="Black">
+  <!--<StackPanel Background="Black" Height="150">
+    <Label Height="50"/>
     <CheckBox Content="check me" Name="cb"/>
-    <TextBox HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Height="30" Name="tbInput"/>
-    <userControls:KeyboardPopup PlacementTarget="{Binding ElementName=tbInput}" Placement="Right" IsOpen="{Binding ElementName=cb, Path=IsChecked}"/>
+    <CheckBox Content="check me" Name="cb1"/>
+    <CheckBox Content="check me" Name="cb2"/>
+    <CheckBox Content="check me" Name="cb3"/>
+    <userControls:KeyboardPopup PlacementTarget="{Binding ElementName=cb}" Placement="Right" IsOpen="{Binding ElementName=cb, Path=IsChecked}"/>
+    <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb1}" Placement="Right" IsOpen="{Binding ElementName=cb1, Path=IsChecked}"/>
+    <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb2}" Placement="Right" IsOpen="{Binding ElementName=cb2, Path=IsChecked}"/>
+    <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb3}" Placement="Right" IsOpen="{Binding ElementName=cb3, Path=IsChecked}"/>
   </StackPanel>-->
   <Grid Height="300" Margin="5">
     <Grid.RowDefinitions>
@@ -22,6 +28,7 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
+    <Button Grid.Row="0" Content="Keyboard Test" Click="Button_Click"/>
     <TextBlock Grid.Row="1" Margin="5" VerticalAlignment="Bottom" Text="Click the following input boxes..."/>
 
     <TextBox Grid.Row="2" Width="300" Margin="5" Height="25" Text="0" Name="tbInput1"
@@ -42,7 +49,7 @@
              userControls:KeyboardManager.Enabled="true"
              userControls:KeyboardManager.StartupKeyboardType="Full"
              />
-    <Button Content="Keyboard Test" Click="Button_Click"/>
+    
   </Grid>
   <!--<userControls:KeyboardControl/>-->
 </Window>

@@ -95,54 +95,28 @@ namespace Hexagon.Software.NCGage.UserControls
     }
 
 
-
-
-    #region 模拟按键
-    public static void Play()
+    /// <summary> Simulate KeyPress & KeyDown & KeyUp </summary>
+    public static void FireKeyPress(byte keyCode)
     {
-      keybd_event(179, 0, 0, 0);
-      keybd_event(179, 0, 2, 0);
+      FireKeyDown(keyCode);
+      FireKeyUp(keyCode);
     }
-    public static void Stop()
+    public static void FireKeyDown(byte keyCode)
     {
-      keybd_event(178, 0, 0, 0);
-      keybd_event(178, 0, 2, 0);
+      SendKeyboardEvent(keyCode, 0, 0, 0);
     }
-
-    public static void Last()
+    public static void FireKeyUp(byte keyCode)
     {
-      keybd_event(177, 0, 0, 0);
-      keybd_event(177, 0, 2, 0);
-    }
-    public static void Next()
-    {
-      keybd_event(176, 0, 0, 0);
-      keybd_event(176, 0, 2, 0);
-    }
-    #endregion
-
-    /// <summary> 模拟按下指定建 Keys.ControlKey </summary>
-    public static void OnKeyPress(byte keyCode)
-    {
-      OnKeyDown(keyCode);
-      OnKeyUp(keyCode);
-    }
-    public static void OnKeyDown(byte keyCode)
-    {
-      keybd_event(keyCode, 0, 0, 0);
-    }
-    public static void OnKeyUp(byte keyCode)
-    {
-      keybd_event(keyCode, 0, 2, 0);
+      SendKeyboardEvent(keyCode, 0, 2, 0);
     }
 
 
     [DllImport("user32.dll", EntryPoint = "keybd_event")]
-    public static extern void keybd_event(
-    byte bVk, //虚拟键值  
-    byte bScan,// 一般为0  
-    int dwFlags, //这里是整数类型 0 为按下，2为释放  
-    int dwExtraInfo //这里是整数类型 一般情况下设成为0  
+    public static extern void SendKeyboardEvent(
+    byte bVk, // virtual key
+    byte bScan, // 0
+    int dwFlags, // 0 - keydown，2 - keyup  
+    int dwExtraInfo // 0  
     );
 
     [DllImport("user32.dll")]

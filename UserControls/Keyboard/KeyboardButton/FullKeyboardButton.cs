@@ -16,22 +16,22 @@ namespace Hexagon.Software.NCGage.UserControls
 
         if (Console.CapsLock)
         {
-          FullKeyboardHelper.OnKeyPress(CapLockVirtualKey);
+          FullKeyboardHelper.FireKeyPress(CapLockVirtualKey);
           hasPressedCapsLock = true;
         }
 
         if (this.Key != Key.None)
         {
-          FullKeyboardHelper.OnKeyPress(Convert.ToByte(KeyInterop.VirtualKeyFromKey(this.Key)));
+          FullKeyboardHelper.FireKeyPress(Convert.ToByte(KeyInterop.VirtualKeyFromKey(this.Key)));
         }
         else if (this.Content.GetType() == typeof(String))
         {
           FullKeyAction action;
           if (FullKeyboardHelper.CharActionPairs.TryGetValue(this.Content.ToString(), out action))
           {
-            if (action.IsShift) FullKeyboardHelper.OnKeyDown(ShiftVirtualKey);
-            FullKeyboardHelper.OnKeyPress(Convert.ToByte(KeyInterop.VirtualKeyFromKey(action.CurrentKey)));
-            if (action.IsShift) FullKeyboardHelper.OnKeyUp(ShiftVirtualKey);
+            if (action.IsShift) FullKeyboardHelper.FireKeyDown(ShiftVirtualKey);
+            FullKeyboardHelper.FireKeyPress(Convert.ToByte(KeyInterop.VirtualKeyFromKey(action.CurrentKey)));
+            if (action.IsShift) FullKeyboardHelper.FireKeyUp(ShiftVirtualKey);
           }
         }
         return true;
@@ -43,7 +43,7 @@ namespace Hexagon.Software.NCGage.UserControls
       finally
       {
         if (hasPressedCapsLock)
-          FullKeyboardHelper.OnKeyPress(CapLockVirtualKey);
+          FullKeyboardHelper.FireKeyPress(CapLockVirtualKey);
       }
     }
 

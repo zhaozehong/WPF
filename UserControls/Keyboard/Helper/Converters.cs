@@ -136,7 +136,7 @@ namespace Hexagon.Software.NCGage.HelperLib
       return 0.0;
     }
   }
-  public sealed class DoubleToParamTimesDoubleConverter : IValueConverter
+  public sealed class DoubleToParamDoubleConverter : IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
