@@ -57,9 +57,9 @@
       </Grid.ColumnDefinitions>
 
       <!--Row 0-->
-      <local:CalculatorKeyboardButton Grid.Row="0" Grid.Column="4" Key="SWITCH" Content="Num" Visibility="{Binding KeyboardType, ConverterParameter=Number, Converter={StaticResource EnumToVisibility}}"/>
+      <local:CalculatorKeyboardButton Grid.Row="0" Grid.Column="4" Key="SWITCH" Content="Cal" Visibility="{Binding KeyboardType, ConverterParameter=Number, Converter={StaticResource EnumToVisibility}}"/>
       <!--Row 1-->
-      <local:CalculatorKeyboardButton Grid.Row="1" Grid.Column="0" Key="SWITCH" Content="Cal" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:CalculatorKeyboardButton Grid.Row="1" Grid.Column="0" Key="SWITCH" Content="Num" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:CalculatorKeyboardButton Grid.Row="1" Grid.Column="2" Key="AC" Content="AC" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:CalculatorKeyboardButton Grid.Row="1" Grid.Column="3" Key="C" Content="C" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:CalculatorKeyboardButton Grid.Row="1" Grid.Column="4" Key="D_D7" Content="7"/>
