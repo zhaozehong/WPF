@@ -145,7 +145,7 @@ namespace Hexagon.Software.NCGage.UserControls
         {
           _minHorOffset = _minVerOffset = 0;
           _maxHorOffset = workArea.Size.Width - Helpers.PixelsToDIU((int)(bottomRightPoint.X - topLeftPoint.X));
-          _maxVerOffset = workArea.Size.Height - Helpers.PixelsToDIU((int)(bottomRightPoint.Y - topLeftPoint.Y));
+          _maxVerOffset = workArea.Size.Height - Helpers.PixelsToDIU((int)(bottomRightPoint.Y - topLeftPoint.Y), false);
         }
         else
         {
@@ -194,14 +194,10 @@ namespace Hexagon.Software.NCGage.UserControls
       var newPosition = this.Child.PointToScreen(e.GetPosition(this.Child));
 
       var hOffset = this.HorizontalOffset + Helpers.PixelsToDIU((int)(newPosition.X - startPoint.Value.X));
-      hOffset = Math.Max(_minHorOffset, hOffset);
-      hOffset = Math.Min(_maxHorOffset, hOffset);
-      this.HorizontalOffset = hOffset;
+      this.HorizontalOffset = Math.Min(_maxHorOffset, Math.Max(_minHorOffset, hOffset));
 
       var vOffset = this.VerticalOffset + Helpers.PixelsToDIU((int)(newPosition.Y - startPoint.Value.Y), false);
-      vOffset = Math.Max(_minVerOffset, vOffset);
-      vOffset = Math.Min(_maxVerOffset, vOffset);
-      this.VerticalOffset = vOffset;
+      this.VerticalOffset = Math.Min(_maxVerOffset, Math.Max(_minVerOffset, vOffset));
 
       startPoint = newPosition;
     }

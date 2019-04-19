@@ -1,30 +1,29 @@
 ﻿<local:KeyboardControlBase x:Class="Hexagon.Software.NCGage.UserControls.KeyboardControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:helperLib="clr-namespace:Hexagon.Software.NCGage.HelperLib"
              xmlns:local="clr-namespace:Hexagon.Software.NCGage.UserControls">
   <local:KeyboardControlBase.Resources>
-    <DataTemplate DataType="{x:Type local:CalculatorKeyboardControlViewModel}">
-      <local:CalculatorKeyboardControl Closed="KeyboardControl_Closed"
-                                       InputTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=InputTarget, Mode=TwoWay}"
-                                       StartupKeyboardType="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=StartupKeyboardType, Mode=TwoWay}"
-                                       ButtonSize="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, Mode=TwoWay}"
-                                       ButtonMargin="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonMargin, Mode=TwoWay}"
-                                       IsPin="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=IsPin, Mode=TwoWay}"
-                                       ResetOnCalculation="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ResetOnCalculation, Mode=TwoWay}"/>
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type local:FullKeyboardControlViewModel}">
-      <local:FullKeyboardControl Closed="KeyboardControl_Closed"
-                                 InputTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=InputTarget, Mode=TwoWay}"
-                                 StartupKeyboardType="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=StartupKeyboardType, Mode=TwoWay}"
-                                 ButtonSize="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, Mode=TwoWay}"
-                                 ButtonMargin="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonMargin, Mode=TwoWay}"
-                                 IsPin="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=IsPin, Mode=TwoWay}"/>
-    </DataTemplate>
+    <helperLib:ObjectIsTypeToVisibilityConverter x:Key="ObjectIsTypeToVisibility"/>
   </local:KeyboardControlBase.Resources>
   <local:KeyboardControlBase.DataContext>
     <local:KeyboardControlViewModel/>
   </local:KeyboardControlBase.DataContext>
   <Grid Background="Black">
-    <ContentControl Content="{Binding CurrentViewModel}"/>
+    <local:CalculatorKeyboardControl Closed="KeyboardControl_Closed"
+                                     InputTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=InputTarget, Mode=OneWay}"
+                                     StartupKeyboardType="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=StartupKeyboardType, Mode=OneWay}"
+                                     ButtonSize="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, Mode=OneWay}"
+                                     ButtonMargin="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonMargin, Mode=OneWay}"
+                                     IsPin="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=IsPin, Mode=TwoWay}"
+                                     ResetOnCalculation="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ResetOnCalculation, Mode=OneWay}"
+                                     Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=DataContext.CurrentViewModel, ConverterParameter=CalculatorKeyboardControlViewModel, Converter={StaticResource ObjectIsTypeToVisibility}}"/>
+    <local:FullKeyboardControl Closed="KeyboardControl_Closed"
+                               InputTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=InputTarget, Mode=OneWay}"
+                               StartupKeyboardType="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=StartupKeyboardType, Mode=OneWay}"
+                               ButtonSize="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonSize, Mode=OneWay}"
+                               ButtonMargin="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=ButtonMargin, Mode=OneWay}"
+                               IsPin="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=IsPin, Mode=TwoWay}"
+                               Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:KeyboardControl}}, Path=DataContext.CurrentViewModel, ConverterParameter=FullKeyboardControlViewModel, Converter={StaticResource ObjectIsTypeToVisibility}}"/>
   </Grid>
 </local:KeyboardControlBase>

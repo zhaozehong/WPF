@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using Hexagon.Software.NCGage.HelperLib;
@@ -28,11 +29,13 @@ namespace Hexagon.Software.NCGage.UserControls
         case KeyboardKeys.D_D9:
           value = this.Key.ToString().Last().ToString();
           break;
-        case KeyboardKeys.D_PI:
+        case KeyboardKeys.PI:
           value = "PI";
           break;
         case KeyboardKeys.Point:
-          value = ".";
+          //Environment.NewLine
+          //value = ".";
+          value = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
           break;
 
         case KeyboardKeys.O_Add:
@@ -137,6 +140,7 @@ namespace Hexagon.Software.NCGage.UserControls
       this.IsLeftBracket = KeyboardHelper.IsLeftBracketKey(this.Key);
       this.IsRightBracket = KeyboardHelper.IsRightBracketKey(this.Key);
       this.IsUnitConverter = KeyboardHelper.IsUnitConverterKey(this.Key);
+      this.IsPI = KeyboardHelper.IsPIKey(this.Key);
     }
 
     public InputInfo Previous { get; private set; }
@@ -151,5 +155,6 @@ namespace Hexagon.Software.NCGage.UserControls
     public Boolean IsLeftBracket { get; private set; }
     public Boolean IsRightBracket { get; private set; }
     public Boolean IsUnitConverter { get; private set; }
+    public Boolean IsPI { get; private set; }
   }
 }

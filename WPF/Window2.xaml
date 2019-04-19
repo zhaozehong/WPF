@@ -44,10 +44,12 @@
     <TextBox Grid.Row="3" Width="300" Margin="5" Height="25" Text="1" Name="tbInput2"
              userControls:KeyboardManager.Enabled="true"
              userControls:KeyboardManager.StartupKeyboardType="Calculator"
+             userControls:KeyboardManager.Placement="Right"
              />
     <TextBox Grid.Row="4" Width="300" Margin="5" Height="25" Text="2" Name="tbInput3"
              userControls:KeyboardManager.Enabled="true"
              userControls:KeyboardManager.StartupKeyboardType="Full"
+             userControls:KeyboardManager.Placement="Right"
              />
     
   </Grid>

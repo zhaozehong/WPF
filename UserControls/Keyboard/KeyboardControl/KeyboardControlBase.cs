@@ -22,7 +22,7 @@ namespace Hexagon.Software.NCGage.UserControls
     protected virtual void OnInitialized(object sender, EventArgs e)
     {
 #if !DEBUG
-         this.IsPin = false;
+      this.IsPin = false;
 #endif
 
       this.OnStartupKeyboardTypeChanged();

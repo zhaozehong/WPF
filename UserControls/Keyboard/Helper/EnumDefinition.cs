@@ -21,7 +21,7 @@ namespace Hexagon.Software.NCGage.HelperLib
     D_D9,
 
     D_Flag,
-    D_PI,
+    PI,
     Point,
 
     // Operator
@@ -125,6 +125,11 @@ namespace Hexagon.Software.NCGage.HelperLib
     {
       return key == KeyboardKeys.M2I || key == KeyboardKeys.I2M;
     }
+    public static Boolean IsPIKey(KeyboardKeys key)
+    {
+      return key == KeyboardKeys.PI;
+    }
+    
     public static List<String> FunctionNames = Enum.GetNames(typeof(KeyboardKeys)).Where(p => p.StartsWith("F_")).Select(p => p.Substring(2)).ToList();
   }
 

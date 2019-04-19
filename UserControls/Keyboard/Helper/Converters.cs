@@ -169,4 +169,16 @@ namespace Hexagon.Software.NCGage.HelperLib
       }
     }
   }
+  public sealed class ObjectIsTypeToVisibilityConverter : IValueConverter
+  {
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      string typeName = string.Format("{0}", parameter);
+      return (value != null && value.GetType().Name == typeName) ? Visibility.Visible : Visibility.Collapsed;
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      throw new NotSupportedException();
+    }
+  }
 }

@@ -72,7 +72,7 @@
       <!--Row 2-->
       <local:CalculatorKeyboardButton Grid.Row="2" Grid.Column="0" Key="LeftBracket" Content="(" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:CalculatorKeyboardButton Grid.Row="2" Grid.Column="1" Key="RightBracket" Content=")" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
-      <local:CalculatorKeyboardButton Grid.Row="2" Grid.Column="2" Key="D_PI" Content="PI" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
+      <local:CalculatorKeyboardButton Grid.Row="2" Grid.Column="2" Key="PI" Content="PI" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:CalculatorKeyboardButton Grid.Row="2" Grid.Column="3" Key="F_Abs" Content="Abs" Visibility="{Binding KeyboardType, ConverterParameter=Calculator, Converter={StaticResource EnumToVisibility}}"/>
       <local:CalculatorKeyboardButton Grid.Row="2" Grid.Column="4" Key="D_D4" Content="4"/>
       <local:CalculatorKeyboardButton Grid.Row="2" Grid.Column="5" Key="D_D5" Content="5"/>
