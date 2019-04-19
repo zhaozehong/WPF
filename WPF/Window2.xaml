@@ -19,6 +19,10 @@
     <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb3}" Placement="Right" IsOpen="{Binding ElementName=cb3, Path=IsChecked}"/>
   </StackPanel>-->
   <Grid Height="300" Margin="5">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="400"/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="100"/>
       <RowDefinition Height="*"/>
@@ -31,7 +35,7 @@
     <Button Grid.Row="0" Content="Keyboard Test" Click="Button_Click"/>
     <TextBlock Grid.Row="1" Margin="5" VerticalAlignment="Bottom" Text="Click the following input boxes..."/>
 
-    <TextBox Grid.Row="2" Width="300" Margin="5" Height="25" Text="0" Name="tbInput1"
+    <TextBox Grid.Row="2" Grid.Column="1" Width="300" Margin="5" Height="25" Text="0" Name="tbInput1"
              userControls:KeyboardManager.Enabled="True"
              userControls:KeyboardManager.StartupKeyboardType="Number"
              userControls:KeyboardManager.Topmost="True"
@@ -39,19 +43,16 @@
              userControls:KeyboardManager.ButtonMargin="2"
              userControls:KeyboardManager.ResetOnCalculation="True"
              userControls:KeyboardManager.SharePosition="True"
-             userControls:KeyboardManager.Placement="Right"
              />
-    <TextBox Grid.Row="3" Width="300" Margin="5" Height="25" Text="1" Name="tbInput2"
+    <TextBox Grid.Row="3" Grid.Column="1" Width="300" Margin="5" Height="25" Text="1" Name="tbInput2"
              userControls:KeyboardManager.Enabled="true"
              userControls:KeyboardManager.StartupKeyboardType="Calculator"
-             userControls:KeyboardManager.Placement="Right"
              />
-    <TextBox Grid.Row="4" Width="300" Margin="5" Height="25" Text="2" Name="tbInput3"
+    <TextBox Grid.Row="4" Grid.Column="1" Width="300" Margin="5" Height="25" Text="2" Name="tbInput3"
              userControls:KeyboardManager.Enabled="true"
              userControls:KeyboardManager.StartupKeyboardType="Full"
-             userControls:KeyboardManager.Placement="Right"
              />
-    
+
   </Grid>
   <!--<userControls:KeyboardControl/>-->
 </Window>
