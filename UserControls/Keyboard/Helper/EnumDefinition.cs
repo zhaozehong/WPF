@@ -105,7 +105,7 @@ namespace Hexagon.Software.NCGage.HelperLib
     {
       return key == KeyboardKeys.Equal || key == KeyboardKeys.Enter;
     }
-    public static Boolean IsEqualKey(KeyboardKeys key)
+    public static Boolean IsConfirmKey(KeyboardKeys key)
     {
       return key == KeyboardKeys.Equal || key == KeyboardKeys.Enter;
     }

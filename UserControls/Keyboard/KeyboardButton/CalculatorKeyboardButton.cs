@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Windows;
 using Hexagon.Software.NCGage.HelperLib;
@@ -33,9 +32,7 @@ namespace Hexagon.Software.NCGage.UserControls
           value = "PI";
           break;
         case KeyboardKeys.Point:
-          //Environment.NewLine
-          //value = ".";
-          value = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
+          value = ".";
           break;
 
         case KeyboardKeys.O_Add:
@@ -92,7 +89,7 @@ namespace Hexagon.Software.NCGage.UserControls
           break;
         case KeyboardKeys.M2I:
         case KeyboardKeys.I2M:
-          recordList.Add(new InputInfo(recordList.LastOrDefault(), this.Key, null));
+          recordList.Add(new InputInfo(recordList.LastOrDefault(), this.Key, preValue));
           return true;
         case KeyboardKeys.None:
         case KeyboardKeys.Enter:

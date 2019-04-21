@@ -72,7 +72,7 @@ namespace Hexagon.Software.NCGage.UserControls
         var tempList = new List<String>();
         while (iCurrent != -1)
         {
-          tempList.AddRange(_inputList.GetRange(iLast, iCurrent - iLast).Select(p => p.Value));
+          tempList.AddRange(_inputList.GetRange(iLast, iCurrent - iLast + 1).Select(p => p.Value ?? ""));
           unitText = String.Format("{0}({1})", _inputList[iCurrent].Key, Helpers.ListToValue(tempList));
 
           tempList.Clear();
@@ -166,15 +166,7 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       preValue = null;
       if (NeedDeleteLastInput(key))
-      {
-        if (_inputList.Count > 1)
-        {
-          var llastInput = _inputList[_inputList.Count - 2];
-          if (KeyboardHelper.IsOperatorKey(key) && _inputList.Last().Key == KeyboardKeys.O_Substract && (!llastInput.IsDigit && !llastInput.IsRightBracket && !llastInput.IsPoint))
-            return false;
-        }
         _inputList.RemoveAt(_inputList.Count - 1);
-      }
       if (NeedReturn(key))
         return false;
 
@@ -200,32 +192,35 @@ namespace Hexagon.Software.NCGage.UserControls
     private Boolean NeedDeleteLastInput(KeyboardKeys key)
     {
       var lastInput = _inputList.LastOrDefault();
-      return lastInput != null && lastInput.IsOperator && (KeyboardHelper.IsOperatorKey(key));
+      return KeyboardHelper.IsOperatorKey(key) && lastInput != null && lastInput.IsOperator && !IsLastInputAMinusSign(lastInput);
     }
     private Boolean NeedReturn(KeyboardKeys key)
     {
       var lastInput = _inputList.LastOrDefault();
       if (this.KeyboardType == KeyboardTypes.Number)
-        return (key == KeyboardKeys.O_Substract && lastInput != null) || (KeyboardHelper.IsPointKey(key) && this.InputValue.Contains("."));
+        return key == KeyboardKeys.O_Substract && lastInput != null;
 
       if ((lastInput == null || lastInput.IsFunction || lastInput.IsLeftBracket) &&
-        ((KeyboardHelper.IsOperatorKey(key) && key != KeyboardKeys.O_Substract) || KeyboardHelper.IsEqualKey(key) || KeyboardHelper.IsRightBracketKey(key) || KeyboardHelper.IsUnitConverterKey(key)))
+        ((KeyboardHelper.IsOperatorKey(key) && key != KeyboardKeys.O_Substract) || KeyboardHelper.IsConfirmKey(key) || KeyboardHelper.IsRightBracketKey(key) || KeyboardHelper.IsUnitConverterKey(key)))
         return true;
 
       if (lastInput != null)
       {
-        var llastInput = lastInput.Previous;
-        if (llastInput != null)
-          if (KeyboardHelper.IsOperatorKey(key) && lastInput.Key == KeyboardKeys.O_Substract && (!llastInput.IsDigit && !llastInput.IsRightBracket && !llastInput.IsPoint)) // invalid operation for minus sign
-            return true;
-
-        if ((lastInput.IsPoint || lastInput.IsPI || GetLastNumericText(this.InputValue).Contains(".")) && KeyboardHelper.IsPointKey(key))
+        // last minus? × : Overwrite
+        if (KeyboardHelper.IsOperatorKey(key) && IsLastInputAMinusSign(lastInput)) // return if last input is a minus sign
           return true;
-        if (lastInput.IsOperator && (KeyboardHelper.IsEqualKey(key) || KeyboardHelper.IsRightBracketKey(key) || KeyboardHelper.IsUnitConverterKey(key)))
+
+        if (lastInput.IsOperator && (KeyboardHelper.IsConfirmKey(key) || KeyboardHelper.IsRightBracketKey(key) || KeyboardHelper.IsUnitConverterKey(key)))
           return true;
         if (lastInput.IsUnitConverter && (KeyboardHelper.IsRightBracketKey(key) || KeyboardHelper.IsUnitConverterKey(key)))
           return true;
-        if ((lastInput.IsDigit || lastInput.IsPI || lastInput.IsPoint || lastInput.IsRightBracket) && KeyboardHelper.IsRightBracketKey(key))
+
+        // already have? × : √ 
+        if ((lastInput.IsPoint || GetLastNumericText(this.InputValue).Contains(".")) && KeyboardHelper.IsPointKey(key))
+          return true;
+
+        // completed? × : √ 
+        if ((lastInput.IsDigit || lastInput.IsPoint || lastInput.IsRightBracket || lastInput.IsPI) && KeyboardHelper.IsRightBracketKey(key))
         {
           var leftBracketCount = Helpers.GetCount(this.InputValue, @"[([{]");
           var rightBracketCount = Helpers.GetCount(this.InputValue, @"[)\]}]");
@@ -241,30 +236,26 @@ namespace Hexagon.Software.NCGage.UserControls
       if (lastInput == null)
         return false;
 
-      if (lastInput.IsPI && (KeyboardHelper.IsDigitKey(key) || KeyboardHelper.IsFunctionKey(key) || KeyboardHelper.IsLeftBracketKey(key) || KeyboardHelper.IsPIKey(key)))
+      if (KeyboardHelper.IsDigitKey(key) && (lastInput.IsRightBracket || lastInput.IsUnitConverter || lastInput.IsPI))
         return true;
-
-      if ((lastInput.IsRightBracket || lastInput.IsUnitConverter || lastInput.IsPI || lastInput.IsDigit || lastInput.IsPoint) && KeyboardHelper.IsPIKey(key))
+      if ((lastInput.IsDigit || lastInput.IsPoint || lastInput.IsRightBracket || lastInput.IsUnitConverter || lastInput.IsPI) && (KeyboardHelper.IsFunctionKey(key) || KeyboardHelper.IsLeftBracketKey(key) || KeyboardHelper.IsPIKey(key)))
         return true;
-
-      if ((lastInput.IsRightBracket || lastInput.IsUnitConverter || lastInput.IsPI) && KeyboardHelper.IsDigitKey(key))
-        return true;
-      return (lastInput.IsDigit || lastInput.IsPoint || lastInput.IsRightBracket || lastInput.IsUnitConverter) && (KeyboardHelper.IsFunctionKey(key) || KeyboardHelper.IsLeftBracketKey(key));
+      return false;
     }
     private Boolean NeedAddZero(KeyboardKeys key)
     {
       var lastInput = _inputList.LastOrDefault();
-      return (lastInput == null || lastInput.IsFunction || lastInput.IsLeftBracket || lastInput.IsOperator || lastInput.IsUnitConverter) && KeyboardHelper.IsPointKey(key);
+      return KeyboardHelper.IsPointKey(key) && (lastInput == null || lastInput.IsFunction || lastInput.IsLeftBracket || lastInput.IsOperator);
     }
     private Boolean NeedAddMultiplyZero(KeyboardKeys key)
     {
       var lastInput = _inputList.LastOrDefault();
-      return lastInput != null && lastInput.IsRightBracket && KeyboardHelper.IsPointKey(key);
+      return KeyboardHelper.IsPointKey(key) && lastInput != null && (lastInput.IsRightBracket || lastInput.IsUnitConverter || lastInput.IsPI);
     }
     private Boolean NeedAddRightBrackets(KeyboardKeys key)
     {
       var lastInput = _inputList.LastOrDefault();
-      return lastInput != null && (lastInput.IsDigit || lastInput.IsPI || lastInput.IsPoint || lastInput.IsRightBracket) && (key == KeyboardKeys.Equal || KeyboardHelper.IsUnitConverterKey(key));
+      return lastInput != null && (lastInput.IsDigit || lastInput.IsPoint || lastInput.IsRightBracket || lastInput.IsPI) && (KeyboardHelper.IsConfirmKey(key) || KeyboardHelper.IsUnitConverterKey(key));
     }
 
     private String GetLastNumericText(String text)
@@ -273,6 +264,19 @@ namespace Hexagon.Software.NCGage.UserControls
       if (!match.Success)
         return String.Empty;
       return match.Value;
+    }
+    private bool IsLastInputAMinusSign(InputInfo lastInput)
+    {
+      if (lastInput == null)
+        return false;
+
+      var isLastAMinusSign = lastInput.Key == KeyboardKeys.O_Substract;
+      if (isLastAMinusSign)
+      {
+        var llastInput = lastInput.Previous;
+        isLastAMinusSign = llastInput == null || llastInput.IsFunction || llastInput.IsLeftBracket;
+      }
+      return isLastAMinusSign;
     }
     #endregion
 

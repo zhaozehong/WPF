@@ -25,16 +25,16 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
 
       return null;
     }
+
     public static String Normalize(String strExpression)
     {
       if (String.IsNullOrWhiteSpace(strExpression))
         return "0";
 
-      var expression = Regex.Replace(strExpression, " ", ""); // remove empty char
-      expression = expression.TrimStart('+'); // remove prefix '+';
+      var expression = CorrectPrefixPlusMinus(strExpression);
       while (Regex.IsMatch(expression, @"^[([{]") && Regex.IsMatch(expression, @"[)\]}]$") && Helpers.GetSubExpression(expression) == expression)
       {
-        expression = expression.Substring(1, expression.Length - 2); // remove unnecessary bounded "()";
+        expression = CorrectPrefixPlusMinus(expression.Substring(1, expression.Length - 2)); // remove unnecessary bounded "()"
       }
 
       if (Helpers.IsNumericValue(expression))
@@ -108,6 +108,15 @@ namespace Hexagon.Software.NCGage.ExpressionCalculator
       complexFunction = (ComplexFunctions)Enum.Parse(typeof(ComplexFunctions), functionName);
       strExpression = strExpression.Substring(functionName.Length + 1, strExpression.Length - functionName.Length - 2);
       return true;
+    }
+    private static String CorrectPrefixPlusMinus(String value)
+    {
+      var retValue = Regex.Replace(value, " ", "").TrimStart('+'); // remove empty char & remove prefix '+'
+      if (retValue.StartsWith("-"))
+      {
+        retValue = retValue.TrimStart('-', '+').Insert(0, "-"); // remove extra '-' & '+', and finally add a prefix '-' to the retValue
+      }
+      return retValue;
     }
   }
 }
