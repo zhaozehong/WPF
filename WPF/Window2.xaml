@@ -13,10 +13,10 @@
     <CheckBox Content="check me" Name="cb1"/>
     <CheckBox Content="check me" Name="cb2"/>
     <CheckBox Content="check me" Name="cb3"/>
-    <userControls:KeyboardPopup PlacementTarget="{Binding ElementName=cb}" Placement="Right" IsOpen="{Binding ElementName=cb, Path=IsChecked}"/>
-    <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb1}" Placement="Right" IsOpen="{Binding ElementName=cb1, Path=IsChecked}"/>
-    <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb2}" Placement="Right" IsOpen="{Binding ElementName=cb2, Path=IsChecked}"/>
-    <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb3}" Placement="Right" IsOpen="{Binding ElementName=cb3, Path=IsChecked}"/>
+    <userControls:KeyboardPopup PlacementTarget="{Binding ElementName=cb}" IsOpen="{Binding ElementName=cb, Path=IsChecked}"/>
+    <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb1}" IsOpen="{Binding ElementName=cb1, Path=IsChecked}"/>
+    <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb2}" IsOpen="{Binding ElementName=cb2, Path=IsChecked}"/>
+    <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb3}" IsOpen="{Binding ElementName=cb3, Path=IsChecked}"/>
   </StackPanel>-->
   <Grid Height="300" Margin="5">
     <Grid.ColumnDefinitions>

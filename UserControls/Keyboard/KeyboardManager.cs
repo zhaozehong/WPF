@@ -26,7 +26,7 @@ namespace Hexagon.Software.NCGage.UserControls
         KeyboardPopupObj.InputTarget = obj as TextBox;
         KeyboardPopupObj.PlacementTarget = KeyboardPopupObj.InputTarget;
         KeyboardPopupObj.SharePosition = GetSharePosition(obj);
-        KeyboardPopupObj.Placement = GetPlacement(obj);
+        KeyboardPopupObj.KeyboardPlacement = GetPlacement(obj);
         KeyboardPopupObj.ResetOnCalculation = GetResetOnCalculation(obj);
       }
       return KeyboardPopupObj;
@@ -108,15 +108,15 @@ namespace Hexagon.Software.NCGage.UserControls
     }
     public static readonly DependencyProperty SharePositionProperty = DependencyProperty.RegisterAttached("SharePosition", typeof(bool), typeof(KeyboardManager), new PropertyMetadata(true));
 
-    public static PlacementMode GetPlacement(DependencyObject obj)
+    public static KeyboardPlacementModes GetPlacement(DependencyObject obj)
     {
-      return (PlacementMode)obj.GetValue(PlacementProperty);
+      return (KeyboardPlacementModes)obj.GetValue(PlacementProperty);
     }
-    public static void SetPlacement(DependencyObject obj, PlacementMode value)
+    public static void SetPlacement(DependencyObject obj, KeyboardPlacementModes value)
     {
       obj.SetValue(PlacementProperty, value);
     }
-    public static readonly DependencyProperty PlacementProperty = DependencyProperty.RegisterAttached("Placement", typeof(PlacementMode), typeof(KeyboardManager), new PropertyMetadata(PlacementMode.Right));
+    public static readonly DependencyProperty PlacementProperty = DependencyProperty.RegisterAttached("Placement", typeof(KeyboardPlacementModes), typeof(KeyboardManager), new PropertyMetadata(KeyboardPlacementModes.TopRight));
 
     #endregion
 

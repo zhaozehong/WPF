@@ -135,4 +135,5 @@ namespace Hexagon.Software.NCGage.HelperLib
 
   public enum KeyboardTypes { Number, Calculator, Full }
   public enum DisplayModes { Normal, Capital, Symbol }
+  public enum KeyboardPlacementModes { TopLeft, TopRight, BottomLeft, BottomRight }
 }

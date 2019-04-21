@@ -23,16 +23,11 @@ namespace Hexagon.Software.NCGage.UserControls
 
     protected override void OnOpened(EventArgs e)
     {
-      // set position
-      if (!_hasOpenedBefore)
-        SetWindowPosition(); // to set topmost property
-      _hasOpenedBefore = true;
+      this.Placement = PlacementMode.Absolute;
 
-      if (this.IsPin)
-      {
-        _backupPlacement = this.Placement;
-        this.Placement = PlacementMode.Absolute;
-      }
+      if (!_hasOpenedBefore)
+        SetTopmostStatus(); // to set topmost property
+      _hasOpenedBefore = true;
 
       /********************************ZEHONG: fix bug when Topmost set to true********************************
        * When topmost keyboard is opened: textbox will lost its focus;
@@ -42,28 +37,22 @@ namespace Hexagon.Software.NCGage.UserControls
        *********************************************************************************************************/
       if (this.PlacementTarget.IsFocused == false) //ZEHONG: PlacementTarget must not be null when coming here
         this.PlacementTarget.Focus();
+
+      SetUnpinPosition();
     }
 
     private void OnIsPinChanged()
     {
-      this.ApplyWindowEvents();
-
       if (this.IsPin)
       {
-        _backupPlacement = this.Placement;
-
         var topLeftPoint = this.Child.PointToScreen(Helpers.ZeroPoint);
         this.HorizontalOffset = Helpers.PixelsToDIU((int)topLeftPoint.X);
         this.VerticalOffset = Helpers.PixelsToDIU((int)topLeftPoint.Y, false);
-        this.Placement = PlacementMode.Absolute;
       }
       else
       {
-        this.Placement = _backupPlacement;
-        this.HorizontalOffset = 0;
-        this.VerticalOffset = 0;
+        SetUnpinPosition();
       }
-      UpdateOffsetLimit();
 
       // Apply IsPin to all Popups with SharePostion flag
       if (this.SharePosition)
@@ -91,74 +80,6 @@ namespace Hexagon.Software.NCGage.UserControls
       }
     }
 
-    // Update Position
-    private bool ApplyWindowEvents()
-    {
-      var window = Window.GetWindow(this);
-      if (window == null)
-        return false;
-
-      window.SizeChanged -= Window_Changed;
-      window.LocationChanged -= Window_Changed;
-      if (!IsPin)
-      {
-        window.SizeChanged += Window_Changed;
-        window.LocationChanged += Window_Changed;
-      }
-      return true;
-    }
-    private void Window_Changed(object sender, EventArgs e)
-    {
-      try
-      {
-        if (this.IsOpen && !this.IsPin)
-        {
-          var method = typeof(Popup).GetMethod("UpdatePosition", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-          method.Invoke(this, null);
-        }
-      }
-      catch { }
-    }
-
-    // Set position & apply Topmost property
-    private void SetWindowPosition()
-    {
-      var hwnd = ((HwndSource)PresentationSource.FromVisual(this.Child))?.Handle;
-      if (hwnd == null)
-        return;
-
-      RECT rect;
-      if (NativeMethods.GetWindowRect(hwnd.Value, out rect))
-        NativeMethods.SetWindowPos(hwnd.Value, Topmost ? -1 : -2, rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top, 0);
-    }
-    private void UpdateOffsetLimit()
-    {
-      if (!(this.Child is FrameworkElement child))
-        return;
-
-      try
-      {
-        var workArea = Helpers.GetWorkArea(this);
-        var topLeftPoint = this.Child.PointToScreen(Helpers.ZeroPoint);
-        var bottomRightPoint = this.Child.PointToScreen(new Point(child.ActualWidth, child.ActualHeight));
-        if (this.Placement == PlacementMode.Absolute)
-        {
-          _minHorOffset = _minVerOffset = 0;
-          _maxHorOffset = workArea.Size.Width - Helpers.PixelsToDIU((int)(bottomRightPoint.X - topLeftPoint.X));
-          _maxVerOffset = workArea.Size.Height - Helpers.PixelsToDIU((int)(bottomRightPoint.Y - topLeftPoint.Y), false);
-        }
-        else
-        {
-          _minHorOffset = Helpers.PixelsToDIU(0 - (int)topLeftPoint.X) + this.HorizontalOffset;
-          _minVerOffset = Helpers.PixelsToDIU(0 - (int)topLeftPoint.Y, false) + this.VerticalOffset;
-
-          _maxHorOffset = workArea.Size.Width - Helpers.PixelsToDIU((int)bottomRightPoint.X) + this.HorizontalOffset;
-          _maxVerOffset = workArea.Size.Height - Helpers.PixelsToDIU((int)bottomRightPoint.Y, false) + this.VerticalOffset;
-        }
-      }
-      catch (Exception) { }
-    }
-
     private void PopupEx_LayoutUpdated(object sender, EventArgs e)
     {
       if (ApplyWindowEvents())
@@ -172,6 +93,102 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       if (this.IsOpen)
         UpdateOffsetLimit();
+    }
+
+    private bool ApplyWindowEvents()
+    {
+      var window = Window.GetWindow(this);
+      if (window == null)
+        return false;
+
+      window.SizeChanged -= Window_Changed;
+      window.SizeChanged += Window_Changed;
+
+      window.LocationChanged -= Window_Changed;
+      window.LocationChanged += Window_Changed;
+
+      return true;
+    }
+    private void Window_Changed(object sender, EventArgs e)
+    {
+      SetUnpinPosition();
+    }
+
+    private void SetTopmostStatus()
+    {
+      var hwnd = ((HwndSource)PresentationSource.FromVisual(this.Child))?.Handle;
+      if (hwnd == null)
+        return;
+
+      RECT rect;
+      if (NativeMethods.GetWindowRect(hwnd.Value, out rect))
+        NativeMethods.SetWindowPos(hwnd.Value, Topmost ? -1 : -2, rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top, 0);
+    }
+    private void UpdateOffsetLimit()
+    {
+      try
+      {
+        if (!(this.Child is FrameworkElement child))
+          return;
+
+        var currentSize = new Size(child.ActualWidth, child.ActualHeight);
+        if (_oldSize.Equals(currentSize))
+          return;
+
+        var workArea = Helpers.GetWorkArea(this);
+        var topLeftPoint = this.Child.PointToScreen(Helpers.ZeroPoint);
+        var bottomRightPoint = this.Child.PointToScreen(new Point(child.ActualWidth, child.ActualHeight));
+
+        _popupWidth = Helpers.PixelsToDIU((int)(bottomRightPoint.X - topLeftPoint.X));
+        _popupHeight = Helpers.PixelsToDIU((int)(bottomRightPoint.Y - topLeftPoint.Y), false);
+
+        _maxHorOffset = workArea.Size.Width - _popupWidth;
+        _maxVerOffset = workArea.Size.Height - _popupHeight;
+
+        _oldSize = currentSize;
+        SetUnpinPosition();
+      }
+      catch (Exception)
+      {
+        _oldSize = Size.Empty;
+      }
+    }
+    private void SetUnpinPosition()
+    {
+      try
+      {
+        if (!this.IsOpen || this.IsPin || !(PlacementTarget is FrameworkElement placementTarget))
+          return;
+
+        double hOffset = double.NaN, vOffset = double.NaN;
+        switch (this.KeyboardPlacement)
+        {
+          case KeyboardPlacementModes.BottomRight:
+            var bottomRightPoint = placementTarget.PointToScreen(new Point(placementTarget.ActualWidth, placementTarget.ActualHeight));
+            hOffset = Helpers.PixelsToDIU((int)bottomRightPoint.X);
+            vOffset = Helpers.PixelsToDIU((int)bottomRightPoint.Y, false);
+            break;
+          case KeyboardPlacementModes.BottomLeft:
+            var bottomLeftPoint = placementTarget.PointToScreen(new Point(0, placementTarget.ActualHeight));
+            hOffset = Helpers.PixelsToDIU((int)bottomLeftPoint.X) - _popupWidth;
+            vOffset = Helpers.PixelsToDIU((int)bottomLeftPoint.Y, false);
+            break;
+          case KeyboardPlacementModes.TopLeft:
+            var topLeftPoint = placementTarget.PointToScreen(Helpers.ZeroPoint);
+            hOffset = Helpers.PixelsToDIU((int)topLeftPoint.X) - _popupWidth;
+            vOffset = Helpers.PixelsToDIU((int)topLeftPoint.Y, false) - _popupHeight;
+            break;
+          case KeyboardPlacementModes.TopRight:
+            var topRightPoint = placementTarget.PointToScreen(new Point(placementTarget.ActualWidth, 0));
+            hOffset = Helpers.PixelsToDIU((int)topRightPoint.X);
+            vOffset = Helpers.PixelsToDIU((int)topRightPoint.Y, false) - _popupHeight;
+            break;
+        }
+
+        if (!double.IsNaN(hOffset)) this.HorizontalOffset = Math.Min(_maxHorOffset, Math.Max(0, hOffset));
+        if (!double.IsNaN(vOffset)) this.VerticalOffset = Math.Min(_maxVerOffset, Math.Max(0, vOffset));
+      }
+      catch (Exception) { }
     }
 
     #region Move Popup
@@ -194,10 +211,10 @@ namespace Hexagon.Software.NCGage.UserControls
       var newPosition = this.Child.PointToScreen(e.GetPosition(this.Child));
 
       var hOffset = this.HorizontalOffset + Helpers.PixelsToDIU((int)(newPosition.X - startPoint.Value.X));
-      this.HorizontalOffset = Math.Min(_maxHorOffset, Math.Max(_minHorOffset, hOffset));
+      this.HorizontalOffset = Math.Min(_maxHorOffset, Math.Max(0, hOffset));
 
       var vOffset = this.VerticalOffset + Helpers.PixelsToDIU((int)(newPosition.Y - startPoint.Value.Y), false);
-      this.VerticalOffset = Math.Min(_maxVerOffset, Math.Max(_minVerOffset, vOffset));
+      this.VerticalOffset = Math.Min(_maxVerOffset, Math.Max(0, vOffset));
 
       startPoint = newPosition;
     }
@@ -235,7 +252,7 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       var popup = d as PopupEx;
       if (popup != null)
-        popup.SetWindowPosition(); // apply Topmost
+        popup.SetTopmostStatus(); // apply Topmost
     }
 
     // ZEHONG: set IsPin to private to prevent it from being initialized to true in XAML
@@ -267,14 +284,22 @@ namespace Hexagon.Software.NCGage.UserControls
         popup.OnSharePositionChanged();
     }
 
+    public KeyboardPlacementModes KeyboardPlacement
+    {
+      get { return (KeyboardPlacementModes)GetValue(KeyboardPlacementProperty); }
+      set { SetValue(KeyboardPlacementProperty, value); }
+    }
+    public static readonly DependencyProperty KeyboardPlacementProperty = DependencyProperty.Register("KeyboardPlacement", typeof(KeyboardPlacementModes), typeof(PopupEx), new PropertyMetadata(KeyboardPlacementModes.BottomRight));
+
     #endregion
 
     #region Variables
     private bool _hasOpenedBefore = false;
-    private PlacementMode _backupPlacement = PlacementMode.Bottom;
-    private double _minVerOffset, _maxVerOffset, _minHorOffset, _maxHorOffset;
+    private double _maxVerOffset, _maxHorOffset;
     private Point? startPoint = null;
-
+    private Size _oldSize = Size.Empty;
+    private double _popupWidth = double.NaN;
+    private double _popupHeight = double.NaN;
     #endregion
 
     private static List<PopupEx> _PopupList = new List<PopupEx>();
