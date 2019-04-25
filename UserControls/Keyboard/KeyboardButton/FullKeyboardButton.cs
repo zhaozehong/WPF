@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 
@@ -6,7 +7,16 @@ namespace Hexagon.Software.NCGage.UserControls
 {
   public class FullKeyboardButton : KeyboardButton
   {
-    public bool SendKey()
+    [StructLayout(LayoutKind.Explicit)]
+    struct CharInputInfo
+    {
+      [FieldOffset(0)] public short Value;
+      [FieldOffset(0)] public byte VirtualKeyCode;
+      [FieldOffset(1)] public byte ControlKeys;
+    }
+    [DllImport("user32.dll")] static extern short VkKeyScan(char ch);
+
+    public bool Fire()
     {
       var hasPressedCapsLock = false;
       try
@@ -26,13 +36,21 @@ namespace Hexagon.Software.NCGage.UserControls
         }
         else if (this.Content.GetType() == typeof(String))
         {
-          FullKeyAction action;
-          if (FullKeyboardHelper.CharActionPairs.TryGetValue(this.Content.ToString(), out action))
-          {
-            if (action.IsShift) FullKeyboardHelper.FireKeyDown(ShiftVirtualKey);
-            FullKeyboardHelper.FireKeyPress(Convert.ToByte(KeyInterop.VirtualKeyFromKey(action.CurrentKey)));
-            if (action.IsShift) FullKeyboardHelper.FireKeyUp(ShiftVirtualKey);
-          }
+          var strKeyContent = this.Content.ToString().Trim();
+          if (string.IsNullOrWhiteSpace(strKeyContent))
+            return false;
+
+          char currentChar;
+          if(!FullKeyboardHelper.CharKeyboardCharPairs.TryGetValue(strKeyContent, out currentChar))
+            currentChar = strKeyContent[0];
+
+          var helper = new CharInputInfo { Value = VkKeyScan(currentChar) };
+          byte vkValue = helper.VirtualKeyCode;
+          bool isShiftPressed = (helper.ControlKeys & 1) != 0;
+
+          if (isShiftPressed) FullKeyboardHelper.FireKeyDown(ShiftVirtualKey);
+          FullKeyboardHelper.FireKeyPress(vkValue);
+          if (isShiftPressed) FullKeyboardHelper.FireKeyUp(ShiftVirtualKey);
         }
         return true;
       }

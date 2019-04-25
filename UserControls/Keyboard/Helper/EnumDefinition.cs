@@ -129,11 +129,11 @@ namespace Hexagon.Software.NCGage.HelperLib
     {
       return key == KeyboardKeys.PI;
     }
-    
+
     public static List<String> FunctionNames = Enum.GetNames(typeof(KeyboardKeys)).Where(p => p.StartsWith("F_")).Select(p => p.Substring(2)).ToList();
   }
 
   public enum KeyboardTypes { Number, Calculator, Full }
-  public enum DisplayModes { Normal, Capital, Symbol }
+  public enum DisplayModes { None = 0, Normal, Capital, Symbol, Japanese }
   public enum KeyboardPlacementModes { TopLeft, TopRight, BottomLeft, BottomRight }
 }

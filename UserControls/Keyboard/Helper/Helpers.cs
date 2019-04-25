@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Windows.Interop;
+using System.Globalization;
 
 namespace Hexagon.Software.NCGage.HelperLib
 {
@@ -342,6 +343,36 @@ namespace Hexagon.Software.NCGage.HelperLib
       catch (Exception)
       {
         return SystemParameters.WorkArea;
+      }
+    }
+
+    private static string _PreviousInputLanguageName = string.Empty;
+    public static void SetInputMethod(DisplayModes keyboardDisplayMode, bool isFull)
+    {
+      foreach (CultureInfo lang in InputLanguageManager.Current.AvailableInputLanguages)
+      {
+        if (keyboardDisplayMode == DisplayModes.Japanese)
+        {
+          if (lang.TwoLetterISOLanguageName == "ja")
+          {
+            if (InputLanguageManager.Current.CurrentInputLanguage.TwoLetterISOLanguageName != "ja")
+              _PreviousInputLanguageName = InputLanguageManager.Current.CurrentInputLanguage.TwoLetterISOLanguageName;
+            InputLanguageManager.Current.CurrentInputLanguage = lang;
+
+            InputMethod.Current.ImeSentenceMode = ImeSentenceModeValues.PhrasePrediction;
+            InputMethod.Current.ImeConversionMode = ImeConversionModeValues.FullShape | ImeConversionModeValues.Native | ImeConversionModeValues.Roman;
+            InputMethod.Current.ImeState = isFull ? InputMethodState.On : InputMethodState.Off;
+          }
+        }
+        else
+        {
+          if (lang.TwoLetterISOLanguageName == _PreviousInputLanguageName)
+          {
+            InputLanguageManager.Current.CurrentInputLanguage = lang;
+            InputMethod.Current.ImeState = InputMethodState.Off;
+            break;
+          }
+        }
       }
     }
   }

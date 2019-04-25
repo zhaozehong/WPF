@@ -5,92 +5,80 @@ using System.Windows.Input;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
-  public class FullKeyAction
-  {
-    public bool IsShift { get; set; } = false;
-    public Key CurrentKey { get; set; } = Key.None;
-  }
-
   public static class FullKeyboardHelper
   {
-    private static String LockObject = "LOCK STRING";
-    private static Dictionary<string, FullKeyAction> _CharActionPairs = null;
-    public static Dictionary<string, FullKeyAction> CharActionPairs
+    private static string LockObject = "LOCK STRING";
+
+    private static Dictionary<string, char> _CharKeyboardCharPairs = null;
+    public static Dictionary<string, char> CharKeyboardCharPairs
     {
       get
       {
         lock (LockObject)
         {
-          if (_CharActionPairs == null)
+          if (_CharKeyboardCharPairs == null)
           {
-            _CharActionPairs = new Dictionary<string, FullKeyAction>(StringComparer.CurrentCulture);
-            // letter
-            for (int i = 65; i <= 90; i++)
-            {
-              var key = KeyInterop.KeyFromVirtualKey(i);
-              // lower case
-              _CharActionPairs.Add(key.ToString().ToLower(), new FullKeyAction() { CurrentKey = key });
-              // upper case
-              _CharActionPairs.Add(key.ToString().ToUpper(), new FullKeyAction() { CurrentKey = key, IsShift = true });
-            }
+            _CharKeyboardCharPairs = new Dictionary<string, char>();
 
-            // digit (48~57 is D0~D9)
-            for (int i = 96; i <= 105; i++)
-            {
-              _CharActionPairs.Add((i - 96).ToString(), new FullKeyAction() { CurrentKey = KeyInterop.KeyFromVirtualKey(i) });
-            }
+            _CharKeyboardCharPairs.Add("た", 'q');
+            _CharKeyboardCharPairs.Add("て", 'w');
+            _CharKeyboardCharPairs.Add("ぃ", 'e');
+            _CharKeyboardCharPairs.Add("す", 'r');
+            _CharKeyboardCharPairs.Add("か", 't');
+            _CharKeyboardCharPairs.Add("ん", 'y');
+            _CharKeyboardCharPairs.Add("な", 'u');
+            _CharKeyboardCharPairs.Add("に", 'i');
+            _CharKeyboardCharPairs.Add("ら", 'o');
+            _CharKeyboardCharPairs.Add("せ", 'p');
 
-            // special definitions
-            _CharActionPairs.Add("tab", new FullKeyAction() { CurrentKey = Key.Tab });
-            _CharActionPairs.Add("DEL", new FullKeyAction() { CurrentKey = Key.Delete });
 
-            // other chars
-            _CharActionPairs.Add(")", new FullKeyAction() { CurrentKey = Key.D0, IsShift = true });
-            _CharActionPairs.Add("!", new FullKeyAction() { CurrentKey = Key.D1, IsShift = true });
-            _CharActionPairs.Add("@", new FullKeyAction() { CurrentKey = Key.D2, IsShift = true });
-            _CharActionPairs.Add("#", new FullKeyAction() { CurrentKey = Key.D3, IsShift = true });
-            _CharActionPairs.Add("$", new FullKeyAction() { CurrentKey = Key.D4, IsShift = true });
-            _CharActionPairs.Add("%", new FullKeyAction() { CurrentKey = Key.D5, IsShift = true });
-            _CharActionPairs.Add("^", new FullKeyAction() { CurrentKey = Key.D6, IsShift = true });
-            _CharActionPairs.Add("&", new FullKeyAction() { CurrentKey = Key.D7, IsShift = true });
-            _CharActionPairs.Add("*", new FullKeyAction() { CurrentKey = Key.D8, IsShift = true });
-            _CharActionPairs.Add("(", new FullKeyAction() { CurrentKey = Key.D9, IsShift = true });
+            _CharKeyboardCharPairs.Add("ち", 'a');
+            _CharKeyboardCharPairs.Add("と", 's');
+            _CharKeyboardCharPairs.Add("し", 'd');
+            _CharKeyboardCharPairs.Add("は", 'f');
+            _CharKeyboardCharPairs.Add("き", 'g');
+            _CharKeyboardCharPairs.Add("く", 'h');
+            _CharKeyboardCharPairs.Add("ま", 'j');
+            _CharKeyboardCharPairs.Add("の", 'k');
+            _CharKeyboardCharPairs.Add("り", 'l');
 
-            _CharActionPairs.Add("`", new FullKeyAction() { CurrentKey = Key.Oem3 });
-            _CharActionPairs.Add("~", new FullKeyAction() { CurrentKey = Key.Oem3, IsShift = true });
+            _CharKeyboardCharPairs.Add("つ", 'z');
+            _CharKeyboardCharPairs.Add("さ", 'x');
+            _CharKeyboardCharPairs.Add("そ", 'c');
+            _CharKeyboardCharPairs.Add("ひ", 'v');
+            _CharKeyboardCharPairs.Add("こ", 'b');
+            _CharKeyboardCharPairs.Add("み", 'n');
+            _CharKeyboardCharPairs.Add("も", 'm');
 
-            _CharActionPairs.Add("-", new FullKeyAction() { CurrentKey = Key.OemMinus });
-            _CharActionPairs.Add("_", new FullKeyAction() { CurrentKey = Key.OemMinus, IsShift = true });
+            // extra
+            _CharKeyboardCharPairs.Add("ろ", '`');
+            _CharKeyboardCharPairs.Add("ぬ", '1');
+            _CharKeyboardCharPairs.Add("ふ", '2');
+            _CharKeyboardCharPairs.Add("あ", '3');
+            _CharKeyboardCharPairs.Add("う", '4');
+            _CharKeyboardCharPairs.Add("え", '5');
+            _CharKeyboardCharPairs.Add("お", '6');
+            _CharKeyboardCharPairs.Add("や", '7');
+            _CharKeyboardCharPairs.Add("ゆ", '8');
+            _CharKeyboardCharPairs.Add("よ", '9');
+            _CharKeyboardCharPairs.Add("わ", '0');
+            _CharKeyboardCharPairs.Add("ほ", '-');
+            _CharKeyboardCharPairs.Add("へ", '=');
 
-            _CharActionPairs.Add("=", new FullKeyAction() { CurrentKey = Key.OemPlus });
-            _CharActionPairs.Add("+", new FullKeyAction() { CurrentKey = Key.OemPlus, IsShift = true });
+            _CharKeyboardCharPairs.Add("゛", '[');
+            _CharKeyboardCharPairs.Add("゜", ']');
+            _CharKeyboardCharPairs.Add("む", '\\');
 
-            _CharActionPairs.Add("[", new FullKeyAction() { CurrentKey = Key.Oem4 });
-            _CharActionPairs.Add("{", new FullKeyAction() { CurrentKey = Key.Oem4, IsShift = true });
-
-            _CharActionPairs.Add("]", new FullKeyAction() { CurrentKey = Key.Oem6 });
-            _CharActionPairs.Add("}", new FullKeyAction() { CurrentKey = Key.Oem6, IsShift = true });
-
-            _CharActionPairs.Add(@"\", new FullKeyAction() { CurrentKey = Key.Oem5 });
-            _CharActionPairs.Add("|", new FullKeyAction() { CurrentKey = Key.Oem5, IsShift = true });
-
-            _CharActionPairs.Add(";", new FullKeyAction() { CurrentKey = Key.Oem1 });
-            _CharActionPairs.Add(":", new FullKeyAction() { CurrentKey = Key.Oem1, IsShift = true });
             
-            _CharActionPairs.Add("'", new FullKeyAction() { CurrentKey = Key.Oem7 });
-            _CharActionPairs.Add("\"", new FullKeyAction() { CurrentKey = Key.Oem7, IsShift = true });
+            _CharKeyboardCharPairs.Add("れ", ';');
+            _CharKeyboardCharPairs.Add("け", '\'');
 
-            _CharActionPairs.Add(",", new FullKeyAction() { CurrentKey = Key.OemComma });
-            _CharActionPairs.Add("<", new FullKeyAction() { CurrentKey = Key.OemComma, IsShift = true });
-
-            _CharActionPairs.Add(".", new FullKeyAction() { CurrentKey = Key.OemPeriod });
-            _CharActionPairs.Add(">", new FullKeyAction() { CurrentKey = Key.OemPeriod, IsShift = true });
-
-            _CharActionPairs.Add("/", new FullKeyAction() { CurrentKey = Key.Oem2 });
-            _CharActionPairs.Add("?", new FullKeyAction() { CurrentKey = Key.Oem2, IsShift = true });
+            _CharKeyboardCharPairs.Add("ね", ',');
+            _CharKeyboardCharPairs.Add("る", '.');
+            _CharKeyboardCharPairs.Add("め", '/');
           }
         }
-        return _CharActionPairs;
+        return _CharKeyboardCharPairs;
       }
     }
 

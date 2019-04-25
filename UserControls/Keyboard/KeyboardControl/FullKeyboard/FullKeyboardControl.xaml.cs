@@ -9,17 +9,6 @@ namespace Hexagon.Software.NCGage.UserControls
     public FullKeyboardControl()
     {
       InitializeComponent();
-
-      // ZEHONG: just a workaround for fixing a bug: the first time to input something, it always go to catch
-      this.Loaded += (s, e) =>
-      {
-        try
-        {
-          FullKeyAction action;
-          FullKeyboardHelper.CharActionPairs.TryGetValue("q", out action);
-        }
-        catch (Exception) { }
-      };
     }
 
     protected void btnClose_Click(object sender, RoutedEventArgs e)
@@ -41,6 +30,25 @@ namespace Hexagon.Software.NCGage.UserControls
       var vm = this.DataContext as FullKeyboardControlViewModel;
       if (vm != null)
         vm.DisplayMode = vm.DisplayMode == DisplayModes.Capital ? DisplayModes.Normal : DisplayModes.Capital;
+    }
+
+    private void btnJapanese_click(object sender, RoutedEventArgs e)
+    {
+      var vm = this.DataContext as FullKeyboardControlViewModel;
+      if (vm != null)
+      {
+        //if(vm.DisplayMode != DisplayModes.Japanese)
+        //{
+        //  _previousMode = vm.DisplayMode;
+        //  vm.DisplayMode = DisplayModes.Japanese;
+        //}
+        //else
+        //{
+        //  vm.DisplayMode = _previousMode;
+        //}
+
+        vm.DisplayMode = DisplayModes.Japanese;
+      }
     }
   }
 }
