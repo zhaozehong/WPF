@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace Zza.Entities
@@ -9,20 +11,27 @@ namespace Zza.Entities
   {
     public Order()
     {
-      OrderItems = new List<OrderItem>();
+      OrderItems = new HashSet<OrderItem>();
     }
 
+    [Key]
     [DataMember]
     public long Id { get; set; }
     [DataMember]
-    public Guid CustomerId { get; set; }
+    [ForeignKey("Customer")]
+    public int CustomerId { get; set; }
     [DataMember]
+    [ForeignKey("OrderStatus")]
     public int OrderStatusId { get; set; }
     [DataMember]
     public DateTime OrderDate { get; set; }
     [DataMember]
-    public decimal ItemsTotal { get; set; }
+    [NotMapped]
+    public decimal ItemsTotal { get { return OrderItems.Count; } }
     [DataMember]
-    public List<OrderItem> OrderItems { get; set; }
+    public ICollection<OrderItem> OrderItems { get; set; }
+
+    public virtual Customer Customer { get; set; }
+    public virtual OrderStatus OrderStatus { get; set; }
   }
 }

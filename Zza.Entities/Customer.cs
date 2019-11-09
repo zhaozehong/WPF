@@ -1,10 +1,12 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace Zza.Entities
 {
   [DataContract]
   public class Customer
   {
+    [Key]
     [DataMember]
     public int Id { get; set; }
     [DataMember]

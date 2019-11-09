@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace Zza.Entities
 {
@@ -6,6 +7,7 @@ namespace Zza.Entities
   public class Product
   {
     [DataMember]
+    [Key]
     public int Id { get; set; }
     [DataMember]
     public string Type { get; set; }

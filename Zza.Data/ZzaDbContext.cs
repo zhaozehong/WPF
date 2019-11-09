@@ -5,6 +5,11 @@ namespace Zza.Data
 {
   public class ZzaDbContext : DbContext
   {
+    public ZzaDbContext():base("Zza")
+    {
+      Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ZzaDbContext>());
+
+    }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Product> Products { get; set; }
@@ -14,6 +19,7 @@ namespace Zza.Data
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
       // TODO ...
+      
 
 
 
