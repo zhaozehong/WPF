@@ -9,7 +9,7 @@
   <StackPanel MinWidth="300" MinHeight="100">
     <CheckBox Margin="5,30,5,5" Content="ABCD" Name="cb1"/>
     <CheckBox Margin="5" Content="Solution" Name="cb2"/>
-    <TextBox Margin="5" HorizontalAlignment="Stretch" Background="Pink" userControls:KeyboardManager.Enabled="true"/>
+    <TextBox Margin="5" HorizontalAlignment="Stretch" Background="Pink" userControls:KeyboardManager.IsEnabled="true"/>
     <userControls:KeyboardPopup PlacementTarget="{Binding ElementName=cb1}"
                                 IsOpen="{Binding ElementName=cb1, Path=IsChecked}"/>
     <userControls:KeyboardPopup PlacementTarget="{Binding ElementName=cb2}"

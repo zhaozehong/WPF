@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Controls;
 using Hexagon.Software.NCGage.HelperLib;
 
 namespace Hexagon.Software.NCGage.UserControls
@@ -13,7 +13,7 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       var keyboard = new KeyboardControl();
       keyboard.SetBinding(KeyboardControlBase.InputTargetProperty, new Binding("InputTarget") { Source = this });
-      keyboard.SetBinding(KeyboardControlBase.StartupKeyboardTypeProperty, new Binding("StartupKeyboardType") { Source = this });
+      keyboard.SetBinding(KeyboardControlBase.StartupKeyboardTypeProperty, new Binding("StartupKeyboardType") { Source = this, Mode = BindingMode.TwoWay });
       keyboard.SetBinding(KeyboardControlBase.ButtonSizeProperty, new Binding("ButtonSize") { Source = this });
       keyboard.SetBinding(KeyboardControlBase.ButtonMarginProperty, new Binding("ButtonMargin") { Source = this });
       keyboard.SetBinding(CalculatorKeyboardControl.ResetOnCalculationProperty, new Binding("ResetOnCalculation") { Source = this });
@@ -45,31 +45,38 @@ namespace Hexagon.Software.NCGage.UserControls
       {
         if (newTarget != null)
         {
-          newTarget.GotFocus -= InputTarge_GotFocus;
-          newTarget.LostFocus -= InputTarge_LostFocus;
+          newTarget.PreviewMouseLeftButtonDown -= OnOpenKeyboard;
+          newTarget.GotFocus -= OnOpenKeyboard;
+          newTarget.LostFocus -= OnCloseKeyboard;
 
-          newTarget.GotFocus += InputTarge_GotFocus;
-          newTarget.LostFocus += InputTarge_LostFocus;
+          newTarget.PreviewMouseLeftButtonDown += OnOpenKeyboard;
+          newTarget.GotFocus += OnOpenKeyboard;
+          newTarget.LostFocus += OnCloseKeyboard;
         }
       }
       else // if you are using Keyboard popup separately, you need to remove the old handler for each popup
       {
         if (oldTarget != null)
         {
-          oldTarget.GotFocus -= InputTarge_GotFocus;
-          oldTarget.LostFocus -= InputTarge_LostFocus;
+          oldTarget.PreviewMouseLeftButtonDown -= OnOpenKeyboard;
+          oldTarget.GotFocus -= OnOpenKeyboard;
+          oldTarget.LostFocus -= OnCloseKeyboard;
         }
         if (newTarget != null)
         {
-          newTarget.GotFocus += InputTarge_GotFocus;
-          newTarget.LostFocus += InputTarge_LostFocus;
+          newTarget.PreviewMouseLeftButtonDown += OnOpenKeyboard;
+          newTarget.GotFocus += OnOpenKeyboard;
+          newTarget.LostFocus += OnCloseKeyboard;
         }
       }
     }
-    private void InputTarge_GotFocus(object sender, RoutedEventArgs e)
+    private void OnOpenKeyboard(object sender, RoutedEventArgs e)
     {
       try
       {
+        if ((sender as System.Windows.Controls.Primitives.TextBoxBase)?.IsReadOnly ?? true)
+          return;
+
         if (KeyboardManager.Equals(this))
           KeyboardManager.GetPopup(sender as DependencyObject).IsOpen = true;
         else
@@ -77,7 +84,7 @@ namespace Hexagon.Software.NCGage.UserControls
       }
       catch (Exception) { }
     }
-    private void InputTarge_LostFocus(object sender, RoutedEventArgs e)
+    private void OnCloseKeyboard(object sender, RoutedEventArgs e)
     {
       if (this.IsOpen)
         this.IsOpen = false;
@@ -106,7 +113,7 @@ namespace Hexagon.Software.NCGage.UserControls
 
     public double ButtonSize
     {
-      get { return (Double)GetValue(ButtonSizeProperty); }
+      get { return (double)GetValue(ButtonSizeProperty); }
       set { SetValue(ButtonSizeProperty, value); }
     }
     public static readonly DependencyProperty ButtonSizeProperty = DependencyProperty.Register("ButtonSize", typeof(double), typeof(KeyboardPopup), new PropertyMetadata(50.0));
@@ -116,11 +123,11 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (double)GetValue(ButtonMarginProperty); }
       set { SetValue(ButtonMarginProperty, value); }
     }
-    public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(KeyboardPopup), new PropertyMetadata(1.0));
+    public static readonly DependencyProperty ButtonMarginProperty = DependencyProperty.Register("ButtonMargin", typeof(double), typeof(KeyboardPopup), new PropertyMetadata(2.0));
 
     public bool ResetOnCalculation
     {
-      get { return (Boolean)GetValue(ResetOnCalculationProperty); }
+      get { return (bool)GetValue(ResetOnCalculationProperty); }
       set { SetValue(ResetOnCalculationProperty, value); }
     }
     public static readonly DependencyProperty ResetOnCalculationProperty = DependencyProperty.Register("ResetOnCalculation", typeof(bool), typeof(KeyboardPopup), new PropertyMetadata(true));

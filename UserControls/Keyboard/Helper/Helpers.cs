@@ -375,6 +375,22 @@ namespace Hexagon.Software.NCGage.HelperLib
         }
       }
     }
+    public static T FindParent<T>(DependencyObject obj) where T : DependencyObject
+    {
+      try
+      {
+        DependencyObject parent = obj;
+        while (parent != null && !(parent is T))
+        {
+          parent = LogicalTreeHelper.GetParent(parent);
+        }
+        return parent as T;
+      }
+      catch
+      {
+        return null;
+      }
+    }
   }
 
   // pixel

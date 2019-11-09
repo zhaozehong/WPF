@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Interop;
-using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Diagnostics;
 using System.Windows.Input;
-using System.Windows.Controls;
-using Hexagon.Software.NCGage.HelperLib;
 using System.Windows.Media;
+using System.Windows.Interop;
+using System.Windows.Controls;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Windows.Controls.Primitives;
+using Hexagon.Software.NCGage.HelperLib;
 
 namespace Hexagon.Software.NCGage.UserControls
 {
@@ -25,7 +25,7 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       this.Placement = PlacementMode.Absolute;
 
-      if (!_hasOpenedBefore)
+      //if (!_hasOpenedBefore)
         SetTopmostStatus(); // to set topmost property
       _hasOpenedBefore = true;
 
@@ -116,6 +116,10 @@ namespace Hexagon.Software.NCGage.UserControls
 
     private void SetTopmostStatus()
     {
+      var dgCell = Helpers.FindParent<DataGridCell>(this.PlacementTarget);
+      if (dgCell != null)
+        return;
+
       var hwnd = ((HwndSource)PresentationSource.FromVisual(this.Child))?.Handle;
       if (hwnd == null)
         return;
@@ -160,28 +164,64 @@ namespace Hexagon.Software.NCGage.UserControls
         if (!this.IsOpen || this.IsPin || !(PlacementTarget is FrameworkElement placementTarget))
           return;
 
-        double hOffset = double.NaN, vOffset = double.NaN;
-        switch (this.KeyboardPlacement)
+        var placements = new List<KeyboardPlacementModes>();
+        if (this.KeyboardPlacement == KeyboardPlacementModes.Auto)
         {
-          case KeyboardPlacementModes.BottomRight:
-            var bottomRightPoint = placementTarget.PointToScreen(new Point(placementTarget.ActualWidth, placementTarget.ActualHeight));
-            hOffset = Helpers.PixelsToDIU((int)bottomRightPoint.X);
-            vOffset = Helpers.PixelsToDIU((int)bottomRightPoint.Y, false);
-            break;
-          case KeyboardPlacementModes.BottomLeft:
-            var bottomLeftPoint = placementTarget.PointToScreen(new Point(0, placementTarget.ActualHeight));
-            hOffset = Helpers.PixelsToDIU((int)bottomLeftPoint.X) - _popupWidth;
-            vOffset = Helpers.PixelsToDIU((int)bottomLeftPoint.Y, false);
-            break;
-          case KeyboardPlacementModes.TopLeft:
-            var topLeftPoint = placementTarget.PointToScreen(Helpers.ZeroPoint);
-            hOffset = Helpers.PixelsToDIU((int)topLeftPoint.X) - _popupWidth;
-            vOffset = Helpers.PixelsToDIU((int)topLeftPoint.Y, false) - _popupHeight;
-            break;
-          case KeyboardPlacementModes.TopRight:
-            var topRightPoint = placementTarget.PointToScreen(new Point(placementTarget.ActualWidth, 0));
-            hOffset = Helpers.PixelsToDIU((int)topRightPoint.X);
-            vOffset = Helpers.PixelsToDIU((int)topRightPoint.Y, false) - _popupHeight;
+          // Zehong: don't change the order as it's required by Mazak
+          placements.Add(KeyboardPlacementModes.BottomRight);
+          placements.Add(KeyboardPlacementModes.TopRight);
+          placements.Add(KeyboardPlacementModes.BottomLeft);
+          placements.Add(KeyboardPlacementModes.TopLeft);
+          placements.Add(KeyboardPlacementModes.Top);
+          placements.Add(KeyboardPlacementModes.Top2);
+          placements.Add(KeyboardPlacementModes.BottomRightSreen);
+        }
+        else
+        {
+          placements.Add(this.KeyboardPlacement);
+        }
+
+        double hOffset = double.NaN, vOffset = double.NaN;
+        foreach (var placement in placements)
+        {
+          switch (placement)
+          {
+            case KeyboardPlacementModes.BottomRight:
+              var bottomRightPoint = placementTarget.PointToScreen(new Point(placementTarget.ActualWidth, placementTarget.ActualHeight));
+              hOffset = Helpers.PixelsToDIU((int)bottomRightPoint.X);
+              vOffset = Helpers.PixelsToDIU((int)bottomRightPoint.Y, false);
+              break;
+            case KeyboardPlacementModes.BottomLeft:
+              var bottomLeftPoint = placementTarget.PointToScreen(new Point(0, placementTarget.ActualHeight));
+              hOffset = Helpers.PixelsToDIU((int)bottomLeftPoint.X) - _popupWidth;
+              vOffset = Helpers.PixelsToDIU((int)bottomLeftPoint.Y, false);
+              break;
+            case KeyboardPlacementModes.TopLeft:
+              var topLeftPoint = placementTarget.PointToScreen(Helpers.ZeroPoint);
+              hOffset = Helpers.PixelsToDIU((int)topLeftPoint.X) - _popupWidth;
+              vOffset = Helpers.PixelsToDIU((int)topLeftPoint.Y, false) - _popupHeight;
+              break;
+            case KeyboardPlacementModes.TopRight:
+              var topRightPoint = placementTarget.PointToScreen(new Point(placementTarget.ActualWidth, 0));
+              hOffset = Helpers.PixelsToDIU((int)topRightPoint.X);
+              vOffset = Helpers.PixelsToDIU((int)topRightPoint.Y, false) - _popupHeight;
+              break;
+            case KeyboardPlacementModes.Top:
+              topLeftPoint = placementTarget.PointToScreen(Helpers.ZeroPoint);
+              hOffset = Helpers.PixelsToDIU((int)topLeftPoint.X);
+              vOffset = Helpers.PixelsToDIU((int)topLeftPoint.Y, false) - _popupHeight;
+              break;
+            case KeyboardPlacementModes.Top2:
+              topLeftPoint = placementTarget.PointToScreen(Helpers.ZeroPoint);
+              hOffset = SystemParameters.WorkArea.Width - _popupWidth;
+              vOffset = Helpers.PixelsToDIU((int)topLeftPoint.Y, false) - _popupHeight;
+              break;
+            case KeyboardPlacementModes.BottomRightSreen:
+              hOffset = SystemParameters.WorkArea.Width - _popupWidth;
+              vOffset = SystemParameters.WorkArea.Height - _popupHeight;
+              break;
+          }
+          if ((!double.IsNaN(hOffset) && hOffset >= 0 && hOffset <= _maxHorOffset) && (!double.IsNaN(vOffset) && vOffset >= 0 && vOffset <= _maxVerOffset))
             break;
         }
 
@@ -289,7 +329,7 @@ namespace Hexagon.Software.NCGage.UserControls
       get { return (KeyboardPlacementModes)GetValue(KeyboardPlacementProperty); }
       set { SetValue(KeyboardPlacementProperty, value); }
     }
-    public static readonly DependencyProperty KeyboardPlacementProperty = DependencyProperty.Register("KeyboardPlacement", typeof(KeyboardPlacementModes), typeof(PopupEx), new PropertyMetadata(KeyboardPlacementModes.BottomRight));
+    public static readonly DependencyProperty KeyboardPlacementProperty = DependencyProperty.Register("KeyboardPlacement", typeof(KeyboardPlacementModes), typeof(PopupEx), new PropertyMetadata(KeyboardPlacementModes.Auto));
 
     #endregion
 

@@ -13,10 +13,12 @@
     <CheckBox Content="check me" Name="cb1"/>
     <CheckBox Content="check me" Name="cb2"/>
     <CheckBox Content="check me" Name="cb3"/>
+    <TextBox Text="this is CB4" Name="cb4" PreviewMouseLeftButtonDown="Cb4_PreviewMouseLeftButtonDown"/>
     <userControls:KeyboardPopup PlacementTarget="{Binding ElementName=cb}" IsOpen="{Binding ElementName=cb, Path=IsChecked}"/>
     <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb1}" IsOpen="{Binding ElementName=cb1, Path=IsChecked}"/>
     <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb2}" IsOpen="{Binding ElementName=cb2, Path=IsChecked}"/>
     <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb3}" IsOpen="{Binding ElementName=cb3, Path=IsChecked}"/>
+    <userControls:KeyboardPopup SharePosition="True" PlacementTarget="{Binding ElementName=cb4}" Name="testPopup"/>
   </StackPanel>-->
   <Grid Height="300" Margin="5">
     <Grid.ColumnDefinitions>
@@ -36,7 +38,7 @@
     <TextBlock Grid.Row="1" Margin="5" VerticalAlignment="Bottom" Text="Click the following input boxes..."/>
 
     <TextBox Grid.Row="2" Grid.Column="1" Width="300" Margin="5" Height="25" Text="0" Name="tbInput1"
-             userControls:KeyboardManager.Enabled="True"
+             userControls:KeyboardManager.IsEnabled="True"
              userControls:KeyboardManager.StartupKeyboardType="Number"
              userControls:KeyboardManager.Topmost="True"
              userControls:KeyboardManager.ButtonSize="70"
@@ -45,11 +47,11 @@
              userControls:KeyboardManager.SharePosition="True"
              />
     <TextBox Grid.Row="3" Grid.Column="1" Width="300" Margin="5" Height="25" Text="1" Name="tbInput2"
-             userControls:KeyboardManager.Enabled="true"
+             userControls:KeyboardManager.IsEnabled="true"
              userControls:KeyboardManager.StartupKeyboardType="Calculator"
              />
     <TextBox Grid.Row="4" Grid.Column="1" Width="300" Margin="5" Height="25" Text="2" Name="tbInput3"
-             userControls:KeyboardManager.Enabled="true"
+             userControls:KeyboardManager.IsEnabled="true"
              userControls:KeyboardManager.StartupKeyboardType="Full"
              />
 

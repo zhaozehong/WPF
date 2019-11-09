@@ -9,11 +9,11 @@ namespace Hexagon.Software.NCGage.UserControls
   {
     public static bool Equals(KeyboardPopup popupObj)
     {
-      return KeyboardPopupObj.Equals(popupObj);
+      return KeyboardPopupObj != null ? KeyboardPopupObj.Equals(popupObj) : false;
     }
     public static KeyboardPopup GetPopup(DependencyObject obj)
     {
-      if (!GetEnabled(obj))
+      if (KeyboardPopupObj == null || obj == null || !GetIsEnabled(obj))
         return null;
 
       if (!obj.Equals(KeyboardPopupObj.PlacementTarget))
@@ -33,18 +33,18 @@ namespace Hexagon.Software.NCGage.UserControls
     }
 
     #region Attached Properties
-    public static bool GetEnabled(DependencyObject obj)
+    public static bool GetIsEnabled(DependencyObject obj)
     {
-      return (bool)obj.GetValue(EnabledProperty);
+      return (bool)obj.GetValue(IsEnabledProperty);
     }
-    public static void SetEnabled(DependencyObject obj, bool value)
+    public static void SetIsEnabled(DependencyObject obj, bool value)
     {
-      obj.SetValue(EnabledProperty, value);
+      obj.SetValue(IsEnabledProperty, value);
     }
-    public static readonly DependencyProperty EnabledProperty = DependencyProperty.RegisterAttached("Enabled", typeof(bool), typeof(KeyboardManager), new PropertyMetadata(false, OnEnableChanged));
-    private static void OnEnableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.RegisterAttached("IsEnabled", typeof(bool), typeof(KeyboardManager), new PropertyMetadata(false, OnIsEnabledChanged));
+    private static void OnIsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      if ((bool)e.NewValue)
+      if ((bool)e.NewValue && KeyboardPopupObj != null)
         KeyboardPopupObj.InputTarget = d as TextBox; //ZEHONG: to subscribe GotFocus & LostFocus event to Open/Close keyboard popup
     }
 
@@ -116,10 +116,10 @@ namespace Hexagon.Software.NCGage.UserControls
     {
       obj.SetValue(PlacementProperty, value);
     }
-    public static readonly DependencyProperty PlacementProperty = DependencyProperty.RegisterAttached("Placement", typeof(KeyboardPlacementModes), typeof(KeyboardManager), new PropertyMetadata(KeyboardPlacementModes.TopRight));
+    public static readonly DependencyProperty PlacementProperty = DependencyProperty.RegisterAttached("Placement", typeof(KeyboardPlacementModes), typeof(KeyboardManager), new PropertyMetadata(KeyboardPlacementModes.Auto));
 
     #endregion
 
-    private readonly static KeyboardPopup KeyboardPopupObj = new KeyboardPopup();
+    private static KeyboardPopup KeyboardPopupObj { get; } = new KeyboardPopup();
   }
 }
