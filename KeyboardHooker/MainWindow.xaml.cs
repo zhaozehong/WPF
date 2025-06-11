@@ -24,10 +24,10 @@ namespace KeyboardHooker
       this.Loaded += (s, e) =>
       {
         _hooker = new KeyboardHook();
-        _hooker.SetHook();
+        _hooker.Hook();
         _hooker.OnKeyDownEvent += kh_OnKeyDownEvent;
       };
-      this.Closing += (s, e) => _hooker.UnHook();
+      this.Closing += (s, e) => _hooker.Unhook();
     }
 
     void kh_OnKeyDownEvent(object sender, KeyEventArgs e)
