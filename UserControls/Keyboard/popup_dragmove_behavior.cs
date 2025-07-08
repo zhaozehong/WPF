@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Interactivity;
+using System.Windows.Controls.Primitives;
+using Microsoft.Xaml.Behaviors;
 
 namespace Hexagon.Software.NCGage.UserControls
 {

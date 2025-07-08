@@ -2,7 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:helperLib="clr-namespace:Hexagon.Software.NCGage.HelperLib"
-        Icon="/UserControls;component/Keyboard/Resources/Icons/NCGage.ico"
         x:Name="self" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="WidthAndHeight" ResizeMode="NoResize" MaxWidth="700">
   <Window.Resources>
     <ResourceDictionary >

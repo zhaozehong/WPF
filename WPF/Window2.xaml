@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:userControls="clr-namespace:Hexagon.Software.NCGage.UserControls;assembly=UserControls"
-        Icon="/WPF;component/Resources/Icons/NCGage.ico"
         mc:Ignorable="d" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
         Title="Test Keyboard">
   <!--<StackPanel Background="Black" Height="150">
